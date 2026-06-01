@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>PetStaff Central - Clinical &amp; Agenda Management</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind Configuration -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "error-container": "#ffdad6",
+                    "tertiary": "#006a62",
+                    "background": "#f7f9fb",
+                    "on-error-container": "#93000a",
+                    "surface-container": "#eceef0",
+                    "on-secondary-fixed": "#2c1700",
+                    "on-primary-container": "#003952",
+                    "inverse-primary": "#83cfff",
+                    "on-tertiary-fixed-variant": "#005049",
+                    "secondary": "#895100",
+                    "surface-container-low": "#f2f4f6",
+                    "on-primary": "#ffffff",
+                    "surface": "#f7f9fb",
+                    "on-secondary-container": "#663b00",
+                    "surface-dim": "#d8dadc",
+                    "on-surface": "#191c1e",
+                    "on-tertiary-container": "#003c37",
+                    "on-tertiary-fixed": "#00201d",
+                    "primary-fixed-dim": "#83cfff",
+                    "secondary-fixed-dim": "#ffb86b",
+                    "on-background": "#191c1e",
+                    "tertiary-fixed": "#70f8e8",
+                    "surface-tint": "#00658d",
+                    "primary-fixed": "#c6e7ff",
+                    "on-surface-variant": "#3e4850",
+                    "error": "#ba1a1a",
+                    "on-primary-fixed-variant": "#004c6b",
+                    "surface-container-highest": "#e0e3e5",
+                    "on-secondary": "#ffffff",
+                    "on-error": "#ffffff",
+                    "inverse-on-surface": "#eff1f3",
+                    "primary-container": "#00a8e8",
+                    "on-primary-fixed": "#001e2d",
+                    "surface-container-lowest": "#ffffff",
+                    "secondary-fixed": "#ffdcbc",
+                    "on-secondary-fixed-variant": "#683d00",
+                    "surface-container-high": "#e6e8ea",
+                    "secondary-container": "#fd9d1a",
+                    "on-tertiary": "#ffffff",
+                    "tertiary-fixed-dim": "#4fdbcc",
+                    "tertiary-container": "#00b0a3",
+                    "outline-variant": "#bdc8d1",
+                    "outline": "#6e7881",
+                    "inverse-surface": "#2d3133",
+                    "surface-bright": "#f7f9fb",
+                    "surface-variant": "#e0e3e5",
+                    "primary": "#00658d"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "unit": "8px",
+                    "section-margin": "40px",
+                    "card-gap": "20px",
+                    "gutter": "16px",
+                    "container-padding-desktop": "32px",
+                    "container-padding-mobile": "16px"
+            },
+            "fontFamily": {
+                    "headline-lg": ["Quicksand"],
+                    "label-sm": ["Plus Jakarta Sans"],
+                    "label-md": ["Plus Jakarta Sans"],
+                    "body-md": ["Plus Jakarta Sans"],
+                    "title-lg": ["Quicksand"],
+                    "headline-lg-mobile": ["Quicksand"],
+                    "display-lg": ["Quicksand"],
+                    "body-lg": ["Plus Jakarta Sans"]
+            },
+            "fontSize": {
+                    "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
+                    "label-sm": ["10px", {"lineHeight": "12px", "letterSpacing": "1px", "fontWeight": "700"}],
+                    "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.5px", "fontWeight": "600"}],
+                    "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "title-lg": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #F8FAFC;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(226, 232, 240, 0.5);
+        }
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 20px;
+        }
+        .card-shadow {
+            box-shadow: 0 4px 6px -1px rgba(0, 101, 141, 0.05), 0 2px 4px -1px rgba(0, 101, 141, 0.03);
+        }
+        .active-shadow {
+            box-shadow: 0 12px 24px -6px rgba(0, 101, 141, 0.12);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background">
+<!-- Top Navigation Bar -->
+<nav class="bg-surface dark:bg-surface-dim border-b border-outline-variant dark:border-outline w-full h-16 flex justify-between items-center px-container-padding-desktop fixed top-0 z-50">
+<div class="flex items-center gap-4">
+<span class="font-headline-lg text-headline-lg font-bold text-primary dark:text-inverse-primary">PetStaff Central</span>
+</div>
+<div class="flex items-center gap-6">
+<div class="hidden md:flex items-center bg-surface-container-low px-4 py-2 rounded-full">
+<span class="material-symbols-outlined text-outline mr-2" data-icon="search">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-body-md w-64" placeholder="Search medical files..." type="text"/>
+</div>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary cursor-pointer hover:bg-surface-container-low p-2 rounded-full transition-colors" data-icon="notifications">notifications</span>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:bg-surface-container-low p-2 rounded-full transition-colors" data-icon="help">help</span>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:bg-surface-container-low p-2 rounded-full transition-colors" data-icon="settings">settings</span>
+<div class="w-8 h-8 rounded-full overflow-hidden border-2 border-primary-container">
+<img alt="Staff Profile" data-alt="A professional headshot of a female veterinarian with a warm smile, wearing a clean white lab coat and a blue stethoscope around her neck. The lighting is soft and natural, suggesting a bright and modern clinic interior. The background is a clean, minimalist medical setting with soft teal and white tones, reflecting a caring and professional clinical environment." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD56pCe5IonJJ9fDzBwiExgO47wfXodyrVCzoYXRQqQH3lqNMTt3rP-7j_ZUjIYBIXQkjxIbAeNF6STVKBKOFUdPrWhU_XBsKXCj_fv16__YY68GjSjTMSExBEDv2NdLxwKuo-zBpNdnE3oYNuVOK7DW725hGGbbD1qMzu2mLKAH4XggMKV2ZRmqcmII72-D5x0_HxL1z9Av82WsMPC0ZCZUNugwGwrE5wQmRi7nuXW6BiRFolDxIg56RekrnjC1BOnf5IHpbai"/>
+</div>
+</div>
+</div>
+</nav>
+<!-- Side Navigation Bar -->
+<aside class="h-screen w-64 fixed left-0 top-0 bg-surface-container-low dark:bg-surface-dim shadow-sm flex flex-col h-full py-6 z-40 hidden md:flex pt-20">
+<div class="px-6 mb-8">
+<div class="flex items-center gap-3 mb-1">
+<span class="material-symbols-outlined text-primary text-3xl" data-icon="pets">pets</span>
+<h2 class="font-headline-lg text-headline-lg font-bold text-primary dark:text-inverse-primary">PetShop Pro</h2>
+</div>
+<p class="font-label-md text-label-md text-on-surface-variant">Admin Dashboard</p>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-3 text-on-surface-variant dark:text-surface-variant px-4 py-3 mx-2 hover:bg-surface-container-high dark:hover:bg-surface-container-highest rounded-lg transition-all font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span> Inventory
+            </a>
+<a class="flex items-center gap-3 bg-primary-container text-on-primary-container dark:bg-primary dark:text-on-primary rounded-lg px-4 py-3 mx-2 font-label-md text-label-md active-shadow" href="#">
+<span class="material-symbols-outlined" data-icon="medical_services">medical_services</span> Medical
+            </a>
+<a class="flex items-center gap-3 text-on-surface-variant dark:text-surface-variant px-4 py-3 mx-2 hover:bg-surface-container-high dark:hover:bg-surface-container-highest rounded-lg transition-all font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined" data-icon="calendar_month">calendar_month</span> Scheduling
+            </a>
+<a class="flex items-center gap-3 text-on-surface-variant dark:text-surface-variant px-4 py-3 mx-2 hover:bg-surface-container-high dark:hover:bg-surface-container-highest rounded-lg transition-all font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined" data-icon="group">group</span> CRM
+            </a>
+<a class="flex items-center gap-3 text-on-surface-variant dark:text-surface-variant px-4 py-3 mx-2 hover:bg-surface-container-high dark:hover:bg-surface-container-highest rounded-lg transition-all font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined" data-icon="payments">payments</span> Finance
+            </a>
+</nav>
+<div class="px-4 mt-auto">
+<button class="w-full bg-primary text-on-primary py-3 rounded-xl font-label-md flex items-center justify-center gap-2 hover:opacity-90 transition-opacity active:scale-95">
+<span class="material-symbols-outlined" data-icon="add">add</span> Add New Record
+            </button>
+<a class="flex items-center gap-3 text-on-surface-variant dark:text-surface-variant px-4 py-3 mt-4 hover:bg-surface-container-high dark:hover:bg-surface-container-highest rounded-lg transition-all font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined" data-icon="logout">logout</span> Sign Out
+            </a>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="md:ml-64 pt-24 px-container-padding-mobile md:px-container-padding-desktop pb-12">
+<!-- Header & Status -->
+<div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
+<div>
+<h1 class="font-headline-lg text-headline-lg text-on-surface">Clinical Management</h1>
+<p class="font-body-md text-body-md text-on-surface-variant">Manage pet health records and daily practitioner agenda.</p>
+</div>
+<div class="flex items-center gap-4 bg-white p-2 rounded-full border border-outline-variant card-shadow">
+<div class="flex items-center gap-2 px-4">
+<span class="font-label-md text-label-md text-on-surface-variant">Agenda Status</span>
+<span class="w-2 h-2 rounded-full bg-tertiary-container animate-pulse"></span>
+</div>
+<button class="relative inline-flex items-center h-8 rounded-full w-16 transition-colors duration-300 focus:outline-none bg-primary cursor-pointer" id="agendaToggle" onclick="this.classList.toggle('bg-primary'); this.classList.toggle('bg-outline');">
+<span class="absolute left-1 inline-block w-6 h-6 transform bg-white rounded-full transition-transform duration-300 translate-x-8"></span>
+</button>
+<div class="px-4 font-label-md text-label-md text-primary font-bold">Open for Bookings</div>
+</div>
+</div>
+<div class="bento-grid">
+<!-- Agenda Slots (Asymmetric Card) -->
+<section class="col-span-12 lg:col-span-8 glass-card rounded-3xl p-6 card-shadow">
+<div class="flex justify-between items-center mb-6">
+<h3 class="font-title-lg text-title-lg flex items-center gap-2">
+<span class="material-symbols-outlined text-primary" data-icon="schedule">schedule</span> Today's Agenda
+                    </h3>
+<div class="flex gap-2">
+<button class="bg-surface-container-low p-2 rounded-lg hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="chevron_left">chevron_left</span>
+</button>
+<button class="bg-surface-container-low p-2 rounded-lg hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="chevron_right">chevron_right</span>
+</button>
+</div>
+</div>
+<div class="space-y-3">
+<!-- Agenda Item 1 -->
+<div class="flex items-center gap-4 p-4 rounded-2xl bg-white border border-outline-variant hover:border-primary transition-all group active-shadow cursor-pointer">
+<div class="w-16 text-center">
+<div class="font-label-md text-label-md text-on-surface-variant">09:00</div>
+<div class="text-[10px] font-bold text-primary uppercase">60 Min</div>
+</div>
+<div class="w-12 h-12 rounded-full overflow-hidden flex-shrink-0">
+<img alt="Pet Profile" data-alt="A close-up high-quality photograph of a playful golden beagle dog looking up with curious brown eyes. The dog is positioned in a clean, brightly lit modern home environment with soft morning sunlight streaming in, highlighting its warm chestnut and white coat. The aesthetic is clean and heartwarming, emphasizing pet well-being." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBGNti67y8MUc8edJkKJI56_V057WtdKgHsxcShuMGdEB1iuIDuNva7EzT5j5BOUE3TaL7zugoHFCU91uwjriXD8MOgMWo1XVJtnEVnmaTtz3GNRYQ2ikoSsv5sttlZ43jhYhzwOzpMXE00mLm-rthmnVsgiL5bVkgKcFHJ8MGOe3S5XFtly6ezRVlbaWNuHE6lxzdW_1Qrcx4inE7Gbo9bwwmIEdOnA5jbqKC1ACJOqPAs5dgFUpOFNNKOYomq8-TbFMsMyCF7"/>
+</div>
+<div class="flex-1">
+<h4 class="font-title-lg text-body-lg font-bold">Cooper (Beagle)</h4>
+<p class="font-body-md text-body-md text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-sm" data-icon="medical_services">medical_services</span> Annual Vaccination &amp; Wellness
+                            </p>
+</div>
+<div class="flex items-center gap-2">
+<span class="px-3 py-1 bg-tertiary-container text-on-tertiary-container rounded-full font-label-sm text-label-sm">Confirmed</span>
+<span class="material-symbols-outlined text-outline group-hover:text-primary" data-icon="more_vert">more_vert</span>
+</div>
+</div>
+<!-- Agenda Item 2 (Clinical Blue Accent) -->
+<div class="flex items-center gap-4 p-4 rounded-2xl bg-white border border-outline-variant hover:border-primary transition-all group cursor-pointer">
+<div class="w-16 text-center">
+<div class="font-label-md text-label-md text-on-surface-variant">10:30</div>
+<div class="text-[10px] font-bold text-primary uppercase">30 Min</div>
+</div>
+<div class="w-12 h-12 rounded-full overflow-hidden flex-shrink-0">
+<img alt="Pet Profile" data-alt="A portrait of a serene, beautiful grey tabby cat sitting gracefully on a minimalist light-colored wooden floor. Soft, high-key lighting illuminates its delicate whiskers and intense green eyes. The atmosphere is quiet and clinical but welcoming, emphasizing professional pet care and a calm environment." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCuFjdObWB7gJFxRVLC_00gStJWPmqfoyfSr9a4XgnQNtduasu45oE9Pfrobuoa_qk7JucgcCYYxQJGAC7GkM7_t8VaMLez0sbKFsHbRuflf5gYN5njgqtWZmnkokfMLZ-UqIsWk9lx5NmecPZSb8GZoCQ58qqxEefeMrQKm7Lg1YofvGk_LbLmOpTmyk4u3WO6CaXeSUTfeSR5P6k39CAl6g4gwOmKL0t593C4b6qL98YkzP0nSenrk937E7NhM4ny3p4WDWEJ"/>
+</div>
+<div class="flex-1">
+<h4 class="font-title-lg text-body-lg font-bold">Luna (Siamese Mix)</h4>
+<p class="font-body-md text-body-md text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-sm" data-icon="healing">healing</span> Post-Surgery Checkup
+                            </p>
+</div>
+<div class="flex items-center gap-2">
+<span class="px-3 py-1 bg-secondary-container text-on-secondary-container rounded-full font-label-sm text-label-sm">In Progress</span>
+<span class="material-symbols-outlined text-outline group-hover:text-primary" data-icon="more_vert">more_vert</span>
+</div>
+</div>
+<!-- Empty Slot / Close Slot Action -->
+<div class="flex items-center gap-4 p-4 rounded-2xl bg-surface-container-low border border-dashed border-outline-variant hover:border-primary hover:bg-white transition-all group cursor-pointer">
+<div class="w-16 text-center">
+<div class="font-label-md text-label-md text-outline">11:30</div>
+</div>
+<div class="flex-1 flex items-center justify-between">
+<div class="font-body-md text-outline italic">Available Slot</div>
+<button class="bg-primary text-on-primary px-4 py-2 rounded-lg font-label-md opacity-0 group-hover:opacity-100 transition-opacity">
+                                Book Now
+                            </button>
+</div>
+</div>
+</div>
+</section>
+<!-- Clinical Record Input Form (Right Side) -->
+<section class="col-span-12 lg:col-span-4 flex flex-col gap-6">
+<!-- Record Form -->
+<div class="glass-card rounded-3xl p-6 card-shadow">
+<h3 class="font-title-lg text-title-lg mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary" data-icon="edit_note">edit_note</span> New Clinical Note
+                    </h3>
+<div class="space-y-4">
+<div>
+<label class="font-label-md text-label-md text-on-surface-variant block mb-1">Select Patient</label>
+<div class="relative">
+<select class="w-full bg-surface-container-lowest border-outline-variant rounded-xl px-4 py-3 appearance-none focus:ring-primary focus:border-primary">
+<option>Select a pet...</option>
+<option>Cooper (Beagle)</option>
+<option>Luna (Siamese Mix)</option>
+<option>Bella (Golden Retriever)</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-3 text-outline pointer-events-none" data-icon="keyboard_arrow_down">keyboard_arrow_down</span>
+</div>
+</div>
+<div>
+<label class="font-label-md text-label-md text-on-surface-variant block mb-1">Clinical Observation</label>
+<textarea class="w-full bg-surface-container-lowest border-outline-variant rounded-xl px-4 py-3 focus:ring-primary focus:border-primary placeholder:text-outline/50" placeholder="Type symptoms, heart rate, temperature..." rows="4"></textarea>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div>
+<label class="font-label-md text-label-md text-on-surface-variant block mb-1">Temp (°C)</label>
+<input class="w-full bg-surface-container-lowest border-outline-variant rounded-xl px-4 py-3 focus:ring-primary focus:border-primary" placeholder="38.5" type="text"/>
+</div>
+<div>
+<label class="font-label-md text-label-md text-on-surface-variant block mb-1">Weight (kg)</label>
+<input class="w-full bg-surface-container-lowest border-outline-variant rounded-xl px-4 py-3 focus:ring-primary focus:border-primary" placeholder="12.4" type="text"/>
+</div>
+</div>
+<button class="w-full bg-primary text-on-primary py-4 rounded-2xl font-bold flex items-center justify-center gap-2 hover:opacity-95 transition-all shadow-md active:scale-95">
+<span class="material-symbols-outlined" data-icon="save">save</span> Save Record
+                        </button>
+</div>
+</div>
+<!-- Sync Status Indicator -->
+<div class="bg-white border border-outline-variant p-4 rounded-2xl card-shadow flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-tertiary-container flex items-center justify-center">
+<span class="material-symbols-outlined text-tertiary" data-icon="sync">sync</span>
+</div>
+<div>
+<div class="font-label-md text-label-md text-on-surface font-bold">Cloud Sync Active</div>
+<div class="font-label-sm text-[10px] text-outline">Last sync: 2 mins ago</div>
+</div>
+</div>
+<span class="px-2 py-1 bg-tertiary-container text-tertiary rounded font-label-sm text-[10px]">SYNCED</span>
+</div>
+</section>
+<!-- Medical File Quick Search (Bottom Wide) -->
+<section class="col-span-12 glass-card rounded-3xl p-6 card-shadow">
+<div class="flex justify-between items-center mb-6">
+<h3 class="font-title-lg text-title-lg flex items-center gap-2">
+<span class="material-symbols-outlined text-primary" data-icon="folder_shared">folder_shared</span> Recent Medical Files
+                    </h3>
+<button class="text-primary font-label-md hover:underline">View All Records</button>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+<!-- Record Item 1 -->
+<div class="p-4 rounded-2xl bg-white border border-outline-variant hover:active-shadow transition-all group">
+<div class="flex items-center gap-3 mb-3">
+<div class="w-10 h-10 rounded-full bg-primary-fixed flex items-center justify-center text-primary">
+<span class="material-symbols-outlined" data-icon="medical_information">medical_information</span>
+</div>
+<div>
+<h5 class="font-label-md text-label-md font-bold">Bella</h5>
+<p class="font-label-sm text-[10px] text-outline">ID: #VET-9921</p>
+</div>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant line-clamp-2 mb-3">Chronic dermatitis treatment follow-up. Prescribed hypoallergenic diet.</p>
+<div class="flex justify-between items-center">
+<span class="font-label-sm text-label-sm text-outline">Oct 12, 2023</span>
+<button class="p-2 rounded-full hover:bg-surface-container-low text-primary">
+<span class="material-symbols-outlined" data-icon="visibility">visibility</span>
+</button>
+</div>
+</div>
+<!-- Record Item 2 -->
+<div class="p-4 rounded-2xl bg-white border border-outline-variant hover:active-shadow transition-all group">
+<div class="flex items-center gap-3 mb-3">
+<div class="w-10 h-10 rounded-full bg-secondary-fixed flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined" data-icon="vaccines">vaccines</span>
+</div>
+<div>
+<h5 class="font-label-md text-label-md font-bold">Max</h5>
+<p class="font-label-sm text-[10px] text-outline">ID: #VET-8832</p>
+</div>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant line-clamp-2 mb-3">Rabies booster administered. No adverse reactions observed.</p>
+<div class="flex justify-between items-center">
+<span class="font-label-sm text-label-sm text-outline">Oct 10, 2023</span>
+<button class="p-2 rounded-full hover:bg-surface-container-low text-primary">
+<span class="material-symbols-outlined" data-icon="visibility">visibility</span>
+</button>
+</div>
+</div>
+<!-- Record Item 3 -->
+<div class="p-4 rounded-2xl bg-white border border-outline-variant hover:active-shadow transition-all group">
+<div class="flex items-center gap-3 mb-3">
+<div class="w-10 h-10 rounded-full bg-tertiary-fixed flex items-center justify-center text-tertiary">
+<span class="material-symbols-outlined" data-icon="monitor_heart">monitor_heart</span>
+</div>
+<div>
+<h5 class="font-label-md text-label-md font-bold">Charlie</h5>
+<p class="font-label-sm text-[10px] text-outline">ID: #VET-7714</p>
+</div>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant line-clamp-2 mb-3">Routine cardiac screening. ECG results within normal parameters.</p>
+<div class="flex justify-between items-center">
+<span class="font-label-sm text-label-sm text-outline">Oct 08, 2023</span>
+<button class="p-2 rounded-full hover:bg-surface-container-low text-primary">
+<span class="material-symbols-outlined" data-icon="visibility">visibility</span>
+</button>
+</div>
+</div>
+<!-- Record Item 4 -->
+<div class="p-4 rounded-2xl bg-white border border-outline-variant hover:active-shadow transition-all group">
+<div class="flex items-center gap-3 mb-3">
+<div class="w-10 h-10 rounded-full bg-error-container flex items-center justify-center text-error">
+<span class="material-symbols-outlined" data-icon="emergency">emergency</span>
+</div>
+<div>
+<h5 class="font-label-md text-label-md font-bold">Daisy</h5>
+<p class="font-label-sm text-[10px] text-outline">ID: #VET-1102</p>
+</div>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant line-clamp-2 mb-3">Urgent consultation: Ingested foreign object. X-ray scheduled.</p>
+<div class="flex justify-between items-center">
+<span class="font-label-sm text-label-sm text-outline">Oct 14, 2023</span>
+<button class="p-2 rounded-full hover:bg-surface-container-low text-primary">
+<span class="material-symbols-outlined" data-icon="visibility">visibility</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+</div>
+</main>
+<!-- Floating Action Button for Emergency Record (Contextual) -->
+<button class="fixed bottom-8 right-8 w-14 h-14 bg-error text-on-error rounded-full shadow-2xl flex items-center justify-center hover:scale-110 transition-transform active:scale-95 group z-50">
+<span class="material-symbols-outlined text-2xl" data-icon="emergency">emergency</span>
+<span class="absolute right-16 bg-error text-on-error px-3 py-1 rounded-lg text-label-sm opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">Emergency Intake</span>
+</button>
+<!-- Mobile Bottom Navigation Bar (Hidden on Desktop) -->
+<nav class="md:hidden fixed bottom-0 left-0 right-0 bg-surface border-t border-outline-variant flex justify-around items-center h-16 px-4 z-50">
+<a class="flex flex-col items-center text-on-surface-variant" href="#">
+<span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
+<span class="text-[10px] font-label-md">Inventory</span>
+</a>
+<a class="flex flex-col items-center text-primary" href="#">
+<span class="material-symbols-outlined" data-icon="medical_services" style="font-variation-settings: 'FILL' 1;">medical_services</span>
+<span class="text-[10px] font-label-md font-bold">Medical</span>
+</a>
+<a class="flex flex-col items-center text-on-surface-variant" href="#">
+<span class="material-symbols-outlined" data-icon="calendar_month">calendar_month</span>
+<span class="text-[10px] font-label-md">Schedule</span>
+</a>
+<a class="flex flex-col items-center text-on-surface-variant" href="#">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+<span class="text-[10px] font-label-md">CRM</span>
+</a>
+</nav>
+<script>
+        // Micro-interaction for the Agenda Toggle
+        const toggleBtn = document.getElementById('agendaToggle');
+        const statusText = toggleBtn.nextElementSibling;
+        
+        toggleBtn.addEventListener('click', () => {
+            const circle = toggleBtn.querySelector('span');
+            const isActive = circle.classList.contains('translate-x-8');
+            
+            if (isActive) {
+                circle.classList.remove('translate-x-8');
+                circle.classList.add('translate-x-0');
+                toggleBtn.classList.remove('bg-primary');
+                toggleBtn.classList.add('bg-outline');
+                statusText.innerText = 'Agenda Closed';
+                statusText.classList.remove('text-primary');
+                statusText.classList.add('text-outline');
+            } else {
+                circle.classList.remove('translate-x-0');
+                circle.classList.add('translate-x-8');
+                toggleBtn.classList.remove('bg-outline');
+                toggleBtn.classList.add('bg-primary');
+                statusText.innerText = 'Open for Bookings';
+                statusText.classList.remove('text-outline');
+                statusText.classList.add('text-primary');
+            }
+        });
+    </script>
+</body></html>

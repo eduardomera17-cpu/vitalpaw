@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>VitalPaw Marketplace</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&amp;family=Quicksand:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-tertiary": "#ffffff",
+                    "inverse-primary": "#83cfff",
+                    "surface-tint": "#00658d",
+                    "inverse-surface": "#2d3133",
+                    "tertiary-container": "#00b0a3",
+                    "secondary": "#895100",
+                    "outline-variant": "#bdc8d1",
+                    "on-error-container": "#93000a",
+                    "on-primary-container": "#003952",
+                    "surface-container-lowest": "#ffffff",
+                    "surface": "#f7f9fb",
+                    "on-secondary": "#ffffff",
+                    "secondary-container": "#fd9d1a",
+                    "on-secondary-container": "#663b00",
+                    "primary-container": "#00a8e8",
+                    "surface-variant": "#e0e3e5",
+                    "surface-container-high": "#e6e8ea",
+                    "on-tertiary-fixed": "#00201d",
+                    "on-error": "#ffffff",
+                    "surface-container-low": "#f2f4f6",
+                    "outline": "#6e7881",
+                    "error": "#ba1a1a",
+                    "surface-bright": "#f7f9fb",
+                    "on-tertiary-container": "#003c37",
+                    "inverse-on-surface": "#eff1f3",
+                    "on-secondary-fixed-variant": "#683d00",
+                    "on-tertiary-fixed-variant": "#005049",
+                    "secondary-fixed-dim": "#ffb86b",
+                    "on-primary": "#ffffff",
+                    "surface-container-highest": "#e0e3e5",
+                    "secondary-fixed": "#ffdcbc",
+                    "tertiary-fixed": "#70f8e8",
+                    "on-background": "#191c1e",
+                    "on-secondary-fixed": "#2c1700",
+                    "on-primary-fixed": "#001e2d",
+                    "surface-dim": "#d8dadc",
+                    "on-surface-variant": "#3e4850",
+                    "on-surface": "#191c1e",
+                    "background": "#f7f9fb",
+                    "primary-fixed-dim": "#83cfff",
+                    "surface-container": "#eceef0",
+                    "primary": "#00658d",
+                    "primary-fixed": "#c6e7ff",
+                    "on-primary-fixed-variant": "#004c6b",
+                    "error-container": "#ffdad6",
+                    "tertiary": "#006a62",
+                    "tertiary-fixed-dim": "#4fdbcc"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "container-padding-mobile": "16px",
+                    "unit": "8px",
+                    "card-gap": "20px",
+                    "container-padding-desktop": "32px",
+                    "section-margin": "40px",
+                    "gutter": "16px"
+            },
+            "fontFamily": {
+                    "headline-lg": ["Quicksand"],
+                    "headline-lg-mobile": ["Quicksand"],
+                    "title-lg": ["Quicksand"],
+                    "label-sm": ["Plus Jakarta Sans"],
+                    "body-lg": ["Plus Jakarta Sans"],
+                    "display-lg": ["Quicksand"],
+                    "body-md": ["Plus Jakarta Sans"],
+                    "label-md": ["Plus Jakarta Sans"]
+            },
+            "fontSize": {
+                    "headline-lg": ["32px", { "lineHeight": "40px", "fontWeight": "700" }],
+                    "headline-lg-mobile": ["24px", { "lineHeight": "32px", "fontWeight": "700" }],
+                    "title-lg": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+                    "label-sm": ["10px", { "lineHeight": "12px", "letterSpacing": "1px", "fontWeight": "700" }],
+                    "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                    "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                    "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                    "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.5px", "fontWeight": "600" }]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      .line-clamp-2 {
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;  
+        overflow: hidden;
+      }
+      body {
+        -webkit-tap-highlight-color: transparent;
+      }
+      .offline-bar {
+        animation: slideDown 0.4s ease-out forwards;
+      }
+      @keyframes slideDown {
+        from { transform: translateY(-100%); }
+        to { transform: translateY(0); }
+      }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface font-body-md">
+<!-- Offline Status Indicator -->
+<div class="offline-bar sticky top-0 z-[60] w-full bg-surface-variant text-on-surface-variant px-4 py-2 flex items-center justify-center gap-2 border-b border-outline-variant/20 shadow-sm">
+<span class="material-symbols-outlined text-[18px]">cloud_off</span>
+<span class="font-label-md text-label-md">Local Mode — Products are cached for offline viewing</span>
+</div>
+<!-- Top AppBar -->
+<header class="w-full top-0 sticky z-50 bg-surface dark:bg-background shadow-sm flex justify-between items-center px-container-padding-mobile md:px-container-padding-desktop h-16">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary" data-icon="pets">pets</span>
+<h1 class="font-headline-lg text-headline-lg-mobile md:text-headline-lg text-primary">VitalPaw</h1>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 rounded-full hover:bg-surface-container-high transition-colors active:scale-95 duration-200">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="search">search</span>
+</button>
+<div class="relative">
+<button class="p-2 rounded-full hover:bg-surface-container-high transition-colors active:scale-95 duration-200">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="shopping_cart">shopping_cart</span>
+</button>
+<span class="absolute -top-1 -right-1 bg-secondary-container text-on-secondary-container text-[10px] font-bold h-5 w-5 rounded-full flex items-center justify-center border-2 border-surface">
+                    3
+                </span>
+</div>
+</div>
+</header>
+<main class="max-w-[1280px] mx-auto px-container-padding-mobile md:px-container-padding-desktop pb-32">
+<!-- Search & Filters -->
+<section class="mt-6 space-y-4">
+<div class="flex items-center gap-3">
+<div class="relative flex-1 group">
+<span class="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-outline" data-icon="search">search</span>
+<input class="w-full h-12 pl-12 pr-4 bg-surface-container-low border-none rounded-xl focus:ring-2 focus:ring-primary/20 transition-all font-body-md" placeholder="Search pet products..." type="text"/>
+</div>
+<button class="h-12 w-12 flex items-center justify-center bg-surface-container-high rounded-xl hover:bg-surface-variant transition-colors">
+<span class="material-symbols-outlined" data-icon="filter_list">filter_list</span>
+</button>
+</div>
+<!-- Category Chips -->
+<div class="flex items-center gap-2 overflow-x-auto pb-2 no-scrollbar">
+<button class="whitespace-nowrap px-6 py-2 rounded-full bg-primary text-on-primary font-label-md text-label-md shadow-sm">All</button>
+<button class="whitespace-nowrap px-6 py-2 rounded-full bg-surface-container-high text-on-surface-variant font-label-md text-label-md hover:bg-surface-variant transition-colors">Food</button>
+<button class="whitespace-nowrap px-6 py-2 rounded-full bg-surface-container-high text-on-surface-variant font-label-md text-label-md hover:bg-surface-variant transition-colors">Accessories</button>
+<button class="whitespace-nowrap px-6 py-2 rounded-full bg-surface-container-high text-on-surface-variant font-label-md text-label-md hover:bg-surface-variant transition-colors">Medicine</button>
+<button class="whitespace-nowrap px-6 py-2 rounded-full bg-surface-container-high text-on-surface-variant font-label-md text-label-md hover:bg-surface-variant transition-colors">Hygiene</button>
+</div>
+</section>
+<!-- Product Grid -->
+<section class="mt-8">
+<div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-card-gap">
+<!-- Product Card 1 -->
+<div class="group bg-surface-container-lowest rounded-2xl overflow-hidden border border-outline-variant/30 hover:shadow-lg transition-all duration-300">
+<div class="relative aspect-square overflow-hidden bg-surface-container">
+<img alt="Premium Puppy Food" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A professional studio product shot of a premium dog food bag with clean, modern packaging design. The setting is bright and high-key with soft professional lighting, reflecting a clinical yet caring aesthetic. The color palette features whites and soft blues consistent with a high-end pet care brand. Small kibble pieces are artfully scattered near the base of the bag." src="https://lh3.googleusercontent.com/aida-public/AB6AXuABR6WV2y0eE3RgFxXTycI6RoO6_-XRI8IzSP61DkhGAoaANt1Wa_EKyHvSzDPCer4GdyzCAfO0Ab3AteTQkymvIwwlpNhkjuwshrDpj8Up4d32Ugz16tC0toRnUtxPQSz2Zmb6SHMqZoSo_Pd06KED543lKpWa1tbRwTDG-d5KDU2RG8znw6u6WkcaVSfsigeVnCEC5leK11jDZOZf0UujB_2JLe7KLbH-hoDLlJrT9uDXtaeeO1MHkViJOAINbQDi63MPlVb2"/>
+<div class="absolute top-2 left-2 bg-tertiary-container/90 text-on-tertiary px-2 py-0.5 rounded-md flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="text-[10px] font-bold uppercase tracking-wider">Synced</span>
+</div>
+</div>
+<div class="p-4 space-y-2">
+<div class="flex flex-col">
+<h3 class="font-title-lg text-body-lg text-on-surface line-clamp-2 leading-snug">Premium Puppy Food - 15kg</h3>
+<span class="text-label-sm font-label-sm text-outline uppercase tracking-wider mt-1">Nutrition</span>
+</div>
+<div class="flex items-center justify-between pt-1">
+<span class="font-headline-lg text-title-lg text-secondary">$54.99</span>
+<span class="text-label-md font-label-md text-on-surface-variant bg-surface-container-high px-2 py-0.5 rounded">15 in stock</span>
+</div>
+<button class="w-full h-10 mt-2 bg-primary-container text-on-primary-container rounded-xl flex items-center justify-center gap-2 font-label-md hover:bg-primary transition-colors active:scale-95">
+<span class="material-symbols-outlined text-[20px]" data-icon="add_shopping_cart">add_shopping_cart</span>
+                            Add to cart
+                        </button>
+</div>
+</div>
+<!-- Product Card 2 -->
+<div class="group bg-surface-container-lowest rounded-2xl overflow-hidden border border-outline-variant/30 hover:shadow-lg transition-all duration-300">
+<div class="relative aspect-square overflow-hidden bg-surface-container">
+<img alt="Orthopedic Bed" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A cozy, high-quality orthopedic dog bed in a neutral grey tone, placed in a minimalist, sun-drenched living room with light wood floors. The lighting is soft and warm, highlighting the plush texture and supportive foam. The background is slightly blurred to focus on the premium comfort of the product, maintaining a calm and professional home-care aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCY_a38GklYIzBuG7ev-gflQ4LbMouMKBSKTRKBJFRVyUyKIKV-AoNXcplUy-Ly6A7LqY6F5xT9mugebnzELGo4YyRlY-cEiHmHniIkynRt0jbsxhx8N_zwmQEyH9Yz2r5rzM_9WiiM_ojEAU-0WFsECucf_gXK94U4E4yu_KRbjZkOUkKMUQCB4l0bHF0kCjuqzd3miOj5-B5dNN57bKlRnYcCHLoZYmAXCOGofms5ksuPhYdaKcmzidR-WVbzvqieHcE7L1Dy"/>
+<div class="absolute top-2 left-2 bg-secondary-container/90 text-on-secondary-container px-2 py-0.5 rounded-md flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">sync</span>
+<span class="text-[10px] font-bold uppercase tracking-wider">Pending</span>
+</div>
+</div>
+<div class="p-4 space-y-2">
+<div class="flex flex-col">
+<h3 class="font-title-lg text-body-lg text-on-surface line-clamp-2 leading-snug">Luxury Orthopedic Memory Bed</h3>
+<span class="text-label-sm font-label-sm text-outline uppercase tracking-wider mt-1">Accessories</span>
+</div>
+<div class="flex items-center justify-between pt-1">
+<span class="font-headline-lg text-title-lg text-secondary">$89.00</span>
+<span class="text-label-md font-label-md text-on-surface-variant bg-surface-container-high px-2 py-0.5 rounded">4 in stock</span>
+</div>
+<button class="w-full h-10 mt-2 bg-primary-container text-on-primary-container rounded-xl flex items-center justify-center gap-2 font-label-md hover:bg-primary transition-colors active:scale-95">
+<span class="material-symbols-outlined text-[20px]" data-icon="add_shopping_cart">add_shopping_cart</span>
+                            Add to cart
+                        </button>
+</div>
+</div>
+<!-- Product Card 3 -->
+<div class="group bg-surface-container-lowest rounded-2xl overflow-hidden border border-outline-variant/30 hover:shadow-lg transition-all duration-300">
+<div class="relative aspect-square overflow-hidden bg-surface-container">
+<img alt="Vaccine Booster" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A clean, clinical presentation of a veterinary vaccine vial and a sterile syringe on a pristine white medical surface. The lighting is sharp and sterile with a blue tint, emphasizing medical reliability and clinical precision. The shot is minimalist and modern, focusing on the high-quality medical supplies for professional pet healthcare in a light-mode environment." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBsODZFyj0IEu5GKyHUUb7z-PHKGyMYzvlSoI0yl9F1-CMJwBSpsZVDoopG1FIs_AfC0zgIoGxX_zBHdOYT0TBRNnJ8rAaXfYUP8QqBUQDCG2rcuP_WSh0b0nsBDMHBw2KaaU-9zn4PvlIQufm7em5nQONYLucbrVqOXCDMYxO4uE_RunuTlHHckUuf6TS7NpVUyYiRLpE8eoVlsSJfozUQLj11JGn5ZGFIx5gOGiabm_5S0J0toVpgnvPMrtjG9x-Pbq2SVUvz"/>
+<div class="absolute top-2 left-2 bg-tertiary-container/90 text-on-tertiary px-2 py-0.5 rounded-md flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="text-[10px] font-bold uppercase tracking-wider">Synced</span>
+</div>
+</div>
+<div class="p-4 space-y-2">
+<div class="flex flex-col">
+<h3 class="font-title-lg text-body-lg text-on-surface line-clamp-2 leading-snug">Vaccine Booster (Retail Pack)</h3>
+<span class="text-label-sm font-label-sm text-outline uppercase tracking-wider mt-1">Medicine</span>
+</div>
+<div class="flex items-center justify-between pt-1">
+<span class="font-headline-lg text-title-lg text-secondary">$32.50</span>
+<span class="text-label-md font-label-md text-on-surface-variant bg-surface-container-high px-2 py-0.5 rounded">22 in stock</span>
+</div>
+<button class="w-full h-10 mt-2 bg-primary-container text-on-primary-container rounded-xl flex items-center justify-center gap-2 font-label-md hover:bg-primary transition-colors active:scale-95">
+<span class="material-symbols-outlined text-[20px]" data-icon="add_shopping_cart">add_shopping_cart</span>
+                            Add to cart
+                        </button>
+</div>
+</div>
+<!-- Product Card 4 -->
+<div class="group bg-surface-container-lowest rounded-2xl overflow-hidden border border-outline-variant/30 hover:shadow-lg transition-all duration-300">
+<div class="relative aspect-square overflow-hidden bg-surface-container">
+<img alt="Pet Shampoo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A modern, aesthetic bottle of organic pet shampoo placed against a backdrop of soft green plants and clean white tiles. The lighting is bright and natural, suggesting a fresh and hygienic pet care routine. The design is professional and clean, using soft shadows and a focused composition to highlight the quality of the hygiene product." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAbam2u7Xry27_ToomgWMZj-fZJ9HCbb81AHigahKDLzX0N-ZtfFPhDRYKCV9BV7E9gzK4Ew0etuPmzNvFYykCvEWbWQ1y9sn-5WOXf0Zi9vSUnlrpg5x7oOEYduxmSUcxNgWun4_ECOMhOVaj0rJhpByWHecPQDGILssY9-siLMySl4g95PLT3mUOrkg0_FdLz-3ythVMhVTob2i-VL92HcTO3HCm191oDPsc6W_sP_Y0wwQU2ofGtMjBG73LaB8nGNkEXqS63"/>
+<div class="absolute top-2 left-2 bg-tertiary-container/90 text-on-tertiary px-2 py-0.5 rounded-md flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="text-[10px] font-bold uppercase tracking-wider">Synced</span>
+</div>
+</div>
+<div class="p-4 space-y-2">
+<div class="flex flex-col">
+<h3 class="font-title-lg text-body-lg text-on-surface line-clamp-2 leading-snug">Aloe Vera Gentle Pet Shampoo</h3>
+<span class="text-label-sm font-label-sm text-outline uppercase tracking-wider mt-1">Hygiene</span>
+</div>
+<div class="flex items-center justify-between pt-1">
+<span class="font-headline-lg text-title-lg text-secondary">$18.25</span>
+<span class="text-label-md font-label-md text-error bg-error-container/50 px-2 py-0.5 rounded">Low stock</span>
+</div>
+<button class="w-full h-10 mt-2 bg-primary-container text-on-primary-container rounded-xl flex items-center justify-center gap-2 font-label-md hover:bg-primary transition-colors active:scale-95">
+<span class="material-symbols-outlined text-[20px]" data-icon="add_shopping_cart">add_shopping_cart</span>
+                            Add to cart
+                        </button>
+</div>
+</div>
+<!-- Product Card 5 -->
+<div class="group bg-surface-container-lowest rounded-2xl overflow-hidden border border-outline-variant/30 hover:shadow-lg transition-all duration-300">
+<div class="relative aspect-square overflow-hidden bg-surface-container">
+<img alt="Dental Chews" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A macro photograph of high-quality dental chews for dogs, showing detailed texture designed for plaque removal. The lighting is warm and bright, highlighting the natural ingredients. The product is presented in a professional marketplace style, with a clean background that emphasizes health and preventative care for pets." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAXb2QKf_zY8u5V056aQ3SOhCNuIxmqFf2y2IBsa2KwM46R2kiGSUcQXDmJjXdx_lRUAKegHeOkqsXK-rv5Bgq3Ol5T6iXg7H7-d5LRsyhCzZL7jyPQB91A9DzLqf7MuTXCdMPE7KKUKjTTHUnROT-k0z_B2taYzdVrQ_s2JUckeq_mOGDmFotLrX8sNsjbL23ZLd_7AaRbooB4HMe-4Brq6IchRqxxrzm_RsJAmApe-KdgSfSrL6wOsSdD1Wc_F5zrHNxZNd_3"/>
+<div class="absolute top-2 left-2 bg-tertiary-container/90 text-on-tertiary px-2 py-0.5 rounded-md flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="text-[10px] font-bold uppercase tracking-wider">Synced</span>
+</div>
+</div>
+<div class="p-4 space-y-2">
+<div class="flex flex-col">
+<h3 class="font-title-lg text-body-lg text-on-surface line-clamp-2 leading-snug">Daily Dental Care Chews (30pk)</h3>
+<span class="text-label-sm font-label-sm text-outline uppercase tracking-wider mt-1">Hygiene</span>
+</div>
+<div class="flex items-center justify-between pt-1">
+<span class="font-headline-lg text-title-lg text-secondary">$22.00</span>
+<span class="text-label-md font-label-md text-on-surface-variant bg-surface-container-high px-2 py-0.5 rounded">40 in stock</span>
+</div>
+<button class="w-full h-10 mt-2 bg-primary-container text-on-primary-container rounded-xl flex items-center justify-center gap-2 font-label-md hover:bg-primary transition-colors active:scale-95">
+<span class="material-symbols-outlined text-[20px]" data-icon="add_shopping_cart">add_shopping_cart</span>
+                            Add to cart
+                        </button>
+</div>
+</div>
+<!-- Product Card 6 -->
+<div class="group bg-surface-container-lowest rounded-2xl overflow-hidden border border-outline-variant/30 hover:shadow-lg transition-all duration-300">
+<div class="relative aspect-square overflow-hidden bg-surface-container">
+<img alt="Reflective Leash" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A durable, high-visibility reflective dog leash and harness set in a vibrant orange. The shot is taken outdoors at twilight with soft ambient light hitting the reflective fibers to demonstrate safety. The professional photography uses a shallow depth of field, blurring the suburban park background to focus on the robust construction and safety features." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA6vBYK6mWfR77C78XY1c9Rm3SAlH99yIf3bzVdiBQeD3GtINehJD1z3Vph2dCT9islOV9cf1qmzzM9svf2MTGUMkelr1IuwT2NP6_m3xwmj9L1Zt5l43ASE8FhYeAkM6Z4moDqYWY6etAeDmF-zi3pVBkqT8PqQRGLt6Fo8DZcZKLH9zWuO7z7ZzHBK6XyE_FOEH13NsTzVep5W132n6r8AzdtjPKg8wzZ-BVRj-kqSyQtEutYTXN5gR8vMCDFCoONwWljLRlZ"/>
+<div class="absolute top-2 left-2 bg-tertiary-container/90 text-on-tertiary px-2 py-0.5 rounded-md flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="text-[10px] font-bold uppercase tracking-wider">Synced</span>
+</div>
+</div>
+<div class="p-4 space-y-2">
+<div class="flex flex-col">
+<h3 class="font-title-lg text-body-lg text-on-surface line-clamp-2 leading-snug">Night-Safe Reflective Leash Set</h3>
+<span class="text-label-sm font-label-sm text-outline uppercase tracking-wider mt-1">Accessories</span>
+</div>
+<div class="flex items-center justify-between pt-1">
+<span class="font-headline-lg text-title-lg text-secondary">$25.50</span>
+<span class="text-label-md font-label-md text-on-surface-variant bg-surface-container-high px-2 py-0.5 rounded">12 in stock</span>
+</div>
+<button class="w-full h-10 mt-2 bg-primary-container text-on-primary-container rounded-xl flex items-center justify-center gap-2 font-label-md hover:bg-primary transition-colors active:scale-95">
+<span class="material-symbols-outlined text-[20px]" data-icon="add_shopping_cart">add_shopping_cart</span>
+                            Add to cart
+                        </button>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Floating Action Button for Cart (Mobile Focused) -->
+<button class="fixed bottom-24 right-6 h-14 w-14 bg-secondary-container text-on-secondary-container rounded-full shadow-lg flex items-center justify-center hover:scale-105 active:scale-90 transition-transform md:hidden z-40">
+<span class="material-symbols-outlined" data-icon="shopping_basket">shopping_basket</span>
+<div class="absolute -top-1 -right-1 bg-primary text-on-primary text-[10px] font-bold h-5 w-5 rounded-full flex items-center justify-center">
+            3
+        </div>
+</button>
+<!-- Bottom Navigation Bar -->
+<nav class="fixed bottom-0 left-0 w-full flex justify-around items-center h-20 px-4 pb-safe bg-surface-container dark:bg-surface-container-low shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)] rounded-t-xl z-50">
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant opacity-80 hover:bg-surface-variant/50 transition-colors p-2 rounded-xl" href="#">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="font-label-md text-label-md">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant opacity-80 hover:bg-surface-variant/50 transition-colors p-2 rounded-xl" href="#">
+<span class="material-symbols-outlined" data-icon="calendar_month">calendar_month</span>
+<span class="font-label-md text-label-md">Agenda</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant opacity-80 hover:bg-surface-variant/50 transition-colors p-2 rounded-xl" href="#">
+<span class="material-symbols-outlined" data-icon="medical_services">medical_services</span>
+<span class="font-label-md text-label-md">Medical</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-secondary-container text-on-secondary-container rounded-full px-4 py-1 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="storefront">storefront</span>
+<span class="font-label-md text-label-md">Market</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant opacity-80 hover:bg-surface-variant/50 transition-colors p-2 rounded-xl" href="#">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="font-label-md text-label-md">Profile</span>
+</a>
+</nav>
+<script>
+        // Micro-interaction for buttons
+        document.querySelectorAll('button').forEach(button => {
+            button.addEventListener('click', function() {
+                const icon = this.querySelector('.material-symbols-outlined[data-icon="add_shopping_cart"]');
+                if (icon) {
+                    icon.style.transform = 'translateY(-10px)';
+                    icon.style.opacity = '0';
+                    setTimeout(() => {
+                        icon.style.transform = 'translateY(0)';
+                        icon.style.opacity = '1';
+                    }, 300);
+                }
+            });
+        });
+
+        // Simple filter selection visual
+        const chips = document.querySelectorAll('.flex.items-center.gap-2 button');
+        chips.forEach(chip => {
+            chip.addEventListener('click', () => {
+                chips.forEach(c => {
+                    c.classList.remove('bg-primary', 'text-on-primary', 'shadow-sm');
+                    c.classList.add('bg-surface-container-high', 'text-on-surface-variant');
+                });
+                chip.classList.add('bg-primary', 'text-on-primary', 'shadow-sm');
+                chip.classList.remove('bg-surface-container-high', 'text-on-surface-variant');
+            });
+        });
+    </script>
+</body></html>

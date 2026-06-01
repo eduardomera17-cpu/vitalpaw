@@ -1,0 +1,2209 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VitalPaw - Admin Dashboard</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Quicksand:wght@600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #00658D;
+            --primary-container: #C6E7FF;
+            --on-primary-container: #001E2D;
+            --secondary: #895100;
+            --secondary-container: #FFDCBC;
+            --on-secondary-container: #2C1700;
+            --surface: #FFFFFF;
+            --surface-variant: #F2F4F6;
+            --bg: #E6E8EA;
+            --text-main: #191C1E;
+            --text-muted: #3E4850;
+            --border: #E0E3E5;
+            --error: #BA1A1A;
+            --success: #006A62;
+            --success-container: #70F8E8;
+            
+            --sidebar-width: 280px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg);
+            color: var(--text-main);
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        h1, h2, h3, h4 { font-family: 'Quicksand', sans-serif; }
+
+        /* Sidebar */
+        aside {
+            width: var(--sidebar-width);
+            background: var(--surface);
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            padding: 1.5rem;
+            z-index: 10;
+        }
+
+        .brand {
+            font-family: 'Quicksand', sans-serif;
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-item {
+            padding: 0.875rem 1rem;
+            border-radius: 12px;
+            margin-bottom: 0.5rem;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--text-muted);
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .nav-item:hover {
+            background: var(--surface-variant);
+            color: var(--text-main);
+        }
+
+        .nav-item.active {
+            background: var(--primary-container);
+            color: var(--on-primary-container);
+        }
+
+        .user-profile {
+            margin-top: auto;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        /* Main Content */
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        header {
+            background: var(--surface);
+            padding: 1.5rem 2rem;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 5;
+        }
+
+        .content-area {
+            padding: 2rem;
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .content-area.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Bento Grid */
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .bento-card {
+            background: var(--surface);
+            border-radius: 24px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+            border: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .bento-card.large {
+            grid-column: span 2;
+        }
+
+        /* Tables */
+        .table-container {
+            width: 100%;
+            overflow-x: auto;
+            background: var(--surface);
+            border-radius: 16px;
+            border: 1px solid var(--border);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        th {
+            background: var(--surface-variant);
+            padding: 1rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            font-size: 0.875rem;
+        }
+
+        td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border);
+            vertical-align: middle;
+        }
+
+        tr:last-child td { border-bottom: none; }
+
+        /* Badges & Buttons */
+        .badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 99px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            display: inline-block;
+        }
+        .badge.pending { background: #FFF3CD; color: #856404; }
+        .badge.completed { background: var(--success-container); color: var(--success); }
+
+        button {
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            font-family: inherit;
+            transition: background 0.2s;
+        }
+
+        .btn-primary { background: var(--primary); color: white; }
+        .btn-primary:hover { background: #004C6B; }
+        
+        .btn-success { background: var(--success); color: white; }
+        .btn-success:hover { background: #005049; }
+
+        .btn-outline { background: transparent; border: 1px solid var(--primary); color: var(--primary); }
+        
+        .btn-whatsapp { background: #25D366; color: white; display: flex; align-items: center; gap: 0.5rem; }
+        .btn-whatsapp:hover { background: #128C7E; }
+
+        /* Forms & Inputs */
+        input, select, textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-family: inherit;
+            margin-top: 0.25rem;
+        }
+
+        .form-group { margin-bottom: 1rem; }
+        .form-group label { font-size: 0.875rem; font-weight: 600; color: var(--text-muted); }
+
+        /* Modals */
+        .modal {
+            position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5);
+            display: none; align-items: center; justify-content: center; z-index: 100;
+        }
+        .modal.active { display: flex; }
+        .modal-content { background: var(--surface); padding: 2rem; border-radius: 24px; width: 90%; max-width: 500px; }
+
+        /* Login Overlay */
+        #loginOverlay {
+            position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+            background: var(--bg); z-index: 9999;
+            display: flex; align-items: center; justify-content: center;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Login Guard -->
+    <div id="loginOverlay">
+        <div class="bento-card" style="width: 100%; max-width: 400px;">
+            <h2 style="color: var(--primary); margin-bottom: 1.5rem; text-align: center;">Acceso Staff</h2>
+            <div class="form-group">
+                <label>Correo o Usuario</label>
+                <input type="text" id="adminEmail" placeholder="admin@petshop.com o usuario">
+            </div>
+            <div class="form-group">
+                <label>Contraseña</label>
+                <input type="password" id="adminPass" placeholder="******">
+            </div>
+            <p id="loginErr" style="color: red; font-size: 0.875rem; display: none; margin-bottom: 1rem;">Error al ingresar</p>
+            <button class="btn-primary" style="width: 100%; padding: 1rem;" onclick="adminLogin()">Ingresar al Sistema</button>
+            <p style="color: var(--text-muted); font-size: 0.75rem; text-align: center; margin-top: 1rem; border-top: 1px solid var(--border); padding-top: 0.75rem; line-height: 1.4;">
+                🔒 <strong>Nota de Seguridad:</strong> Si cierras esta pestaña o ventana de la página, tu sesión se cerrará automáticamente.
+                <br>
+                💡 <em>Pasa el mouse sobre el campo de contraseña para visualizarla.</em>
+            </p>
+        </div>
+    </div>
+
+    <!-- Sidebar -->
+    <aside>
+        <div class="brand">⚕️ VitalPaw Pro</div>
+        
+        <nav>
+            <div class="nav-item active" onclick="switchTab('home')" id="tab-home">📊 Panel de Inicio</div>
+            <div class="nav-item" onclick="switchTab('agenda')" id="tab-agenda">📅 Agenda Clínica</div>
+            <div class="nav-item" onclick="switchTab('finance')" id="tab-finance">💰 Finanzas & Facturas</div>
+            <div class="nav-item" onclick="switchTab('inventory')" id="tab-inventory">📦 Inventario</div>
+            <div class="nav-item" onclick="switchTab('pets')" id="tab-pets">🐾 Mascotas y Adopciones</div>
+            <div class="nav-item" onclick="switchTab('crm')" id="tab-crm">👥 Directorio CRM</div>
+            <div class="nav-item" onclick="switchTab('chat')" id="tab-chat">💬 Chat Clientes</div>
+        </nav>
+
+        <div class="user-profile">
+            <div style="width: 40px; height: 40px; border-radius: 50%; background: var(--primary-container); color: var(--on-primary-container); display: flex; align-items: center; justify-content: center; font-weight: bold;">
+                AD
+            </div>
+            <div>
+                <div style="font-weight: 600; font-size: 0.875rem;" id="adminNameDisplay">Administrador</div>
+                <button onclick="logout()" style="background: none; border: none; color: var(--error); font-size: 0.75rem; padding: 0; cursor: pointer; text-decoration: underline;">Cerrar sesión</button>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main>
+        <header>
+            <h2 id="headerTitle">Panel de Inicio</h2>
+            <div style="display: flex; gap: 1rem; align-items: center;">
+                <span style="font-size: 0.875rem; color: var(--text-muted);">🟢 Sistema Online y Sincronizado</span>
+            </div>
+        </header>
+
+        <!-- 1. HOME -->
+        <div id="content-home" class="content-area active">
+            <div class="bento-grid">
+                <div class="bento-card">
+                    <h3 style="color: var(--text-muted); font-size: 1rem;">Pedidos Pendientes Hoy</h3>
+                    <div style="font-size: 3rem; font-weight: bold; color: var(--primary); margin: 1rem 0;" id="kpiOrders">0</div>
+                    <p style="font-size: 0.875rem; color: var(--text-muted);">Requieren facturación y cobro en tienda.</p>
+                </div>
+                <div class="bento-card">
+                    <h3 style="color: var(--text-muted); font-size: 1rem;">Citas Agendadas</h3>
+                    <div style="font-size: 3rem; font-weight: bold; color: var(--secondary); margin: 1rem 0;" id="kpiAppointments">0</div>
+                    <p style="font-size: 0.875rem; color: var(--text-muted);">Para el día de hoy.</p>
+                </div>
+                <div class="bento-card large">
+                    <h3>Pedidos Recientes</h3>
+                    <div class="table-container" style="margin-top: 1rem; border: none;">
+                        <table>
+                            <tbody id="recentOrdersList">
+                                <tr><td colspan="3" style="text-align: center; color: var(--text-muted);">Cargando...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2. FINANZAS Y FACTURACIÓN -->
+        <div id="content-finance" class="content-area">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                <h3>Gestión de Pedidos y Facturas</h3>
+            </div>
+            
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID / Cliente</th>
+                            <th>Artículos</th>
+                            <th>Total</th>
+                            <th>Estado</th>
+                            <th>Acciones de Facturación</th>
+                        </tr>
+                    </thead>
+                    <tbody id="financeOrdersTable">
+                        <tr><td colspan="5" style="text-align: center;">Cargando pedidos...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- SECCIÓN: AGENDA Y CALENDARIO CLÍNICO -->
+        <div id="content-agenda" class="content-area">
+            <div style="display: flex; gap: 1.5rem; flex-wrap: wrap; margin-bottom: 1.5rem;">
+                <!-- Card 1: Días de Atención -->
+                <div class="bento-card" style="flex: 1; min-width: 300px; padding: 1.25rem;">
+                    <h4 style="margin-bottom: 1rem; color: var(--text-main); font-size: 1rem;">⚙️ Configuración de Días Hábiles</h4>
+                    <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 1rem;">Selecciona qué días de la semana atiende la veterinaria:</p>
+                    <div style="display: flex; flex-direction: column; gap: 0.5rem;" id="weekdaysConfigContainer">
+                        <!-- Generado dinámicamente -->
+                        <div style="color: var(--text-muted); font-size: 0.875rem;">Cargando configuración...</div>
+                    </div>
+                    <button class="btn-primary" style="width: 100%; margin-top: 1rem; padding: 0.5rem;" onclick="saveWeekdaysConfig()">Guardar Configuración</button>
+                </div>
+                
+                <!-- Card 2: Filtro de Agenda -->
+                <div class="bento-card" style="flex: 2; min-width: 400px; padding: 1.25rem;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem;">
+                        <h4 style="margin: 0; color: var(--text-main); font-size: 1rem;">📅 Agenda Diaria</h4>
+                        <input type="date" id="agendaDateFilter" onchange="loadDailyAgenda()" style="padding: 0.5rem; border: 1px solid var(--border); border-radius: 8px; font-family: inherit; font-size: 0.875rem;">
+                    </div>
+                    <div id="dailyAgendaContainer" style="display: flex; flex-direction: column; gap: 0.75rem; max-height: 450px; overflow-y: auto; padding-right: 0.25rem;">
+                        <div style="text-align: center; color: var(--text-muted); padding: 2rem;">Selecciona un día para ver la agenda.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="content-inventory" class="content-area">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                <h3>Inventario de Productos</h3>
+                <button class="btn-primary" onclick="openAddProductModal()">+ Añadir Producto</button>
+            </div>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Producto</th>
+                            <th>Precio</th>
+                            <th>Stock</th>
+                            <th>Estado</th>
+                            <th>Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody id="inventoryTable">
+                        <!-- Llenado dinámico -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="content-pets" class="content-area">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                <h3>Gestión de Mascotas</h3>
+                <button class="btn-primary" onclick="openAddPetModal()">+ Añadir Mascota</button>
+            </div>
+            
+            <h4 style="margin-bottom: 1rem; color: var(--text-main);">🏥 Mascotas Pacientes</h4>
+            <div class="table-container" style="margin-bottom: 2rem;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Mascota</th>
+                            <th>Propietario</th>
+                            <th>Especie / Raza / Edad</th>
+                            <th>Estado</th>
+                            <th>Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody id="pacientesTable">
+                        <!-- Llenado dinámico -->
+                    </tbody>
+                </table>
+            </div>
+
+            <h4 style="margin-bottom: 1rem; color: var(--text-main);">🏠 Compañeros de Vida (Adopción / Venta)</h4>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Mascota</th>
+                            <th>Especie / Edad</th>
+                            <th>Precio / Tipo</th>
+                            <th>Estado Público</th>
+                            <th>Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody id="adopcionesTable">
+                        <!-- Llenado dinámico -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="content-crm" class="content-area">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                <h3>Directorio de Clientes y Staff</h3>
+                <button class="btn-primary" onclick="openUserModal()">+ Añadir Usuario</button>
+            </div>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nombre / Correo</th>
+                            <th>Rol</th>
+                            <th>Estado</th>
+                            <th>Fecha Registro</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="crmTable">
+                        <tr><td colspan="5" style="text-align: center; color: var(--text-muted);">Cargando usuarios...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- SECCIÓN: CHAT DE SOPORTE -->
+        <div id="content-chat" class="content-area">
+            <div style="display: flex; gap: 1.5rem; height: calc(100vh - 200px); min-height: 500px;">
+                <!-- Panel izquierdo: Lista de chats -->
+                <div style="width: 320px; background: white; border: 1px solid var(--border); border-radius: 12px; display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);">
+                    <div style="padding: 1.25rem; border-bottom: 1px solid var(--border); font-weight: bold; background: #f8fafc; font-size: 1rem; color: var(--text-main); display: flex; align-items: center; gap: 0.5rem;">
+                        💬 Clientes Activos
+                    </div>
+                    <div id="adminChatList" style="flex: 1; overflow-y: auto; display: flex; flex-direction: column;">
+                        <div style="text-align: center; padding: 2.5rem; color: var(--text-muted); font-size: 0.875rem;">Cargando chats...</div>
+                    </div>
+                </div>
+                <!-- Panel derecho: Conversación actual -->
+                <div style="flex: 1; background: white; border: 1px solid var(--border); border-radius: 12px; display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);">
+                    <div id="adminChatHeader" style="padding: 1rem 1.25rem; border-bottom: 1px solid var(--border); font-weight: bold; background: #f8fafc; display: flex; align-items: center; justify-content: space-between; min-height: 57px;">
+                        <span style="color: var(--text-muted); font-weight: normal; font-size: 0.875rem;">Selecciona una conversación de la lista</span>
+                    </div>
+                    <div id="adminChatMessages" style="flex: 1; padding: 1.5rem; overflow-y: auto; display: flex; flex-direction: column; gap: 1rem; background: #f8fafc;">
+                        <div style="text-align: center; margin: auto; color: var(--text-muted); font-size: 0.875rem;">
+                            💬 Haz clic en un cliente para iniciar el chat en tiempo real.
+                        </div>
+                    </div>
+                    <div id="adminChatInputArea" style="padding: 1rem; border-top: 1px solid var(--border); display: none; gap: 0.75rem; background: white; align-items: center;">
+                        <input type="text" id="adminChatInput" placeholder="Escribe una respuesta..." style="flex: 1; padding: 0.75rem 1rem; border: 1px solid var(--border); border-radius: 8px; font-size: 0.875rem;" onkeypress="if(event.key === 'Enter') sendAdminChatMessage()">
+                        <button class="btn-primary" onclick="sendAdminChatMessage()" style="padding: 0.75rem 1.5rem; font-weight: 600; border-radius: 8px;">Enviar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- MODAL: Emitir Factura -->
+    <div class="modal" id="invoiceModal">
+        <div class="modal-content">
+            <h3 style="margin-bottom: 1.5rem;">Emitir Factura y Completar Pedido</h3>
+            <p style="font-size: 0.875rem; color: var(--text-muted); margin-bottom: 1rem;">
+                Ingresa el número de factura física que se le entregó al cliente. Esto marcará el pedido como "Completado/Pagado en Tienda".
+            </p>
+            <input type="hidden" id="invOrderId">
+            <input type="hidden" id="invTotal">
+            
+            <div class="form-group">
+                <label>Monto Total a Facturar ($) *</label>
+                <input type="number" id="invTotalInput" step="0.01" style="font-weight: bold; font-size: 1.15rem; color: var(--primary); border: 2px solid var(--primary); padding: 0.50rem;">
+            </div>
+            
+            <div class="form-group">
+                <label>Número de Factura Físico (ej. F001-000456)</label>
+                <input type="text" id="invNumberInput" placeholder="F000-0000">
+            </div>
+            <div class="form-group">
+                <label>Número de Teléfono del Cliente (Para WhatsApp)</label>
+                <input type="tel" id="invPhoneInput" placeholder="+584120000000">
+                <small style="color: var(--text-muted); display: block; margin-top: 0.25rem;">Incluir código de país sin espacios.</small>
+            </div>
+
+            <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+                <button class="btn-outline" style="flex: 1;" onclick="closeModal('invoiceModal')">Cancelar</button>
+                <button class="btn-primary" style="flex: 1;" onclick="saveInvoice()">Guardar Factura</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: Nuevo Producto -->
+    <div class="modal" id="productModal">
+        <div class="modal-content" style="max-width: 600px;">
+            <h3 style="margin-bottom: 1.5rem;" id="productModalTitle">Añadir Nuevo Ítem</h3>
+            <input type="hidden" id="prodId">
+            
+            <div class="form-group">
+                <label>Tipo de Ítem *</label>
+                <select id="prodType" onchange="toggleProdTypeFields()">
+                    <option value="product">Producto (Alimento, accesorio, etc.)</option>
+                    <option value="service">Servicio (Baño, peluquería, consulta, etc.)</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label>Nombre *</label>
+                <input type="text" id="prodName" placeholder="Ej. Alimento Premium Max o Peluquería Canina">
+            </div>
+            <div style="display: flex; gap: 1rem;">
+                <div class="form-group" style="flex: 1;">
+                    <label>Precio ($) *</label>
+                    <input type="number" id="prodPrice" step="0.01" placeholder="0.00">
+                </div>
+                <div class="form-group" id="prodStockGroup" style="flex: 1;">
+                    <label>Stock Inicial *</label>
+                    <input type="number" id="prodStock" placeholder="0" value="0">
+                </div>
+            </div>
+            <div class="form-group" id="prodCategoryGroup">
+                <label>Categoría</label>
+                <select id="prodCategory">
+                    <option value="Alimentos">Alimentos</option>
+                    <option value="Accesorios">Accesorios</option>
+                    <option value="Salud">Salud</option>
+                    <option value="Higiene">Higiene</option>
+                    <option value="Estética">Estética</option>
+                    <option value="Clínica">Clínica (Consultas / Procedimientos)</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Descripción</label>
+                <textarea id="prodDesc" rows="3" placeholder="Descripción breve..."></textarea>
+            </div>
+            <div class="form-group">
+                <label>Foto del Producto</label>
+                <input type="file" id="prodImage" accept="image/*" onchange="handleImageSelection(event)">
+                <small id="uploadStatus" style="color: var(--text-muted); display: block; margin-top: 0.25rem;">Límite máximo: 5MB. Se convertirá a AVIF ultraligero.</small>
+                <div id="imagePreviewContainer" style="margin-top: 1rem; display: none; text-align: center;">
+                    <img id="imagePreview" style="max-height: 150px; border-radius: 8px; border: 1px solid var(--border);">
+                </div>
+            </div>
+
+            <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+                <button class="btn-outline" style="flex: 1;" onclick="closeModal('productModal')">Cancelar</button>
+                <button class="btn-primary" style="flex: 1;" onclick="saveProduct()" id="btnSaveProduct">Guardar Producto</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: Añadir Mascota -->
+    <div class="modal" id="petModal">
+        <div class="modal-content" style="max-width: 600px; max-height: 90vh; overflow-y: auto;">
+            <h3 style="margin-bottom: 1.5rem;" id="petModalTitle">Añadir Mascota</h3>
+            <input type="hidden" id="adminEditPetId">
+            <div class="form-group">
+                <label>Nombre *</label>
+                <input type="text" id="petName" placeholder="Ej. Firulais">
+            </div>
+            
+            <div style="display: flex; gap: 1rem;">
+                <div class="form-group" style="flex: 1;">
+                    <label>Especie *</label>
+                    <select id="petSpecies">
+                        <option value="Perro">Perro</option>
+                        <option value="Gato">Gato</option>
+                        <option value="Ave">Ave</option>
+                        <option value="Conejo">Conejo</option>
+                        <option value="Otro">Otro / Exótico</option>
+                    </select>
+                </div>
+                <div class="form-group" style="flex: 1;">
+                    <label>Tipo de Registro *</label>
+                    <select id="petListingType" onchange="togglePetPrice()">
+                        <option value="none">Paciente (De un cliente)</option>
+                        <option value="adoption">Adopción</option>
+                        <option value="sale">Venta</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Raza (Opcional)</label>
+                <input type="text" id="petBreed" list="adminBreedList" placeholder="Escribe o selecciona la raza">
+                <datalist id="adminBreedList">
+                    <option value="Mestizo / Criollo">
+                    <option value="Labrador Retriever">
+                    <option value="Bulldog Francés">
+                    <option value="Golden Retriever">
+                    <option value="Pastor Alemán">
+                    <option value="Poodle / Caniche">
+                    <option value="Gato Mestizo / Común Europeo">
+                    <option value="Siamés">
+                    <option value="Persa">
+                    <!-- y muchas más, igual que en cliente -->
+                </datalist>
+            </div>
+
+            <div style="display: flex; gap: 1rem;">
+                <div class="form-group" style="flex: 1;">
+                    <label>Edad (Años)</label>
+                    <input type="number" id="petAgeYears" min="0" max="30" placeholder="Ej. 2">
+                </div>
+                <div class="form-group" style="flex: 1;">
+                    <label>Edad (Meses)</label>
+                    <input type="number" id="petAgeMonths" min="0" max="11" placeholder="Ej. 6">
+                </div>
+            </div>
+
+            <div class="form-group" id="petPriceContainer" style="display: none;">
+                <label>Precio de Venta ($) *</label>
+                <input type="number" id="petPrice" step="0.01" placeholder="0.00">
+            </div>
+            
+            <div class="form-group">
+                <label>Estado Vital *</label>
+                <select id="petStatus">
+                    <option value="active">Activo / Sano</option>
+                    <option value="deceased">Fallecido</option>
+                    <option value="missing">Desaparecido</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Propietario / Dueño (ID) - Solo si es Paciente</label>
+                <input type="text" id="petOwnerId" placeholder="UID del usuario (opcional si es para venta/adopción)">
+            </div>
+
+            <div class="form-group">
+                <label>Descripción y Notas</label>
+                <textarea id="petDesc" rows="3" placeholder="Información de la mascota..."></textarea>
+            </div>
+            <div class="form-group">
+                <label>Foto de la Mascota</label>
+                <input type="file" id="petImage" accept="image/*" onchange="handleImageSelection(event, true)">
+                <small id="petUploadStatus" style="color: var(--text-muted); display: block; margin-top: 0.25rem;">La imagen se convertirá a AVIF (máx 360px) automáticamente.</small>
+                <div id="petImagePreviewContainer" style="margin-top: 1rem; display: none; text-align: center;">
+                    <img id="petImagePreview" style="max-height: 150px; border-radius: 8px; border: 1px solid var(--border);">
+                </div>
+            </div>
+
+            <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+                <button class="btn-outline" style="flex: 1;" onclick="closeModal('petModal')">Cancelar</button>
+                <button class="btn-primary" style="flex: 1;" onclick="savePet()" id="btnSavePet">Guardar Mascota</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: Añadir / Editar Usuario (CRM) -->
+    <div class="modal" id="userModal">
+        <div class="modal-content" style="max-width: 500px;">
+            <h3 style="margin-bottom: 1.5rem;" id="userModalTitle">Añadir Usuario</h3>
+            <input type="hidden" id="crmUserId">
+            
+            <div class="form-group">
+                <label>Nombre Completo *</label>
+                <input type="text" id="crmUserName" placeholder="Ej. Juan Pérez">
+            </div>
+            <div class="form-group">
+                <label>Correo Electrónico *</label>
+                <input type="email" id="crmUserEmail" placeholder="juan@ejemplo.com">
+            </div>
+            <div class="form-group">
+                <label id="crmUserPassLabel">Contraseña *</label>
+                <input type="password" id="crmUserPass" placeholder="******">
+                <small id="crmUserPassHelp" style="color: var(--text-muted); display: none; margin-top: 0.25rem;">Dejar en blanco para no cambiarla.</small>
+            </div>
+            <div class="form-group">
+                <label>Rol de Usuario *</label>
+                <select id="crmUserRole">
+                    <option value="client">Cliente</option>
+                    <option value="staff">Staff (Personal)</option>
+                    <option value="driver">Repartidor / Chofer</option>
+                    <option value="admin">Administrador</option>
+                </select>
+            </div>
+            
+            <div id="crmUserError" style="color: var(--error); font-size: 0.875rem; display: none; margin-top: 1rem; margin-bottom: 1rem;"></div>
+
+            <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+                <button class="btn-outline" style="flex: 1;" onclick="closeModal('userModal')">Cancelar</button>
+                <button class="btn-primary" style="flex: 1;" onclick="saveCrmUser()" id="btnSaveUser">Guardar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: Cancelar Cita (Motivo obligatorio) -->
+    <div class="modal" id="cancelAppointmentModal">
+        <div class="modal-content" style="max-width: 450px;">
+            <h3 style="margin-bottom: 1.5rem; color: var(--error);">Cancelar Cita</h3>
+            <input type="hidden" id="cancelAppointmentId">
+            
+            <div class="form-group">
+                <label>Motivo de la Cancelación *</label>
+                <textarea id="cancelAppointmentReason" rows="3" placeholder="Escribe la razón detallada de la cancelación..." style="width: 100%; border: 1px solid var(--border); border-radius: 8px; padding: 0.75rem; font-family: inherit; font-size: 0.875rem;"></textarea>
+            </div>
+            
+            <div style="display: flex; gap: 1rem; margin-top: 1.5rem;">
+                <button class="btn-outline" style="flex: 1;" onclick="closeModal('cancelAppointmentModal')">Cancelar</button>
+                <button class="btn-primary" style="flex: 1; background: var(--error); border-color: var(--error);" onclick="confirmCancelAppointment()">Descartar Cita</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SDK Firebase V9/V10 Compat -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-storage-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-app-check-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-functions-compat.js"></script>
+
+    <script>
+        // Configuración de Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyCJiRLwZejZmnqFAltBCoNlEJPYxkm1MgM",
+            authDomain: "petshop-eduardo.firebaseapp.com",
+            projectId: "petshop-eduardo",
+            storageBucket: "petshop-eduardo.firebasestorage.app",
+            messagingSenderId: "1094142334808",
+            appId: "1:1094142334808:web:d3f8ab25c49a5f4a0d372d"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+        const storage = firebase.storage();
+        const functions = firebase.functions();
+
+        // Configurar persistencia a SESSION para cierre automático de sesión al cerrar pestaña
+        auth.setPersistence(firebase.auth.Auth.Persistence.SESSION)
+            .then(() => {
+                console.log("Persistencia de sesión configurada a SESSION.");
+            })
+            .catch(err => {
+                console.error("Error al configurar persistencia a SESSION:", err);
+            });
+
+        // Inicializar App Check con ReCaptcha Enterprise
+        try {
+            if (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1' && window.location.protocol !== 'file:') {
+                const appCheck = firebase.appCheck();
+                appCheck.activate(
+                    new firebase.appCheck.ReCaptchaEnterpriseProvider('6Lef_OUqAAAAAEZ3g4n-oM2qD97P3B4f9j4k3l5m'),
+                    true // Autorrefrescar token
+                );
+                console.log("Firebase App Check configurado de forma segura.");
+            } else {
+                console.warn("Ejecución local detectada. Omitiendo la activación de Firebase App Check.");
+            }
+        } catch (err) {
+            console.warn("App Check no pudo inicializarse:", err);
+        }
+
+
+        // Opción para ver la contraseña pasando el mouse encima (hover)
+        const adminPassInput = document.getElementById('adminPass');
+        if (adminPassInput) {
+            adminPassInput.addEventListener('mouseenter', () => {
+                adminPassInput.type = 'text';
+            });
+            adminPassInput.addEventListener('mouseleave', () => {
+                adminPassInput.type = 'password';
+            });
+        }
+
+        // TABS
+        function switchTab(tabId) {
+            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.content-area').forEach(el => el.classList.remove('active'));
+            
+            document.getElementById('tab-' + tabId).classList.add('active');
+            document.getElementById('content-' + tabId).classList.add('active');
+            
+            document.getElementById('headerTitle').innerText = document.getElementById('tab-' + tabId).innerText.substring(3);
+        }
+
+        // AUTH
+        function adminLogin() {
+            const emailOrUser = document.getElementById('adminEmail').value.trim();
+            const pass = document.getElementById('adminPass').value;
+            const err = document.getElementById('loginErr');
+            err.style.display = 'none';
+            
+            if (!emailOrUser.includes('@')) {
+                db.collection('users').where('displayName', '==', emailOrUser).limit(1).get()
+                    .then(snapshot => {
+                        if (snapshot.empty) {
+                            err.innerText = "El usuario o la contraseña son incorrectos. Por favor, verifícalos.";
+                            err.style.display = 'block';
+                            return;
+                        }
+                        const resolvedEmail = snapshot.docs[0].data().email;
+                        doLogin(resolvedEmail, pass);
+                    })
+                    .catch(e => {
+                        console.error("Error al consultar Firestore para resolver usuario:", e);
+                        err.innerText = "Error de conexión o permisos en BD al buscar el usuario.";
+                        err.style.display = 'block';
+                    });
+            } else {
+                doLogin(emailOrUser, pass);
+            }
+
+            function doLogin(resolvedEmail, password) {
+                auth.signInWithEmailAndPassword(resolvedEmail, password)
+                    .then(cred => {
+                        document.getElementById('loginOverlay').style.display = 'none';
+                        initDashboardListeners();
+                    })
+                    .catch(error => {
+                        console.error("Error en autenticación Firebase:", error);
+                        err.style.display = 'block';
+                        err.innerText = "El usuario o la contraseña son incorrectos. Por favor, verifícalos.";
+                    });
+            }
+        }
+
+        function logout() {
+            auth.signOut().then(() => {
+                window.location.reload();
+            });
+        }
+
+        auth.onAuthStateChanged(user => {
+            if (user) {
+                document.getElementById('loginOverlay').style.display = 'none';
+                
+                // Buscar el displayName en Firestore
+                db.collection('users').where('email', '==', user.email).limit(1).get()
+                    .then(snap => {
+                        let name = '';
+                        if (!snap.empty) {
+                            name = snap.docs[0].data().displayName;
+                        } else {
+                            name = user.displayName || user.email.split('@')[0];
+                        }
+                        sessionStorage.setItem('secureUser', name);
+                        document.getElementById('adminNameDisplay').innerText = name;
+                    })
+                    .catch(() => {
+                        const name = user.displayName || user.email.split('@')[0];
+                        sessionStorage.setItem('secureUser', name);
+                        document.getElementById('adminNameDisplay').innerText = "Personal de PetShop";
+                        document.getElementById('loginOverlay').style.display = 'none';
+                        
+                        // Escuchar datos ahora que estamos autenticados
+                        listenToOrders();
+                        listenToInventory();
+                        listenToPets();
+                        listenToCrmUsers();
+                        listenToCrmChats();
+                    }).catch(e => {
+                        console.error("Error al iniciar sesión Firebase:", e);
+                    });
+                    
+                initDashboardListeners();
+            }
+        });
+
+        // LISTENERS
+        let isListening = false;
+        function initDashboardListeners() {
+            if(isListening) return;
+            isListening = true;
+            listenToOrders();
+            listenToInventory();
+            listenToPets();
+            listenToCrmUsers();
+            listenToCrmChats();
+            
+            // Inicializar fecha de agenda a hoy y cargar configs
+            const today = new Date().toISOString().split('T')[0];
+            const dateInput = document.getElementById('agendaDateFilter');
+            if (dateInput) {
+                dateInput.value = today;
+            }
+            loadWeekdaysConfig();
+            loadDailyAgenda();
+        }
+
+        function listenToOrders() {
+            db.collection('orders').orderBy('createdAt', 'desc').onSnapshot(snap => {
+                let pendingCount = 0;
+                let htmlRecent = '';
+                let htmlFinance = '';
+
+                snap.forEach((doc, index) => {
+                    const order = doc.data();
+                    const isPending = order.status === 'pending';
+                    if (isPending) pendingCount++;
+
+                    const statusBadge = isPending 
+                        ? '<span class="badge pending">Reservado</span>' 
+                        : '<span class="badge completed">Pagado / Entregado</span>';
+
+                    // Llenar Home y Finanzas de forma segura
+                    const orderIdStr = order.id ? order.id.substring(0,10) : 'SIN_ID';
+                    const amountStr = (order.totalAmount || 0).toFixed(2);
+                    const itemsText = Array.isArray(order.items) ? order.items.map(i => i.quantity + 'x ' + i.productName).join(', ') : 'Sin artículos';
+
+                    // 1. Llenar Home (Pedidos Recientes) - Solo los primeros 5
+                    if (index < 5) {
+                        htmlRecent += `
+                            <tr>
+                                <td><div style="font-weight: 600;">${orderIdStr}</div></td>
+                                <td>$${amountStr}</td>
+                                <td>${statusBadge}</td>
+                            </tr>
+                        `;
+                    }
+
+                    // 2. Llenar Finanzas y Facturación
+                    let actionBtn = '';
+                    if (isPending) {
+                        actionBtn = `<button class="btn-primary" onclick="openInvoiceModal('${doc.id}', ${order.totalAmount || 0})">Generar Factura</button>`;
+                    } else if (order.invoiceNumber) {
+                        const msg = encodeURIComponent(`Hola! 👋 Somos VitalPaw. Te adjuntamos tu factura N° ${order.invoiceNumber} por tu compra de $${amountStr}. ¡Gracias por tu preferencia! 🐾`);
+                        actionBtn = `
+                            <div style="display: flex; gap: 0.5rem; align-items: center;">
+                                <span style="font-size: 0.875rem; font-weight: bold; color: var(--text-muted);">Factura: ${order.invoiceNumber}</span>
+                                <button class="btn-whatsapp" onclick="window.open('https://wa.me/?text=${msg}', '_blank')">
+                                    <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M13.601 2.326A7.85 7.85 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.9 7.9 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.9 7.9 0 0 0 13.6 2.326zM7.994 14.521a6.6 6.6 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.56 6.56 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592m3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.73.73 0 0 0-.529.247c-.182.198-.691.677-.691 1.654s.71 1.916.81 2.049c.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232"/></svg>
+                                    WhatsApp
+                                </button>
+                            </div>
+                        `;
+                    }
+                    
+                    const userIdStr = order.userId ? order.userId.substring(0,8) : (order.clientId ? order.clientId.substring(0,8) : 'N/A');
+                    const clientDisplay = order.clientName ? order.clientName : `User: ${userIdStr}`;
+
+                    htmlFinance += `
+                        <tr>
+                            <td>
+                                <div style="font-weight: 600;">${orderIdStr}</div>
+                                <div style="font-size: 0.75rem; color: var(--text-muted);">${clientDisplay}</div>
+                            </td>
+                            <td><div style="font-size: 0.875rem;">${itemsText}</div></td>
+                            <td style="font-weight: bold;">$${amountStr}</td>
+                            <td>${statusBadge}</td>
+                            <td>${actionBtn}</td>
+                        </tr>
+                    `;
+                });
+
+                document.getElementById('kpiOrders').innerText = pendingCount;
+                document.getElementById('recentOrdersList').innerHTML = htmlRecent || '<tr><td colspan="3">Sin pedidos.</td></tr>';
+                document.getElementById('financeOrdersTable').innerHTML = htmlFinance || '<tr><td colspan="5">Sin pedidos en el historial.</td></tr>';
+            });
+        }
+
+        function listenToInventory() {
+            db.collection('products').orderBy('createdAt', 'desc').onSnapshot(snap => {
+                let html = '';
+                snap.forEach(doc => {
+                    const prod = doc.data();
+                    const isService = prod.type === 'service';
+                    
+                    const typeBadge = isService 
+                        ? `<span class="badge" style="background:#5c5a5a; color:white; font-size:0.7rem; margin-left:0.25rem;">Servicio</span>`
+                        : `<span class="badge" style="background:#00a8e8; color:white; font-size:0.7rem; margin-left:0.25rem;">Producto</span>`;
+                        
+                    const stockStr = isService 
+                        ? `<span style="color:var(--text-muted); font-style:italic;">Servicio</span>` 
+                        : (prod.stock !== undefined ? prod.stock : 'N/A');
+
+                    html += `
+                        <tr>
+                            <td style="display:flex; align-items:center; gap:0.5rem;">
+                                <img src="${prod.imageUrl || 'https://via.placeholder.com/40'}" style="width:40px; height:40px; border-radius:8px; object-fit:cover;">
+                                <div>
+                                    <strong>${prod.name}</strong>
+                                    <div>${typeBadge}</div>
+                                </div>
+                            </td>
+                            <td>$${prod.price.toFixed(2)}</td>
+                            <td>${stockStr}</td>
+                            <td><span class="badge ${prod.isActive ? 'completed' : 'pending'}">${prod.isActive ? 'Activo' : 'Inactivo'}</span></td>
+                            <td><button class="btn-outline" style="padding:0.25rem 0.5rem; font-size:0.75rem;">Editar</button></td>
+                        </tr>
+                    `;
+                });
+                document.getElementById('inventoryTable').innerHTML = html;
+            });
+        }
+
+        let adminPetsList = [];
+
+        function listenToPets() {
+            db.collection('pets').orderBy('createdAt', 'desc').onSnapshot(snap => {
+                let htmlPacientes = '';
+                let htmlAdopciones = '';
+                adminPetsList = [];
+
+                snap.forEach(doc => {
+                    const pet = doc.data();
+                    pet.id = doc.id;
+                    adminPetsList.push(pet);
+                    
+                    const ageY = pet.ageYears || 0;
+                    const ageM = pet.ageMonths || 0;
+                    const ageStr = `${ageY}a ${ageM}m`;
+                    const breedStr = pet.breed || 'Sin raza';
+                    const isDeceased = pet.status === 'deceased';
+                    const isMissing = pet.status === 'missing';
+                    const statusStr = isDeceased ? 'Fallecido' : (isMissing ? 'Desaparecido' : 'Activo');
+                    const statusColor = isDeceased ? '#374151' : (isMissing ? '#F59E0B' : '#10B981');
+                    
+                    const imgHtml = `<img src="${pet.photoRemoteUrl || 'https://via.placeholder.com/40'}" style="width:40px; height:40px; border-radius:8px; object-fit:cover; filter:${(isDeceased || isMissing) ? 'grayscale(100%)' : 'none'};">`;
+
+                    if (pet.listingType === 'none' || !pet.listingType) {
+                        // Paciente
+                        htmlPacientes += `
+                            <tr style="opacity: ${isDeceased ? '0.7' : '1'};">
+                                <td style="display:flex; align-items:center; gap:0.5rem;">
+                                    ${imgHtml}
+                                    <strong>${pet.name}</strong>
+                                </td>
+                                <td>${pet.ownerName || 'Staff/Sin Dueño'} <br><small style="color:var(--text-muted);">${pet.ownerId || '-'}</small></td>
+                                <td>${pet.species} / ${breedStr} / ${ageStr}</td>
+                                <td><span class="badge" style="background:${statusColor}; color:white;">${statusStr}</span></td>
+                                <td>
+                                    <button class="btn-outline" style="padding:0.25rem 0.5rem; font-size:0.75rem;" onclick="openEditPet('${doc.id}')">Editar</button>
+                                    <button class="btn-primary" style="padding:0.25rem 0.5rem; font-size:0.75rem; margin-left: 0.5rem;" onclick="openMedicalHistory('${doc.id}')">Historia Clínica</button>
+                                </td>
+                            </tr>
+                        `;
+                    } else {
+                        // Adopción o Venta
+                        const isSale = pet.listingType === 'sale';
+                        const typeBadge = isSale 
+                            ? `<span class="badge" style="background:#00658D; color:white;">Venta</span>` 
+                            : `<span class="badge" style="background:#E91E63; color:white;">Adopción</span>`;
+                        const priceStr = isSale ? `$${(pet.salePrice || 0).toFixed(2)}` : 'Gratis';
+                        
+                        htmlAdopciones += `
+                            <tr style="opacity: ${isDeceased ? '0.7' : '1'};">
+                                <td style="display:flex; align-items:center; gap:0.5rem;">
+                                    ${imgHtml}
+                                    <strong>${pet.name}</strong>
+                                </td>
+                                <td>${pet.species} / ${ageStr}</td>
+                                <td>${typeBadge} ${priceStr}</td>
+                                <td><span class="badge" style="background:${statusColor}; color:white;">${statusStr}</span></td>
+                                <td>
+                                    <button class="btn-outline" style="padding:0.25rem 0.5rem; font-size:0.75rem;" onclick="openEditPet('${doc.id}')">Editar</button>
+                                </td>
+                            </tr>
+                        `;
+                    }
+                });
+                
+                document.getElementById('pacientesTable').innerHTML = htmlPacientes || '<tr><td colspan="5">No hay pacientes registrados.</td></tr>';
+                document.getElementById('adopcionesTable').innerHTML = htmlAdopciones || '<tr><td colspan="5">No hay mascotas en adopción/venta.</td></tr>';
+            });
+        }
+
+        // Modals y Acciones
+        function openInvoiceModal(orderId, total) {
+            document.getElementById('invOrderId').value = orderId;
+            document.getElementById('invTotal').value = total;
+            document.getElementById('invTotalInput').value = total.toFixed(2);
+            document.getElementById('invNumberInput').value = '';
+            document.getElementById('invPhoneInput').value = '';
+            document.getElementById('invoiceModal').classList.add('active');
+        }
+
+        function closeModal(id) {
+            document.getElementById(id).classList.remove('active');
+        }
+
+        function saveInvoice() {
+            const orderId = document.getElementById('invOrderId').value;
+            const invoiceNumber = document.getElementById('invNumberInput').value.trim();
+            const phone = document.getElementById('invPhoneInput').value.trim();
+            const finalTotal = parseFloat(document.getElementById('invTotalInput').value);
+
+            if (!invoiceNumber) {
+                alert("Debes ingresar un número de factura.");
+                return;
+            }
+            if (isNaN(finalTotal) || finalTotal < 0) {
+                alert("Por favor, ingresa un monto válido.");
+                return;
+            }
+
+            db.collection('orders').doc(orderId).update({
+                status: 'completed',
+                totalAmount: finalTotal,
+                invoiceNumber: invoiceNumber,
+                clientPhone: phone, // Opcional, para el registro
+                updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+            }).then(() => {
+                closeModal('invoiceModal');
+            }).catch(err => {
+                alert("Error al guardar: " + err.message);
+            });
+        }
+
+        // FUNCIONES DE INVENTARIO Y CARGA AVIF
+        let selectedFile = null;
+        let convertedImageBlob = null;
+
+        function openAddProductModal() {
+            document.getElementById('prodType').value = 'product';
+            document.getElementById('prodName').value = '';
+            document.getElementById('prodPrice').value = '';
+            document.getElementById('prodStock').value = '0';
+            document.getElementById('prodCategory').value = 'Alimentos';
+            document.getElementById('prodDesc').value = '';
+            document.getElementById('prodImage').value = '';
+            document.getElementById('imagePreviewContainer').style.display = 'none';
+            document.getElementById('uploadStatus').innerText = 'Límite máximo: 5MB. Se convertirá a AVIF ultraligero.';
+            document.getElementById('uploadStatus').style.color = 'var(--text-muted)';
+            selectedFile = null;
+            convertedImageBlob = null;
+            
+            toggleProdTypeFields(); // Configurar visibilidad inicial
+            document.getElementById('productModal').classList.add('active');
+        }
+
+        function toggleProdTypeFields() {
+            const type = document.getElementById('prodType').value;
+            const stockGroup = document.getElementById('prodStockGroup');
+            const categorySelect = document.getElementById('prodCategory');
+            
+            if (type === 'service') {
+                stockGroup.style.display = 'none';
+                document.getElementById('prodStock').value = '0'; // Forzar 0 stock para servicios
+                // Pre-seleccionar una categoría clínica/estética si es un servicio
+                categorySelect.value = 'Estética';
+            } else {
+                stockGroup.style.display = 'block';
+                document.getElementById('prodStock').value = '';
+                categorySelect.value = 'Alimentos';
+            }
+        }
+
+        function openAddPetModal() {
+            document.getElementById('petModalTitle').innerText = 'Añadir Mascota';
+            document.getElementById('adminEditPetId').value = '';
+            document.getElementById('petName').value = '';
+            document.getElementById('petSpecies').value = 'Perro';
+            document.getElementById('petBreed').value = '';
+            document.getElementById('petListingType').value = 'none';
+            document.getElementById('petPrice').value = '';
+            document.getElementById('petPriceContainer').style.display = 'none';
+            document.getElementById('petAgeYears').value = '';
+            document.getElementById('petAgeMonths').value = '';
+            document.getElementById('petStatus').value = 'active';
+            document.getElementById('petOwnerId').value = '';
+            document.getElementById('petDesc').value = '';
+            document.getElementById('petImage').value = '';
+            document.getElementById('petImagePreviewContainer').style.display = 'none';
+            document.getElementById('petUploadStatus').innerText = 'La imagen se convertirá a AVIF (máx 360px) automáticamente.';
+            document.getElementById('petUploadStatus').style.color = 'var(--text-muted)';
+            selectedFile = null;
+            convertedImageBlob = null;
+            document.getElementById('petModal').classList.add('active');
+        }
+
+        function openEditPet(petId) {
+            const pet = adminPetsList.find(p => p.id === petId);
+            if (!pet) return;
+
+            document.getElementById('petModalTitle').innerText = 'Editar Mascota';
+            document.getElementById('adminEditPetId').value = pet.id;
+            document.getElementById('petName').value = pet.name || '';
+            document.getElementById('petSpecies').value = pet.species || 'Perro';
+            document.getElementById('petBreed').value = pet.breed || '';
+            document.getElementById('petListingType').value = pet.listingType || 'none';
+            document.getElementById('petPrice').value = pet.salePrice || '';
+            togglePetPrice();
+            
+            document.getElementById('petAgeYears').value = pet.ageYears !== undefined ? pet.ageYears : '';
+            document.getElementById('petAgeMonths').value = pet.ageMonths !== undefined ? pet.ageMonths : '';
+            document.getElementById('petStatus').value = pet.status || 'active';
+            document.getElementById('petOwnerId').value = pet.ownerId || '';
+            document.getElementById('petDesc').value = pet.notes || pet.description || '';
+            
+            document.getElementById('petImage').value = '';
+            if (pet.photoRemoteUrl) {
+                document.getElementById('petImagePreview').src = pet.photoRemoteUrl;
+                document.getElementById('petImagePreviewContainer').style.display = 'block';
+            } else {
+                document.getElementById('petImagePreviewContainer').style.display = 'none';
+            }
+            
+            document.getElementById('petUploadStatus').innerText = 'Selecciona una nueva imagen para cambiarla.';
+            document.getElementById('petUploadStatus').style.color = 'var(--text-muted)';
+            
+            selectedFile = null;
+            convertedImageBlob = null;
+            document.getElementById('petModal').classList.add('active');
+        }
+
+        function togglePetPrice() {
+            const type = document.getElementById('petListingType').value;
+            document.getElementById('petPriceContainer').style.display = type === 'sale' ? 'block' : 'none';
+        }
+
+        async function handleImageSelection(event, isPet = false) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            // Límite de 5MB
+            if (file.size > 5 * 1024 * 1024) {
+                alert("La imagen supera el límite máximo de 5MB.");
+                event.target.value = '';
+                return;
+            }
+
+            const statusLabel = document.getElementById(isPet ? 'petUploadStatus' : 'uploadStatus');
+            statusLabel.innerText = "⏳ Procesando y convirtiendo imagen...";
+            statusLabel.style.color = "var(--primary)";
+
+            try {
+                convertedImageBlob = await fileToAvifBlob(file);
+                
+                // Mostrar vista previa
+                const url = URL.createObjectURL(convertedImageBlob);
+                document.getElementById(isPet ? 'petImagePreview' : 'imagePreview').src = url;
+                document.getElementById(isPet ? 'petImagePreviewContainer' : 'imagePreviewContainer').style.display = 'block';
+                
+                const savings = ((file.size - convertedImageBlob.size) / file.size * 100).toFixed(0);
+                statusLabel.innerText = `✅ ¡Imagen optimizada! Peso: ${(convertedImageBlob.size / 1024).toFixed(0)} KB (Ahorro del ${savings}%)`;
+                statusLabel.style.color = "var(--success)";
+            } catch (err) {
+                console.error(err);
+                statusLabel.innerText = "❌ Error al comprimir imagen. Se subirá en formato original.";
+                statusLabel.style.color = "var(--error)";
+                convertedImageBlob = file;
+            }
+        }
+
+        async function fileToAvifBlob(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    const img = new Image();
+                    img.onload = async function() {
+                        const canvas = document.createElement('canvas');
+                        const maxDim = 360; // Redimensionar a 360px según requerimiento
+                        let width = img.width;
+                        let height = img.height;
+                        if (width > maxDim || height > maxDim) {
+                            if (width > height) {
+                                height = Math.round((height * maxDim) / width);
+                                width = maxDim;
+                            } else {
+                                width = Math.round((width * maxDim) / height);
+                                height = maxDim;
+                            }
+                        }
+                        canvas.width = width;
+                        canvas.height = height;
+                        const ctx = canvas.getContext('2d');
+                        ctx.drawImage(img, 0, 0, width, height);
+                        const imageData = ctx.getImageData(0, 0, width, height);
+
+                        try {
+                            // Importar dinámicamente jsquash AVIF
+                            const { encode } = await import('https://cdn.jsdelivr.net/npm/@jsquash/avif@1.1.2/+esm');
+                            const avifBuffer = await encode(imageData, { quality: 65 });
+                            const blob = new Blob([avifBuffer], { type: 'image/avif' });
+                            resolve(blob);
+                        } catch (e) {
+                            console.warn('Fallo AVIF, usando WebP nativo:', e);
+                            canvas.toBlob((blob) => {
+                                resolve(blob);
+                            }, 'image/webp', 0.8);
+                        }
+                    };
+                    img.src = event.target.result;
+                };
+                reader.onerror = reject;
+                reader.readAsDataURL(file);
+            });
+        }
+
+        function saveProduct() {
+            const type = document.getElementById('prodType').value;
+            const name = document.getElementById('prodName').value.trim();
+            const price = parseFloat(document.getElementById('prodPrice').value);
+            const stock = type === 'service' ? 0 : parseInt(document.getElementById('prodStock').value);
+            const category = document.getElementById('prodCategory').value;
+            const description = document.getElementById('prodDesc').value.trim();
+            const btn = document.getElementById('btnSaveProduct');
+
+            if (!name || isNaN(price) || (type !== 'service' && isNaN(stock))) {
+                alert("Por favor, llena los campos obligatorios.");
+                return;
+            }
+
+            btn.innerText = "⏳ Guardando...";
+            btn.disabled = true;
+
+            const placeholderUrl = type === 'service' 
+                ? 'https://via.placeholder.com/200?text=Servicio'
+                : 'https://via.placeholder.com/200?text=Producto';
+
+            const uploadPromise = convertedImageBlob 
+                ? uploadImage(convertedImageBlob)
+                : Promise.resolve(placeholderUrl);
+
+            uploadPromise.then(imageUrl => {
+                const newProduct = {
+                    type,
+                    name,
+                    price,
+                    stock: type === 'service' ? 0 : stock,
+                    category,
+                    description,
+                    imageUrl,
+                    isActive: true,
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                };
+
+                return db.collection('products').add(newProduct);
+            }).then(() => {
+                btn.innerText = "Guardar";
+                btn.disabled = false;
+                closeModal('productModal');
+                alert(type === 'service' ? "¡Servicio guardado exitosamente!" : "¡Producto guardado exitosamente!");
+            }).catch(err => {
+                console.error(err);
+                btn.innerText = "Guardar";
+                btn.disabled = false;
+                alert("Error al guardar: " + err.message);
+            });
+        }
+
+        function savePet() {
+            const petId = document.getElementById('adminEditPetId').value;
+            const name = document.getElementById('petName').value.trim();
+            const species = document.getElementById('petSpecies').value;
+            const breed = document.getElementById('petBreed').value.trim();
+            const listingType = document.getElementById('petListingType').value;
+            const salePrice = parseFloat(document.getElementById('petPrice').value);
+            const ageYears = parseInt(document.getElementById('petAgeYears').value) || 0;
+            const ageMonths = parseInt(document.getElementById('petAgeMonths').value) || 0;
+            const status = document.getElementById('petStatus').value;
+            const ownerId = document.getElementById('petOwnerId').value.trim();
+            const notes = document.getElementById('petDesc').value.trim();
+            const btn = document.getElementById('btnSavePet');
+
+            if (!name) {
+                alert("Por favor, llena el nombre de la mascota.");
+                return;
+            }
+
+            if (listingType === 'sale' && (isNaN(salePrice) || salePrice <= 0)) {
+                alert("Por favor ingresa un precio de venta válido.");
+                return;
+            }
+
+            btn.innerText = "⏳ Guardando...";
+            btn.disabled = true;
+
+            const uploadPromise = convertedImageBlob 
+                ? uploadImage(convertedImageBlob, 'pets')
+                : Promise.resolve(null); // Return null so we don't overwrite if editing and no new image
+
+            uploadPromise.then(imageUrl => {
+                const petData = {
+                    name,
+                    species,
+                    breed: breed || 'Sin raza',
+                    listingType,
+                    isForSale: listingType === 'sale',
+                    isForAdoption: listingType === 'adoption',
+                    salePrice: listingType === 'sale' ? salePrice : null,
+                    ageYears,
+                    ageMonths,
+                    status,
+                    ownerId: ownerId || (listingType === 'none' ? 'staff' : firebase.auth().currentUser.uid),
+                    notes,
+                    isAvailable: (listingType === 'sale' || listingType === 'adoption') && status === 'active',
+                    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+                };
+
+                // Only set photo if a new one was uploaded, or if it's a new pet give it a placeholder
+                if (imageUrl) {
+                    petData.photoRemoteUrl = imageUrl;
+                } else if (!petId) {
+                    petData.photoRemoteUrl = 'https://via.placeholder.com/200?text=Mascota';
+                }
+
+                if (petId) {
+                    // Update existing
+                    return db.collection('pets').doc(petId).update(petData);
+                } else {
+                    // Create new
+                    petData.createdAt = firebase.firestore.FieldValue.serverTimestamp();
+                    return db.collection('pets').add(petData);
+                }
+            }).then(() => {
+                btn.innerText = "Guardar Mascota";
+                btn.disabled = false;
+                closeModal('petModal');
+                alert(petId ? "¡Mascota actualizada exitosamente!" : "¡Mascota registrada exitosamente!");
+            }).catch(err => {
+                console.error(err);
+                btn.innerText = "Guardar Mascota";
+                btn.disabled = false;
+                alert("Error al guardar: " + err.message);
+            });
+        }
+
+        async function uploadImage(blob, folder = 'products') {
+            try {
+                if (!storage) {
+                    throw new Error("El servicio de Firebase Storage no está inicializado.");
+                }
+                
+                // Configurar máximo de reintentos a 6 segundos para evitar bucles infinitos si no está activado
+                storage.setMaxUploadRetryTime(6000);
+                
+                const fileId = Math.random().toString(36).substring(2) + Date.now();
+                const ext = blob.type === 'image/avif' ? 'avif' : (blob.type === 'image/webp' ? 'webp' : 'jpg');
+                const ref = storage.ref().child(`${folder}/${fileId}.${ext}`);
+                
+                console.log("Subiendo archivo a Firebase Storage:", `${folder}/${fileId}.${ext}`);
+                const snapshot = await ref.put(blob, { contentType: blob.type });
+                
+                console.log("Archivo subido con éxito, obteniendo URL de descarga...");
+                return await snapshot.ref.getDownloadURL();
+            } catch (error) {
+                console.error("Error en la subida a Firebase Storage:", error);
+                throw new Error("No se pudo subir la imagen a Firebase Storage. Asegúrate de tener habilitado 'Storage' (Almacenamiento) en tu consola de Firebase. Detalle: " + error.message);
+            }
+        }
+
+        // ==========================================
+        // CRM Y GESTIÓN DE USUARIOS
+        // ==========================================
+        function listenToCrmUsers() {
+            db.collection('users').orderBy('createdAt', 'desc').onSnapshot(snap => {
+                const tbody = document.getElementById('crmTable');
+                if (!tbody) return;
+                
+                let html = '';
+                snap.forEach(doc => {
+                    const u = doc.data();
+                    const statusBadge = u.isActive !== false 
+                        ? '<span class="badge completed">Activo</span>' 
+                        : '<span class="badge pending" style="background:#fce8e6; color:#c5221f;">Inactivo</span>';
+                    
+                    const roleNames = { 'client': 'Cliente', 'staff': 'Staff', 'admin': 'Admin', 'driver': 'Repartidor' };
+                    const dateStr = u.createdAt && u.createdAt.toDate ? u.createdAt.toDate().toLocaleDateString() : 'N/A';
+
+                    html += `
+                        <tr>
+                            <td>
+                                <div style="font-weight: 600;">${u.displayName}</div>
+                                <div style="font-size: 0.75rem; color: var(--text-muted);">${u.email}</div>
+                            </td>
+                            <td>${roleNames[u.role] || u.role}</td>
+                            <td>${statusBadge}</td>
+                            <td>${dateStr}</td>
+                            <td>
+                                <button class="btn-primary" style="font-size: 0.75rem; padding: 0.25rem 0.5rem;" onclick="editUser('${doc.id}')">Editar</button>
+                                ${u.isActive !== false && u.id !== auth.currentUser?.uid ? `<button class="btn-outline" style="font-size: 0.75rem; padding: 0.25rem 0.5rem; color: var(--error); border-color: var(--error);" onclick="disableUser('${doc.id}', '${u.displayName}')">Desactivar</button>` : ''}
+                            </td>
+                        </tr>
+                    `;
+                });
+                if (html === '') html = '<tr><td colspan="5" style="text-align: center;">No hay usuarios registrados.</td></tr>';
+                tbody.innerHTML = html;
+            }, err => {
+                console.error("Error cargando usuarios CRM:", err);
+            });
+        }
+
+        function openUserModal() {
+            document.getElementById('crmUserId').value = '';
+            document.getElementById('crmUserName').value = '';
+            document.getElementById('crmUserEmail').value = '';
+            document.getElementById('crmUserPass').value = '';
+            document.getElementById('crmUserRole').value = 'client';
+            
+            document.getElementById('userModalTitle').innerText = 'Añadir Usuario';
+            document.getElementById('crmUserEmail').disabled = false; // Permite editar email al crear
+            document.getElementById('crmUserPassLabel').innerText = 'Contraseña *';
+            document.getElementById('crmUserPassHelp').style.display = 'none';
+            document.getElementById('crmUserError').style.display = 'none';
+            
+            document.getElementById('userModal').classList.add('active');
+        }
+
+        function editUser(uid) {
+            db.collection('users').doc(uid).get().then(doc => {
+                if (!doc.exists) return;
+                const u = doc.data();
+                
+                document.getElementById('crmUserId').value = uid;
+                document.getElementById('crmUserName').value = u.displayName;
+                document.getElementById('crmUserEmail').value = u.email;
+                document.getElementById('crmUserPass').value = '';
+                document.getElementById('crmUserRole').value = u.role;
+                
+                document.getElementById('userModalTitle').innerText = 'Editar Usuario';
+                document.getElementById('crmUserEmail').disabled = true; // Auth email es complicado de cambiar, lo bloqueamos por simplicidad
+                document.getElementById('crmUserPassLabel').innerText = 'Nueva Contraseña (Opcional)';
+                document.getElementById('crmUserPassHelp').style.display = 'block';
+                document.getElementById('crmUserError').style.display = 'none';
+                
+                document.getElementById('userModal').classList.add('active');
+            }).catch(e => console.error(e));
+        }
+
+        async function saveCrmUser() {
+            const uid = document.getElementById('crmUserId').value;
+            const name = document.getElementById('crmUserName').value.trim();
+            const email = document.getElementById('crmUserEmail').value.trim();
+            const pass = document.getElementById('crmUserPass').value;
+            const role = document.getElementById('crmUserRole').value;
+            
+            const errEl = document.getElementById('crmUserError');
+            const btn = document.getElementById('btnSaveUser');
+            
+            if (!name || (!uid && !email) || (!uid && !pass)) {
+                errEl.innerText = "Por favor, completa todos los campos obligatorios.";
+                errEl.style.display = 'block';
+                return;
+            }
+
+            btn.disabled = true;
+            btn.innerText = "Guardando...";
+            errEl.style.display = 'none';
+
+            try {
+                if (uid) {
+                    // Editar usuario existente
+                    const updateUserFn = functions.httpsCallable('adminUpdateUser');
+                    await updateUserFn({ uid, displayName: name, role, password: pass || undefined });
+                } else {
+                    // Crear nuevo usuario
+                    const createUserFn = functions.httpsCallable('adminCreateUser');
+                    await createUserFn({ email, password: pass, displayName: name, role });
+                }
+                closeModal('userModal');
+            } catch (e) {
+                console.error("Error al guardar usuario CRM:", e);
+                errEl.innerText = e.message || "Error interno del servidor.";
+                errEl.style.display = 'block';
+            } finally {
+                btn.disabled = false;
+                btn.innerText = "Guardar";
+            }
+        }
+
+        async function disableUser(uid, name) {
+            if (!confirm(`¿Estás seguro de que deseas desactivar la cuenta de ${name}? No podrá iniciar sesión.`)) return;
+            
+            try {
+                const disableUserFn = functions.httpsCallable('adminDisableUser');
+                await disableUserFn({ uid });
+                alert("Usuario desactivado exitosamente.");
+            } catch (e) {
+                console.error("Error desactivando usuario:", e);
+                alert("No se pudo desactivar el usuario: " + e.message);
+            }
+        }
+
+        // ==========================================
+        // CRM CHAT DE SOPORTE ADMINISTRADOR
+        // ==========================================
+        let unsubscribeAdminChats = null;
+        let unsubscribeActiveChatMessages = null;
+        let activeAdminChatRoomId = null;
+
+        function listenToCrmChats() {
+            if (unsubscribeAdminChats) unsubscribeAdminChats();
+
+            const chatListDiv = document.getElementById('adminChatList');
+
+            unsubscribeAdminChats = db.collection('chats')
+                .orderBy('lastMessageAt', 'desc')
+                .onSnapshot(snap => {
+                    chatListDiv.innerHTML = '';
+                    if (snap.empty) {
+                        chatListDiv.innerHTML = '<div style="text-align: center; padding: 2.5rem; color: var(--text-muted); font-size: 0.875rem;">No hay chats activos.</div>';
+                        return;
+                    }
+                    snap.forEach(doc => {
+                        const room = doc.data();
+                        const activeClass = activeAdminChatRoomId === doc.id ? 'background: #e0f2fe; border-left: 4px solid var(--primary);' : '';
+                        const dateStr = room.lastMessageAt && room.lastMessageAt.toDate 
+                            ? room.lastMessageAt.toDate().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) 
+                            : '';
+
+                        const item = document.createElement('div');
+                        item.style = `padding: 1rem 1.25rem; border-bottom: 1px solid var(--border); cursor: pointer; transition: background 0.2s; ${activeClass}`;
+                        item.onclick = () => openCrmChat(doc.id, room.clientName);
+                        item.innerHTML = `
+                            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.25rem;">
+                                <strong style="color: var(--text-main); font-size: 0.9rem;">${room.clientName}</strong>
+                                <span style="font-size: 0.75rem; color: var(--text-muted);">${dateStr}</span>
+                            </div>
+                            <div style="font-size: 0.8rem; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                                ${room.lastMessageText || 'Chat de soporte iniciado'}
+                            </div>
+                        `;
+                        chatListDiv.appendChild(item);
+                    });
+                }, err => {
+                    console.error("Error cargando lista de chats CRM:", err);
+                });
+        }
+
+        function openCrmChat(userId, userName) {
+            activeAdminChatRoomId = userId;
+            
+            // Remarcar lista de chats
+            listenToCrmChats();
+
+            // Configurar cabecera
+            const header = document.getElementById('adminChatHeader');
+            header.innerHTML = `
+                <div style="display: flex; flex-direction: column;">
+                    <strong style="font-size: 1rem; color: var(--text-main);">${userName}</strong>
+                    <span style="font-size: 0.75rem; color: var(--text-muted); font-weight: normal;">ID del Cliente: ${userId}</span>
+                </div>
+            `;
+
+            // Mostrar área de entrada
+            document.getElementById('adminChatInputArea').style.display = 'flex';
+
+            // Escuchar mensajes de este chat en particular
+            if (unsubscribeActiveChatMessages) unsubscribeActiveChatMessages();
+
+            const msgDiv = document.getElementById('adminChatMessages');
+            msgDiv.innerHTML = '<div style="text-align: center; margin: auto; color: var(--text-muted); font-size: 0.875rem;">Cargando mensajes...</div>';
+
+            unsubscribeActiveChatMessages = db.collection('chats')
+                .doc(userId)
+                .collection('messages')
+                .orderBy('createdAt', 'asc')
+                .onSnapshot(snap => {
+                    msgDiv.innerHTML = '';
+                    if (snap.empty) {
+                        msgDiv.innerHTML = '<div style="text-align: center; margin: auto; color: var(--text-muted); font-size: 0.875rem;">Conversación vacía.</div>';
+                        return;
+                    }
+                    snap.forEach(doc => {
+                        const m = doc.data();
+                        const isStaff = m.senderRole === 'staff' || m.senderRole === 'admin';
+                        
+                        const msgRow = document.createElement('div');
+                        msgRow.style = `display: flex; width: 100%; justify-content: ${isStaff ? 'flex-end' : 'flex-start'};`;
+                        
+                        const bubble = document.createElement('div');
+                        bubble.className = `chat-msg ${isStaff ? 'client' : 'staff'}`; // Reusar los estilos de burbujas del cliente
+                        bubble.style = `
+                            max-width: 70%;
+                            padding: 0.75rem 1rem;
+                            border-radius: 12px;
+                            font-size: 0.875rem;
+                            line-height: 1.25rem;
+                            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+                            background: ${isStaff ? 'var(--primary)' : 'white'};
+                            color: ${isStaff ? 'white' : 'var(--text-main)'};
+                            border: ${isStaff ? 'none' : '1px solid var(--border)'};
+                            align-self: ${isStaff ? 'flex-end' : 'flex-start'};
+                        `;
+                        
+                        if (m.type === 'image') {
+                            bubble.innerHTML = `<img src="${m.imageRemoteUrl || m.imageLocalPath}" style="width: 100%; border-radius: 8px; object-fit: cover;">`;
+                        } else {
+                            bubble.innerText = m.content || '';
+                        }
+                        
+                        msgRow.appendChild(bubble);
+                        msgDiv.appendChild(msgRow);
+                    });
+                    msgDiv.scrollTop = msgDiv.scrollHeight; // Auto-scroll al final
+                }, err => {
+                    console.error("Error al cargar mensajes del chat:", err);
+                });
+        }
+
+        async function sendAdminChatMessage() {
+            const input = document.getElementById('adminChatInput');
+            const txt = input.value.trim();
+            if (!txt || !activeAdminChatRoomId) return;
+
+            input.value = '';
+
+            try {
+                // 1. Enviar mensaje individual
+                await db.collection('chats')
+                    .doc(activeAdminChatRoomId)
+                    .collection('messages')
+                    .add({
+                        roomId: activeAdminChatRoomId,
+                        senderId: auth.currentUser?.uid || 'admin',
+                        senderRole: 'staff',
+                        type: 'text',
+                        content: txt,
+                        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                        syncStatus: 'synced'
+                    });
+
+                // 2. Actualizar documento de sala (para notificar al cliente el último mensaje)
+                await db.collection('chats').doc(activeAdminChatRoomId).set({
+                    lastMessageAt: firebase.firestore.FieldValue.serverTimestamp(),
+                    lastMessageText: txt
+                }, { merge: true });
+            } catch (e) {
+                console.error("Error al enviar respuesta de admin:", e);
+                alert("No se pudo enviar el mensaje: " + e.message);
+            }
+        }
+
+        // ==========================================
+        // CONFIGURACIÓN DE DÍAS HÁBILES Y TURNOS (CRM AGENDA)
+        // ==========================================
+        const weekdaysNames = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
+        
+        function loadWeekdaysConfig() {
+            const container = document.getElementById('weekdaysConfigContainer');
+            if (!container) return;
+
+            db.collection('calendar_config').doc('weekdays').get().then(doc => {
+                let activeDays = [1, 2, 3, 4, 5]; // Lun-Vie por defecto
+                if (doc.exists) {
+                    activeDays = doc.data().days || [];
+                }
+                
+                let html = '';
+                // 1 a 6 (Lunes a Sábado), luego 0 (Domingo)
+                const order = [1, 2, 3, 4, 5, 6, 0];
+                order.forEach(dayIndex => {
+                    const checked = activeDays.includes(dayIndex) ? 'checked' : '';
+                    html += `
+                        <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; font-size: 0.9rem;">
+                            <input type="checkbox" class="weekday-checkbox" value="${dayIndex}" ${checked}>
+                            ${weekdaysNames[dayIndex]}
+                        </label>
+                    `;
+                });
+                container.innerHTML = html;
+            }).catch(e => console.error("Error cargando configuración de días:", e));
+        }
+
+        function saveWeekdaysConfig() {
+            const checkboxes = document.querySelectorAll('.weekday-checkbox');
+            const activeDays = [];
+            checkboxes.forEach(cb => {
+                if (cb.checked) activeDays.push(parseInt(cb.value));
+            });
+
+            db.collection('calendar_config').doc('weekdays').set({
+                days: activeDays,
+                updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+            }).then(() => {
+                alert("Configuración de días de atención guardada con éxito.");
+                loadDailyAgenda(); // Recargar agenda por si cambió disponibilidad del día
+            }).catch(e => {
+                console.error(e);
+                alert("Error al guardar configuración: " + e.message);
+            });
+        }
+
+        let unsubscribeDailyAgenda = null;
+
+        function loadDailyAgenda() {
+            const dateInput = document.getElementById('agendaDateFilter');
+            const container = document.getElementById('dailyAgendaContainer');
+            if (!dateInput || !container) return;
+
+            const selectedDateStr = dateInput.value;
+            if (!selectedDateStr) return;
+
+            const selectedDate = new Date(selectedDateStr + 'T00:00:00');
+            const dayOfWeek = selectedDate.getDay();
+
+            // 1. Validar si es día laboral según config
+            db.collection('calendar_config').doc('weekdays').get().then(docConfig => {
+                let activeDays = [1, 2, 3, 4, 5];
+                if (docConfig.exists) {
+                    activeDays = docConfig.data().days || [];
+                }
+
+                if (!activeDays.includes(dayOfWeek)) {
+                    container.innerHTML = `
+                        <div style="text-align: center; color: var(--error); padding: 3rem; background: #fff5f5; border-radius: 12px; border: 1px dashed var(--error);">
+                            ⚠️ La veterinaria no está habilitada para atender en este día (${weekdaysNames[dayOfWeek]}).
+                        </div>
+                    `;
+                    return;
+                }
+
+                // 2. Si es laboral, generar turnos de 1 hora de 8 AM a 5 PM (17:00) y cargarlos
+                const startOfDay = new Date(selectedDateStr + 'T00:00:00');
+                const endOfDay = new Date(selectedDateStr + 'T23:59:59');
+
+                if (unsubscribeDailyAgenda) unsubscribeDailyAgenda();
+
+                unsubscribeDailyAgenda = db.collection('appointments')
+                    .where('scheduledAt', '>=', startOfDay)
+                    .where('scheduledAt', '<=', endOfDay)
+                    .onSnapshot(snap => {
+                        const bookedSlots = {};
+                        snap.forEach(doc => {
+                            const app = doc.data();
+                            let dateObj = null;
+                            if (app.scheduledAt && app.scheduledAt.toDate) {
+                                dateObj = app.scheduledAt.toDate();
+                            } else if (app.scheduledAt) {
+                                dateObj = new Date(app.scheduledAt);
+                            }
+                            if (dateObj) {
+                                const hour = dateObj.getHours();
+                                bookedSlots[hour] = { id: doc.id, ...app };
+                            }
+                        });
+
+                        let html = '';
+                        // Generar horas de 8 a 17
+                        for (let hour = 8; hour <= 17; hour++) {
+                            const timeStr = `${hour.toString().padStart(2, '0')}:00`;
+                            const booking = bookedSlots[hour];
+
+                            if (booking) {
+                                let statusLabel = '';
+                                let actionButtons = '';
+                                
+                                if (booking.status === 'pending') {
+                                    statusLabel = '<span class="badge pending">Agendado</span>';
+                                    actionButtons = `
+                                        <button class="btn-primary" style="font-size: 0.75rem; padding: 0.25rem 0.5rem;" onclick="completeAppointment('${booking.id}', '${booking.clientId}', '${booking.clientName.replace(/'/g, "\\'")}', '${booking.serviceName.replace(/'/g, "\\'")}', ${booking.price})">Completar</button>
+                                        <button class="btn-outline" style="font-size: 0.75rem; padding: 0.25rem 0.5rem; color: var(--error); border-color: var(--error);" onclick="cancelAppointment('${booking.id}')">Cancelar</button>
+                                    `;
+                                } else if (booking.status === 'completed') {
+                                    statusLabel = '<span class="badge completed">Atendido</span>';
+                                    actionButtons = `
+                                        <button class="btn-outline" style="font-size: 0.75rem; padding: 0.25rem 0.5rem;" onclick="syncOrder('${booking.id}', '${booking.clientId}', '${booking.clientName.replace(/'/g, "\\'")}', '${booking.serviceName.replace(/'/g, "\\'")}', ${booking.price})">Recuperar Facturación</button>
+                                    `;
+                                } else if (booking.status === 'cancelled') {
+                                    statusLabel = `<span class="badge pending" style="background:#fce8e6; color:#c5221f;" title="Motivo: ${booking.cancellationReason || 'No especificado'}">Cancelado</span>`;
+                                }
+
+                                html += `
+                                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 1rem; background: white; border: 1px solid var(--border); border-radius: 8px; gap: 1rem;">
+                                        <div style="font-weight: bold; width: 60px; color: var(--primary); font-size: 1rem;">${timeStr}</div>
+                                        <div style="flex: 1;">
+                                            <div style="font-weight: 600; color: var(--text-main);">${booking.petName} <span style="font-weight: normal; color: var(--text-muted); font-size: 0.8rem;">(${booking.clientName})</span></div>
+                                            <div style="font-size: 0.8rem; color: var(--text-muted);">${booking.serviceName} • $${(booking.price || 0).toFixed(2)}</div>
+                                            ${booking.status === 'cancelled' && booking.cancellationReason ? `<div style="font-size: 0.75rem; color: var(--error); margin-top: 0.25rem;"><strong>Motivo:</strong> ${booking.cancellationReason}</div>` : ''}
+                                        </div>
+                                        <div style="display: flex; gap: 0.5rem; align-items: center;">
+                                            ${statusLabel}
+                                            ${actionButtons}
+                                        </div>
+                                    </div>
+                                `;
+                            } else {
+                                html += `
+                                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 1rem; background: #fafafa; border: 1px dashed var(--border); border-radius: 8px;">
+                                        <div style="font-weight: bold; width: 60px; color: var(--text-muted); font-size: 1rem;">${timeStr}</div>
+                                        <div style="flex: 1; color: var(--text-muted); font-size: 0.875rem; font-style: italic;">Disponible</div>
+                                        <div style="color: var(--text-muted); font-size: 0.8rem;">Sin cita programada</div>
+                                    </div>
+                                `;
+                            }
+                        }
+                        container.innerHTML = html;
+                    }, err => {
+                        console.error("Error al escuchar turnos diarios:", err);
+                        container.innerHTML = '<div style="color: var(--error); padding: 1rem;">Error de conexión.</div>';
+                    });
+            });
+        }
+
+        async function completeAppointment(appId, clientId, clientName, serviceName, price) {
+            if (!confirm(`¿Deseas marcar esta cita de "${serviceName}" como completada y enviarla a Finanzas para facturación?`)) return;
+
+            try {
+                // Verificar si por casualidad ya existe (evitar duplicados)
+                const orderSnapshot = await db.collection('orders').where('appointmentId', '==', appId).get();
+                
+                if (orderSnapshot.empty) {
+                    // Generar el pedido para Finanzas
+                    const orderId = 'SERV-' + Math.random().toString(36).substring(2).toUpperCase();
+                    await db.collection('orders').doc(orderId).set({
+                        id: orderId,
+                        userId: clientId,
+                        clientName: clientName,
+                        items: [{
+                            productId: appId,
+                            productName: `Servicio en Clínica: ${serviceName}`,
+                            price: price || 0,
+                            quantity: 1
+                        }],
+                        totalAmount: price || 0,
+                        status: 'pending', // Queda pendiente de factura
+                        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                        type: 'service_order',
+                        appointmentId: appId
+                    });
+                }
+
+                // Actualizar estado de la cita a completed
+                await db.collection('appointments').doc(appId).update({
+                    status: 'completed',
+                    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+                });
+
+                alert("¡Cita completada! Ya se envió a Finanzas para generarle su factura.");
+            } catch (e) {
+                console.error("Error al completar cita:", e);
+                alert("No se pudo completar la cita: " + e.message);
+            }
+        }
+
+        async function syncOrder(appId, clientId, clientName, serviceName, price) {
+            try {
+                const orderSnapshot = await db.collection('orders').where('appointmentId', '==', appId).get();
+                if (orderSnapshot.empty) {
+                    const orderId = 'SERV-' + Math.random().toString(36).substring(2).toUpperCase();
+                    await db.collection('orders').doc(orderId).set({
+                        id: orderId,
+                        userId: clientId,
+                        clientName: clientName,
+                        items: [{
+                            productId: appId,
+                            productName: `Servicio (Recuperado): ${serviceName}`,
+                            price: price || 0,
+                            quantity: 1
+                        }],
+                        totalAmount: price || 0,
+                        status: 'pending',
+                        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                        type: 'service_order',
+                        appointmentId: appId
+                    });
+                    alert("✅ ¡Pedido recuperado con éxito! Ve a la pestaña de Finanzas para generar su factura.");
+                } else {
+                    alert("ℹ️ Esta cita ya tiene un pedido generado en Finanzas.");
+                }
+            } catch (e) {
+                console.error("Error al recuperar pedido:", e);
+                alert("❌ Error: " + e.message);
+            }
+        }
+
+        function cancelAppointment(appId) {
+            document.getElementById('cancelAppointmentId').value = appId;
+            document.getElementById('cancelAppointmentReason').value = '';
+            document.getElementById('cancelAppointmentModal').classList.add('active');
+        }
+
+        async function confirmCancelAppointment() {
+            const appId = document.getElementById('cancelAppointmentId').value;
+            const reason = document.getElementById('cancelAppointmentReason').value.trim();
+
+            if (!reason) {
+                alert("Debes escribir obligatoriamente el motivo de la cancelación.");
+                return;
+            }
+
+            try {
+                await db.collection('appointments').doc(appId).update({
+                    status: 'cancelled',
+                    cancellationReason: reason,
+                    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+                });
+
+                closeModal('cancelAppointmentModal');
+                alert("Cita cancelada correctamente.");
+            } catch (e) {
+                console.error("Error al cancelar cita:", e);
+                alert("Ocurrió un error al procesar la cancelación: " + e.message);
+            }
+        }
+
+    </script>
+    <!-- MODAL: Historial Clínico (Lectura/Escritura) -->
+    <div class="modal" id="medicalHistoryModal">
+        <div class="modal-content" style="max-width: 700px; max-height: 90vh; overflow-y: auto;">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.5rem;">
+                <div>
+                    <h3 id="mhPetName">Historial Clínico</h3>
+                    <p id="mhPetInfo" style="color: var(--text-muted); font-size: 0.875rem;">Cargando...</p>
+                </div>
+                <button class="btn-primary" onclick="openAddMedicalRecordModal()">+ Nuevo Registro</button>
+            </div>
+            
+            <div id="medicalRecordsList" style="display: flex; flex-direction: column; gap: 1rem;">
+                <div style="text-align: center; color: var(--text-muted); padding: 2rem;">Cargando historial...</div>
+            </div>
+
+            <div style="margin-top: 2rem; text-align: right;">
+                <button class="btn-outline" onclick="closeModal('medicalHistoryModal')">Cerrar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: Añadir Registro Médico -->
+    <div class="modal" id="addMedicalRecordModal">
+        <div class="modal-content" style="max-width: 500px;">
+            <h3 style="margin-bottom: 1.5rem;">Nuevo Registro Médico</h3>
+            <input type="hidden" id="medRecPetId">
+            
+            <div class="form-group">
+                <label>Tipo de Registro *</label>
+                <select id="medRecType">
+                    <option value="vaccine">Vacuna</option>
+                    <option value="surgery">Cirugía</option>
+                    <option value="allergy">Alergia</option>
+                    <option value="medication">Medicamento / Tratamiento</option>
+                    <option value="diagnosis">Diagnóstico</option>
+                    <option value="other">Otro / Procedimiento</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label>Título / Nombre *</label>
+                <input type="text" id="medRecTitle" placeholder="Ej. Vacuna Antirrábica, Alergia al pollo...">
+            </div>
+
+            <div class="form-group">
+                <label>Fecha del Evento</label>
+                <input type="date" id="medRecDate">
+            </div>
+
+            <div class="form-group">
+                <label>Descripción / Detalles</label>
+                <textarea id="medRecDesc" rows="3" placeholder="Observaciones clínicas..."></textarea>
+            </div>
+
+            <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+                <button class="btn-outline" style="flex: 1;" onclick="closeModal('addMedicalRecordModal')">Cancelar</button>
+                <button class="btn-primary" style="flex: 1;" onclick="saveMedicalRecord()" id="btnSaveMedRec">Guardar Registro</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ==========================================
+        // HISTORIAL CLÍNICO (CRUD)
+        // ==========================================
+        let currentMedicalPetId = null;
+        let unsubscribeMedicalRecords = null;
+
+        function openMedicalHistory(petId) {
+            const pet = adminPetsList.find(p => p.id === petId);
+            if (!pet) return;
+
+            currentMedicalPetId = petId;
+            document.getElementById('mhPetName').innerText = `Historial Clínico: ${pet.name}`;
+            document.getElementById('mhPetInfo').innerText = `${pet.species} • ${pet.breed || 'Sin raza'} • ${pet.ageYears || 0}a ${pet.ageMonths || 0}m`;
+            
+            document.getElementById('medicalHistoryModal').classList.add('active');
+
+            if (unsubscribeMedicalRecords) unsubscribeMedicalRecords();
+
+            const listDiv = document.getElementById('medicalRecordsList');
+            listDiv.innerHTML = '<div style="text-align: center; color: var(--text-muted); padding: 2rem;">Cargando historial...</div>';
+
+            unsubscribeMedicalRecords = db.collection('medical_records')
+                .where('petId', '==', petId)
+                .orderBy('date', 'desc')
+                .onSnapshot(snap => {
+                    listDiv.innerHTML = '';
+                    if (snap.empty) {
+                        listDiv.innerHTML = '<div style="text-align: center; padding: 2rem; border: 1px dashed var(--border); border-radius: 8px; color: var(--text-muted);">No hay registros médicos para esta mascota.</div>';
+                        return;
+                    }
+
+                    snap.forEach(doc => {
+                        const rec = doc.data();
+                        
+                        let typeColor, typeIcon, typeLabel;
+                        switch(rec.type) {
+                            case 'vaccine': typeColor = '#10B981'; typeIcon = '💉'; typeLabel = 'Vacuna'; break;
+                            case 'surgery': typeColor = '#EF4444'; typeIcon = '✂️'; typeLabel = 'Cirugía'; break;
+                            case 'allergy': typeColor = '#F59E0B'; typeIcon = '⚠️'; typeLabel = 'Alergia'; break;
+                            case 'medication': typeColor = '#3B82F6'; typeIcon = '💊'; typeLabel = 'Medicamento'; break;
+                            case 'diagnosis': typeColor = '#8B5CF6'; typeIcon = '🔬'; typeLabel = 'Diagnóstico'; break;
+                            default: typeColor = '#6B7280'; typeIcon = '📋'; typeLabel = 'Otro'; break;
+                        }
+
+                        const dateStr = rec.date ? new Date(rec.date + 'T00:00:00').toLocaleDateString() : 'Sin fecha';
+
+                        listDiv.innerHTML += `
+                            <div style="border: 1px solid var(--border); border-radius: 8px; padding: 1rem; display: flex; gap: 1rem; align-items: flex-start; background: var(--surface);">
+                                <div style="font-size: 1.5rem; background: ${typeColor}15; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 8px;">
+                                    ${typeIcon}
+                                </div>
+                                <div style="flex: 1;">
+                                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem;">
+                                        <h4 style="margin: 0;">${rec.title}</h4>
+                                        <span class="badge" style="background: ${typeColor}; color: white;">${typeLabel}</span>
+                                    </div>
+                                    <p style="color: var(--text-muted); font-size: 0.875rem; margin-bottom: 0.5rem;">📅 ${dateStr}</p>
+                                    <p style="font-size: 0.875rem; line-height: 1.4; white-space: pre-line;">${rec.description || 'Sin detalles'}</p>
+                                    <div style="margin-top: 0.5rem; text-align: right;">
+                                        <button class="btn-outline" style="padding: 0.2rem 0.5rem; font-size: 0.7rem; color: #EF4444; border-color: #EF4444;" onclick="deleteMedicalRecord('${doc.id}')">Eliminar</button>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    });
+                });
+        }
+
+        function openAddMedicalRecordModal() {
+            if (!currentMedicalPetId) return;
+            document.getElementById('medRecPetId').value = currentMedicalPetId;
+            document.getElementById('medRecType').value = 'vaccine';
+            document.getElementById('medRecTitle').value = '';
+            document.getElementById('medRecDate').value = new Date().toISOString().split('T')[0];
+            document.getElementById('medRecDesc').value = '';
+            
+            document.getElementById('addMedicalRecordModal').classList.add('active');
+        }
+
+        function saveMedicalRecord() {
+            const petId = document.getElementById('medRecPetId').value;
+            const type = document.getElementById('medRecType').value;
+            const title = document.getElementById('medRecTitle').value.trim();
+            const date = document.getElementById('medRecDate').value;
+            const description = document.getElementById('medRecDesc').value.trim();
+            const btn = document.getElementById('btnSaveMedRec');
+
+            if (!title || !date) {
+                alert("Por favor ingresa el título y la fecha.");
+                return;
+            }
+
+            btn.disabled = true;
+            btn.innerText = 'Guardando...';
+
+            db.collection('medical_records').add({
+                petId,
+                type,
+                title,
+                date,
+                description,
+                createdAt: firebase.firestore.FieldValue.serverTimestamp()
+            }).then(() => {
+                btn.disabled = false;
+                btn.innerText = 'Guardar Registro';
+                closeModal('addMedicalRecordModal');
+            }).catch(e => {
+                console.error(e);
+                alert("Error al guardar: " + e.message);
+                btn.disabled = false;
+                btn.innerText = 'Guardar Registro';
+            });
+        }
+
+        function deleteMedicalRecord(id) {
+            if(confirm("¿Estás seguro de eliminar este registro médico?")) {
+                db.collection('medical_records').doc(id).delete().catch(e => alert("Error: " + e.message));
+            }
+        }
+    </script>
+</body>
+</html>

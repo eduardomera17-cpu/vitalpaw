@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>VitalPaw - Medical Records</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&amp;family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface": "#f7f9fb",
+                        "on-secondary-fixed": "#2c1700",
+                        "error-container": "#ffdad6",
+                        "on-surface": "#191c1e",
+                        "on-primary-fixed-variant": "#004c6b",
+                        "primary-container": "#00a8e8",
+                        "inverse-surface": "#2d3133",
+                        "surface-bright": "#f7f9fb",
+                        "primary-fixed-dim": "#83cfff",
+                        "on-primary": "#ffffff",
+                        "outline-variant": "#bdc8d1",
+                        "secondary-container": "#fd9d1a",
+                        "surface-tint": "#00658d",
+                        "on-primary-fixed": "#001e2d",
+                        "on-secondary-container": "#663b00",
+                        "surface-container-lowest": "#ffffff",
+                        "tertiary-fixed-dim": "#4fdbcc",
+                        "secondary-fixed-dim": "#ffb86b",
+                        "on-error-container": "#93000a",
+                        "primary": "#00658d",
+                        "on-secondary": "#ffffff",
+                        "primary-fixed": "#c6e7ff",
+                        "error": "#ba1a1a",
+                        "tertiary-container": "#00b0a3",
+                        "surface-container-highest": "#e0e3e5",
+                        "tertiary": "#006a62",
+                        "on-tertiary-container": "#003c37",
+                        "on-secondary-fixed-variant": "#683d00",
+                        "surface-variant": "#e0e3e5",
+                        "surface-container-high": "#e6e8ea",
+                        "surface-container": "#eceef0",
+                        "on-tertiary-fixed-variant": "#005049",
+                        "on-tertiary-fixed": "#00201d",
+                        "tertiary-fixed": "#70f8e8",
+                        "secondary-fixed": "#ffdcbc",
+                        "on-primary-container": "#003952",
+                        "on-error": "#ffffff",
+                        "surface-dim": "#d8dadc",
+                        "surface-container-low": "#f2f4f6",
+                        "secondary": "#895100",
+                        "background": "#f7f9fb",
+                        "on-surface-variant": "#3e4850",
+                        "on-tertiary": "#ffffff",
+                        "inverse-on-surface": "#eff1f3",
+                        "on-background": "#191c1e",
+                        "inverse-primary": "#83cfff",
+                        "outline": "#6e7881"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "container-padding-desktop": "32px",
+                        "container-padding-mobile": "16px",
+                        "unit": "8px",
+                        "card-gap": "20px",
+                        "gutter": "16px",
+                        "section-margin": "40px"
+                    },
+                    "fontFamily": {
+                        "title-lg": ["Quicksand"],
+                        "headline-lg": ["Quicksand"],
+                        "label-md": ["Plus Jakarta Sans"],
+                        "body-lg": ["Plus Jakarta Sans"],
+                        "label-sm": ["Plus Jakarta Sans"],
+                        "headline-lg-mobile": ["Quicksand"],
+                        "display-lg": ["Quicksand"],
+                        "body-md": ["Plus Jakarta Sans"]
+                    },
+                    "fontSize": {
+                        "title-lg": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
+                        "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.5px", "fontWeight": "600"}],
+                        "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "label-sm": ["10px", {"lineHeight": "12px", "letterSpacing": "1px", "fontWeight": "700"}],
+                        "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                        "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .timeline-line {
+            background-image: linear-gradient(to bottom, #00658d 50%, transparent 50%);
+            background-size: 2px 12px;
+            background-repeat: repeat-y;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background min-h-screen font-body-md">
+<!-- TopAppBar -->
+<header class="fixed top-0 z-50 w-full flex justify-between items-center h-16 px-4 bg-surface shadow-sm border-b border-outline-variant/30 md:px-container-padding-desktop">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary text-2xl" data-icon="pets">pets</span>
+<h1 class="font-title-lg text-title-lg font-bold text-primary tracking-tight">VitalPaw</h1>
+</div>
+<div class="flex items-center gap-4">
+<button class="hover:bg-surface-container-high transition-colors p-2 rounded-full active:scale-95 duration-100 ease-in-out">
+<span class="material-symbols-outlined text-primary" data-icon="sync">sync</span>
+</button>
+</div>
+</header>
+<main class="pt-20 pb-24 px-container-padding-mobile md:px-container-padding-desktop max-w-4xl mx-auto">
+<!-- Conflict Warning Banner -->
+<div class="mb-6 bg-error-container text-on-error-container p-4 rounded-xl flex items-start gap-3 shadow-sm animate-pulse border border-error/20">
+<span class="material-symbols-outlined mt-0.5" data-icon="warning">warning</span>
+<div class="flex-1">
+<p class="font-label-md text-label-md">Conflict Warning</p>
+<p class="font-body-md text-body-md mt-1">There is a version mismatch in this pet's medical history. A 'Merge Asistido' is required to synchronize records across your devices.</p>
+</div>
+<button class="bg-on-error-container text-white px-3 py-1 rounded-full font-label-sm text-label-sm uppercase tracking-wider hover:opacity-90 transition-opacity">
+                Resolve
+            </button>
+</div>
+<!-- Pet Profile Summary -->
+<section class="bg-surface-container-lowest border border-outline-variant/30 rounded-xl p-6 shadow-sm mb-10 flex flex-col md:flex-row items-center gap-6">
+<div class="relative w-24 h-24 rounded-full overflow-hidden border-4 border-primary/10 flex-shrink-0">
+<img alt="Golden Retriever Pet" class="w-full h-full object-cover" data-alt="A close-up high-resolution portrait of a happy Golden Retriever dog with a gentle expression. The background is a soft-focus garden setting with natural, warm sunlight filtering through leaves. The pet's golden fur is detailed and glowing, embodying the caring and energetic personality of the VitalPaw brand. Professional clinical lighting enhances the warmth and health of the animal." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAdGOPC8FsE8_IsOw2LPEOMWj8EoqexAA_Nk7meZwO0kL8DYQYiQhZ3APs8My9U08468d5yaE3F6NbN5oleTBd85LV1hkr1w3hjWVX8m_QSJ9dZGouWHTrv8n6FNLTn8WkzGJOAot4ClR3BkZNqnDZogmCWoicKzJNVj7kl6X6q7xYaHgZdKPvVbmM2MRc6WvBQCGQFv9F3-341smhwNxYSly77D2relvG4XUa99IlEmUBtYiVOYmFiOOxy6-8snH0WVJGUhliY"/>
+</div>
+<div class="text-center md:text-left flex-1">
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile md:font-headline-lg md:text-headline-lg text-primary">Cooper</h2>
+<div class="flex flex-wrap justify-center md:justify-start gap-2 mt-2">
+<span class="bg-primary-container/20 text-on-primary-container px-3 py-1 rounded-full font-label-md text-label-md">Golden Retriever</span>
+<span class="bg-surface-container-high text-on-surface-variant px-3 py-1 rounded-full font-label-md text-label-md">3 Years Old</span>
+<span class="bg-surface-container-high text-on-surface-variant px-3 py-1 rounded-full font-label-md text-label-md">32.5 kg</span>
+</div>
+</div>
+<div class="hidden md:flex flex-col items-end gap-1">
+<p class="text-label-sm font-label-sm text-outline uppercase">Next Checkup</p>
+<p class="font-title-lg text-title-lg text-secondary">Oct 12, 2023</p>
+</div>
+</section>
+<!-- Clinical Record Timeline -->
+<div class="relative pl-8 md:pl-12">
+<!-- Dash line connector -->
+<div class="absolute left-3 md:left-5 top-0 bottom-0 w-0.5 timeline-line opacity-30"></div>
+<!-- Timeline Entry: Vaccine -->
+<div class="relative mb-8 group">
+<div class="absolute -left-10 md:-left-14 top-2 bg-primary text-white w-6 h-6 rounded-full flex items-center justify-center z-10 shadow-md">
+<span class="material-symbols-outlined text-[14px]" data-icon="syringe">syringe</span>
+</div>
+<div class="bg-white border border-outline-variant/30 rounded-xl p-5 shadow-sm hover:shadow-md transition-all duration-300 transform group-hover:-translate-y-1">
+<div class="flex justify-between items-start mb-3">
+<div>
+<span class="text-primary font-label-sm text-label-sm uppercase tracking-widest">Vaccine</span>
+<h3 class="font-title-lg text-title-lg mt-1">Rabies Annual Booster</h3>
+</div>
+<!-- Sync Badge: Synced -->
+<div class="flex items-center gap-1.5 bg-[#d1fae5] text-[#065f46] px-2.5 py-0.5 rounded-full border border-[#065f46]/10">
+<span class="material-symbols-outlined text-[12px] font-bold" data-icon="check" data-weight="fill">check</span>
+<span class="font-label-sm text-label-sm uppercase">Synced</span>
+</div>
+</div>
+<div class="flex items-center gap-4 text-on-surface-variant mb-4">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-sm" data-icon="calendar_today">calendar_today</span>
+<span class="font-label-md text-label-md">Sept 15, 2023</span>
+</div>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-sm" data-icon="medical_information">medical_information</span>
+<span class="font-label-md text-label-md">Dr. Sarah Miller</span>
+</div>
+</div>
+<p class="text-on-surface-variant leading-relaxed font-body-md mb-4">
+                        Routine rabies booster administered. No adverse reactions observed during the 15-minute post-injection window. Pet was cooperative.
+                    </p>
+<div class="flex gap-2">
+<div class="w-16 h-16 rounded-lg overflow-hidden border border-outline-variant/30 cursor-pointer hover:opacity-80 transition-opacity">
+<img alt="Vaccine Certificate" class="w-full h-full object-cover" data-alt="A macro photograph of a medical vaccine vial and a sterile syringe resting on a clean white surface in a brightly lit veterinary clinic. The lighting is sterile yet soft, adhering to the professional clinical aesthetic of the VitalPaw brand. The color palette features whites, light blues, and soft grays, symbolizing precision and professional care." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBhvGCShXP7ltJQXJeTy8UM6Lkao7D8_f8_b6kEashPLsdTE9K-ptpvnuQ3dA8b48t8SN3fkQS9TaVXKior1IzR3belE5RaQHIkCtMFwcek_TgF36cybB8Ifg557O2uGC97VzIWQidSS9t-pyHAsd9gX-AEogEM83jkldoOjIuGFpSyb2ng_jku0xuXYZmC7-LqvHJtUJGbfU7UYqvJxEkg36HdNfZSmcTAO2CY4JrJL7-CRC3mI19Hj0gDSoGjX9e3Cj5QDzXD"/>
+</div>
+</div>
+</div>
+</div>
+<!-- Timeline Entry: Diagnosis (Pending) -->
+<div class="relative mb-8 group">
+<div class="absolute -left-10 md:-left-14 top-2 bg-tertiary text-white w-6 h-6 rounded-full flex items-center justify-center z-10 shadow-md">
+<span class="material-symbols-outlined text-[14px]" data-icon="monitor_heart">monitor_heart</span>
+</div>
+<div class="bg-white border border-outline-variant/30 rounded-xl p-5 shadow-sm hover:shadow-md transition-all duration-300 transform group-hover:-translate-y-1">
+<div class="flex justify-between items-start mb-3">
+<div>
+<span class="text-tertiary font-label-sm text-label-sm uppercase tracking-widest">Diagnosis</span>
+<h3 class="font-title-lg text-title-lg mt-1">Mild Otitis Externa</h3>
+</div>
+<!-- Sync Badge: Pending -->
+<div class="flex items-center gap-1.5 bg-[#fef3c7] text-[#92400e] px-2.5 py-0.5 rounded-full border border-[#92400e]/10 animate-pulse">
+<span class="material-symbols-outlined text-[12px]" data-icon="sync_problem">sync_problem</span>
+<span class="font-label-sm text-label-sm uppercase">Pending</span>
+</div>
+</div>
+<div class="flex items-center gap-4 text-on-surface-variant mb-4">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-sm" data-icon="calendar_today">calendar_today</span>
+<span class="font-label-md text-label-md">Aug 22, 2023</span>
+</div>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-sm" data-icon="medical_information">medical_information</span>
+<span class="font-label-md text-label-md">Dr. James Wilson</span>
+</div>
+</div>
+<p class="text-on-surface-variant leading-relaxed font-body-md">
+                        Inflammation observed in the left ear canal. Prescribed topical antibiotic drops for 7 days. Follow-up required if scratching persists.
+                    </p>
+</div>
+</div>
+<!-- Timeline Entry: Weight -->
+<div class="relative mb-8 group">
+<div class="absolute -left-10 md:-left-14 top-2 bg-secondary text-white w-6 h-6 rounded-full flex items-center justify-center z-10 shadow-md">
+<span class="material-symbols-outlined text-[14px]" data-icon="scale">scale</span>
+</div>
+<div class="bg-white border border-outline-variant/30 rounded-xl p-5 shadow-sm hover:shadow-md transition-all duration-300 transform group-hover:-translate-y-1">
+<div class="flex justify-between items-start mb-3">
+<div>
+<span class="text-secondary font-label-sm text-label-sm uppercase tracking-widest">Weight Tracking</span>
+<h3 class="font-title-lg text-title-lg mt-1">32.5 kg (Ideal)</h3>
+</div>
+<div class="flex items-center gap-1.5 bg-[#d1fae5] text-[#065f46] px-2.5 py-0.5 rounded-full border border-[#065f46]/10">
+<span class="material-symbols-outlined text-[12px] font-bold" data-icon="check" data-weight="fill">check</span>
+<span class="font-label-sm text-label-sm uppercase">Synced</span>
+</div>
+</div>
+<div class="flex items-center gap-4 text-on-surface-variant mb-2">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-sm" data-icon="calendar_today">calendar_today</span>
+<span class="font-label-md text-label-md">Aug 05, 2023</span>
+</div>
+</div>
+<p class="text-on-surface-variant leading-relaxed font-body-md">
+                        Weight stable. Diet plan is working well. Maintenance recommended.
+                    </p>
+</div>
+</div>
+<!-- Timeline Entry: Deworming -->
+<div class="relative group">
+<div class="absolute -left-10 md:-left-14 top-2 bg-outline text-white w-6 h-6 rounded-full flex items-center justify-center z-10 shadow-md">
+<span class="material-symbols-outlined text-[14px]" data-icon="bug_report">bug_report</span>
+</div>
+<div class="bg-white border border-outline-variant/30 rounded-xl p-5 shadow-sm hover:shadow-md transition-all duration-300 transform group-hover:-translate-y-1">
+<div class="flex justify-between items-start mb-3">
+<div>
+<span class="text-outline font-label-sm text-label-sm uppercase tracking-widest">Deworming</span>
+<h3 class="font-title-lg text-title-lg mt-1">NexGard Spectra</h3>
+</div>
+<div class="flex items-center gap-1.5 bg-[#d1fae5] text-[#065f46] px-2.5 py-0.5 rounded-full border border-[#065f46]/10">
+<span class="material-symbols-outlined text-[12px] font-bold" data-icon="check" data-weight="fill">check</span>
+<span class="font-label-sm text-label-sm uppercase">Synced</span>
+</div>
+</div>
+<div class="flex items-center gap-4 text-on-surface-variant mb-2">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-sm" data-icon="calendar_today">calendar_today</span>
+<span class="font-label-md text-label-md">July 12, 2023</span>
+</div>
+</div>
+<p class="text-on-surface-variant leading-relaxed font-body-md">
+                        Monthly oral flea, tick, and worm treatment administered by owner.
+                    </p>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full flex justify-around items-center px-container-padding-mobile pb-2 pt-2 bg-surface-container shadow-[0_-2px_10px_rgba(0,0,0,0.05)] z-50 rounded-t-xl">
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1.5 hover:bg-surface-container-highest transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="font-label-sm text-label-sm mt-1">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1.5 hover:bg-surface-container-highest transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="calendar_month">calendar_month</span>
+<span class="font-label-sm text-label-sm mt-1">Agenda</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-secondary-container text-on-secondary-container rounded-xl px-4 py-1.5 active:scale-90 duration-200 transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="medical_services" style="font-variation-settings: 'FILL' 1;">medical_services</span>
+<span class="font-label-sm text-label-sm mt-1">Medical</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1.5 hover:bg-surface-container-highest transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="storefront">storefront</span>
+<span class="font-label-sm text-label-sm mt-1">Market</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1.5 hover:bg-surface-container-highest transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="font-label-sm text-label-sm mt-1">Profile</span>
+</a>
+</nav>
+<script>
+        // Simple micro-interaction for entry hover
+        const entries = document.querySelectorAll('.group');
+        entries.forEach(entry => {
+            entry.addEventListener('mouseenter', () => {
+                const icon = entry.querySelector('.absolute.-left-10');
+                if(icon) icon.classList.add('scale-110');
+            });
+            entry.addEventListener('mouseleave', () => {
+                const icon = entry.querySelector('.absolute.-left-10');
+                if(icon) icon.classList.remove('scale-110');
+            });
+        });
+    </script>
+</body></html>

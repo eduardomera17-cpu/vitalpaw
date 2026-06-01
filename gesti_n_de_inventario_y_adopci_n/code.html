@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>PetStaff Central | Inventory &amp; Marketplace</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "error-container": "#ffdad6",
+                    "tertiary": "#006a62",
+                    "background": "#f7f9fb",
+                    "on-error-container": "#93000a",
+                    "surface-container": "#eceef0",
+                    "on-secondary-fixed": "#2c1700",
+                    "on-primary-container": "#003952",
+                    "inverse-primary": "#83cfff",
+                    "on-tertiary-fixed-variant": "#005049",
+                    "secondary": "#895100",
+                    "surface-container-low": "#f2f4f6",
+                    "on-primary": "#ffffff",
+                    "surface": "#f7f9fb",
+                    "on-secondary-container": "#663b00",
+                    "surface-dim": "#d8dadc",
+                    "on-surface": "#191c1e",
+                    "on-tertiary-container": "#003c37",
+                    "on-tertiary-fixed": "#00201d",
+                    "primary-fixed-dim": "#83cfff",
+                    "secondary-fixed-dim": "#ffb86b",
+                    "on-background": "#191c1e",
+                    "tertiary-fixed": "#70f8e8",
+                    "surface-tint": "#00658d",
+                    "primary-fixed": "#c6e7ff",
+                    "on-surface-variant": "#3e4850",
+                    "error": "#ba1a1a",
+                    "on-primary-fixed-variant": "#004c6b",
+                    "surface-container-highest": "#e0e3e5",
+                    "on-secondary": "#ffffff",
+                    "on-error": "#ffffff",
+                    "inverse-on-surface": "#eff1f3",
+                    "primary-container": "#00a8e8",
+                    "on-primary-fixed": "#001e2d",
+                    "surface-container-lowest": "#ffffff",
+                    "secondary-fixed": "#ffdcbc",
+                    "on-secondary-fixed-variant": "#683d00",
+                    "surface-container-high": "#e6e8ea",
+                    "secondary-container": "#fd9d1a",
+                    "on-tertiary": "#ffffff",
+                    "tertiary-fixed-dim": "#4fdbcc",
+                    "tertiary-container": "#00b0a3",
+                    "outline-variant": "#bdc8d1",
+                    "outline": "#6e7881",
+                    "inverse-surface": "#2d3133",
+                    "surface-bright": "#f7f9fb",
+                    "surface-variant": "#e0e3e5",
+                    "primary": "#00658d"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "unit": "8px",
+                    "section-margin": "40px",
+                    "card-gap": "20px",
+                    "gutter": "16px",
+                    "container-padding-desktop": "32px",
+                    "container-padding-mobile": "16px"
+            },
+            "fontFamily": {
+                    "headline-lg": ["Quicksand"],
+                    "label-sm": ["Plus Jakarta Sans"],
+                    "label-md": ["Plus Jakarta Sans"],
+                    "body-md": ["Plus Jakarta Sans"],
+                    "title-lg": ["Quicksand"],
+                    "headline-lg-mobile": ["Quicksand"],
+                    "display-lg": ["Quicksand"],
+                    "body-lg": ["Plus Jakarta Sans"]
+            },
+            "fontSize": {
+                    "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
+                    "label-sm": ["10px", {"lineHeight": "12px", "letterSpacing": "1px", "fontWeight": "700"}],
+                    "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.5px", "fontWeight": "600"}],
+                    "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "title-lg": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .elevation-1 { box-shadow: 0 2px 4px rgba(0, 101, 141, 0.05); }
+        .elevation-2 { box-shadow: 0 6px 12px rgba(0, 101, 141, 0.08); }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        .glass-header { backdrop-filter: blur(12px); background: rgba(247, 249, 251, 0.8); }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-md overflow-x-hidden">
+<!-- Sidebar Navigation (Desktop) -->
+<aside class="h-screen w-64 fixed left-0 top-0 bg-surface-container-low border-r border-outline-variant hidden md:flex flex-col py-6 z-50">
+<div class="px-6 mb-8">
+<h1 class="font-headline-lg text-headline-lg font-bold text-primary">PetShop Pro</h1>
+<p class="font-label-md text-label-md text-on-surface-variant">Admin Dashboard</p>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-3 bg-primary-container text-on-primary-container rounded-lg px-4 py-3 mx-2 scale-98 transition-transform duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
+<span class="font-label-md text-label-md">Inventory</span>
+</a>
+<a class="flex items-center gap-3 text-on-surface-variant hover:bg-surface-container-high rounded-lg px-4 py-3 mx-2 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="medical_services">medical_services</span>
+<span class="font-label-md text-label-md">Medical</span>
+</a>
+<a class="flex items-center gap-3 text-on-surface-variant hover:bg-surface-container-high rounded-lg px-4 py-3 mx-2 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="calendar_month">calendar_month</span>
+<span class="font-label-md text-label-md">Scheduling</span>
+</a>
+<a class="flex items-center gap-3 text-on-surface-variant hover:bg-surface-container-high rounded-lg px-4 py-3 mx-2 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+<span class="font-label-md text-label-md">CRM</span>
+</a>
+<a class="flex items-center gap-3 text-on-surface-variant hover:bg-surface-container-high rounded-lg px-4 py-3 mx-2 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="payments">payments</span>
+<span class="font-label-md text-label-md">Finance</span>
+</a>
+</nav>
+<div class="px-4 mt-auto">
+<button class="w-full bg-primary text-on-primary rounded-xl py-3 px-4 flex items-center justify-center gap-2 hover:opacity-90 transition-opacity">
+<span class="material-symbols-outlined" data-icon="add_circle">add_circle</span>
+<span class="font-label-md text-label-md">Add New Record</span>
+</button>
+<a class="flex items-center gap-3 text-on-surface-variant hover:bg-surface-container-high rounded-lg px-4 py-3 mt-4 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+<span class="font-label-md text-label-md">Sign Out</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="md:ml-64 min-h-screen pb-24">
+<!-- Top Bar -->
+<header class="sticky top-0 z-40 w-full h-16 glass-header border-b border-outline-variant flex justify-between items-center px-container-padding-desktop">
+<div class="flex items-center gap-4">
+<span class="md:hidden material-symbols-outlined text-primary cursor-pointer" data-icon="menu">menu</span>
+<h2 class="font-title-lg text-title-lg text-primary">Inventory &amp; Marketplace</h2>
+</div>
+<div class="flex items-center gap-6">
+<div class="hidden lg:flex items-center bg-surface-container rounded-full px-4 py-1.5 border border-outline-variant">
+<span class="material-symbols-outlined text-on-surface-variant text-[20px]" data-icon="search">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-body-md w-64 px-2" placeholder="Search products or pets..." type="text"/>
+</div>
+<div class="flex items-center gap-3">
+<button class="p-2 text-on-surface-variant hover:bg-surface-container-low rounded-full transition-colors cursor-pointer">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:bg-surface-container-low rounded-full transition-colors cursor-pointer">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+</button>
+<div class="h-8 w-8 rounded-full bg-primary-fixed overflow-hidden border border-primary/20">
+<img alt="Staff member profile picture" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDzSNFoc3Agqfw3tcXBLwGsChfSfLvTy3oqOr720K-xPaIckrBb3pfP0E8wCw31QoflYAeiHmCd-R67WXKAEYK3GKMNns0XK6_n2-PhaRdwqNumsdvgEn2tIjRqS6sSF3DdMOOil0jKe6MDDkuSuHcDlRxnvNFaL9W7QUr67Lpq3mC3XDCPFITA2Y9XceqF7G_qqlkzX53Tm2lDngminzeEfLuPA5UhKbG-Kk8zFW79-MYMA9OnIYuLZ9kRzCec_ktKF0phieN9"/>
+</div>
+</div>
+</div>
+</header>
+<!-- Dashboard Content -->
+<div class="p-container-padding-mobile md:p-container-padding-desktop space-y-section-margin max-w-[1400px] mx-auto">
+<!-- Quick Stats & Sync Status -->
+<section class="grid grid-cols-1 md:grid-cols-3 gap-card-gap">
+<div class="bg-surface-container-lowest p-6 rounded-xl elevation-1 border border-outline-variant flex items-center justify-between">
+<div>
+<p class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Total Inventory</p>
+<p class="font-headline-lg text-headline-lg text-primary mt-1">1,284</p>
+</div>
+<div class="p-4 bg-primary-fixed rounded-2xl">
+<span class="material-symbols-outlined text-primary text-[32px]" data-icon="inventory">inventory</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-xl elevation-1 border border-outline-variant flex items-center justify-between">
+<div>
+<p class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Adoptable Pets</p>
+<p class="font-headline-lg text-headline-lg text-secondary mt-1">14</p>
+</div>
+<div class="p-4 bg-secondary-fixed rounded-2xl">
+<span class="material-symbols-outlined text-secondary text-[32px]" data-icon="pets">pets</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-xl elevation-1 border border-outline-variant flex flex-col justify-center">
+<div class="flex items-center gap-2 mb-2">
+<span class="material-symbols-outlined text-tertiary" data-icon="cloud_done">cloud_done</span>
+<span class="font-label-md text-label-md text-on-surface">Cloud Sync Active</span>
+</div>
+<div class="flex items-center gap-2">
+<div class="h-2 w-2 rounded-full bg-tertiary animate-pulse"></div>
+<span class="text-body-md text-on-surface-variant">Last updated 2 mins ago</span>
+</div>
+</div>
+</section>
+<!-- Product Management Table Section -->
+<section class="bg-surface-container-lowest rounded-2xl elevation-1 border border-outline-variant overflow-hidden">
+<div class="px-8 py-6 border-b border-outline-variant flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+<div>
+<h3 class="font-title-lg text-title-lg text-on-surface">Marketplace Inventory</h3>
+<p class="text-body-md text-on-surface-variant">Manage medical supplies, food, and retail items.</p>
+</div>
+<button class="bg-primary text-on-primary font-label-md text-label-md px-6 py-2.5 rounded-full flex items-center gap-2 elevation-1 hover:elevation-2 transition-all">
+<span class="material-symbols-outlined text-[18px]" data-icon="add">add</span>
+                        Add Product
+                    </button>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead class="bg-surface-container-low">
+<tr>
+<th class="px-8 py-4 font-label-md text-label-md text-on-surface-variant uppercase">Product Name</th>
+<th class="px-8 py-4 font-label-md text-label-md text-on-surface-variant uppercase">Category</th>
+<th class="px-8 py-4 font-label-md text-label-md text-on-surface-variant uppercase text-right">Price</th>
+<th class="px-8 py-4 font-label-md text-label-md text-on-surface-variant uppercase text-center">Stock</th>
+<th class="px-8 py-4 font-label-md text-label-md text-on-surface-variant uppercase text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant">
+<tr class="hover:bg-surface-container-lowest transition-colors group">
+<td class="px-8 py-5">
+<div class="flex items-center gap-3">
+<div class="h-10 w-10 rounded-lg bg-surface-container flex items-center justify-center">
+<span class="material-symbols-outlined text-primary" data-icon="vaccines">vaccines</span>
+</div>
+<div>
+<p class="font-body-lg text-body-lg font-medium text-on-surface">Rabies Vaccine v.2</p>
+<span class="text-xs text-on-surface-variant">SKU: CLIN-001-VAC</span>
+</div>
+</div>
+</td>
+<td class="px-8 py-5">
+<span class="bg-primary-fixed text-on-primary-fixed-variant text-xs font-bold px-3 py-1 rounded-full">Clinical</span>
+</td>
+<td class="px-8 py-5 text-right font-body-lg text-body-lg text-on-surface">$24.99</td>
+<td class="px-8 py-5 text-center">
+<div class="flex flex-col items-center">
+<span class="font-medium text-on-surface">42</span>
+<div class="w-16 h-1.5 bg-surface-container rounded-full mt-1 overflow-hidden">
+<div class="h-full bg-primary" style="width: 42%"></div>
+</div>
+</div>
+</td>
+<td class="px-8 py-5 text-right">
+<div class="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-2 text-on-surface-variant hover:text-primary transition-colors"><span class="material-symbols-outlined" data-icon="edit">edit</span></button>
+<button class="p-2 text-on-surface-variant hover:text-error transition-colors"><span class="material-symbols-outlined" data-icon="delete">delete</span></button>
+</div>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-lowest transition-colors group">
+<td class="px-8 py-5">
+<div class="flex items-center gap-3">
+<div class="h-10 w-10 rounded-lg bg-surface-container flex items-center justify-center">
+<span class="material-symbols-outlined text-secondary" data-icon="set_meal">set_meal</span>
+</div>
+<div>
+<p class="font-body-lg text-body-lg font-medium text-on-surface">Royal Canine Dry Food</p>
+<span class="text-xs text-on-surface-variant">SKU: FOOD-K9-LRG</span>
+</div>
+</div>
+</td>
+<td class="px-8 py-5">
+<span class="bg-secondary-fixed text-on-secondary-fixed-variant text-xs font-bold px-3 py-1 rounded-full">Retail</span>
+</td>
+<td class="px-8 py-5 text-right font-body-lg text-body-lg text-on-surface">$89.00</td>
+<td class="px-8 py-5 text-center">
+<div class="flex flex-col items-center">
+<span class="font-medium text-error font-bold">8</span>
+<div class="w-16 h-1.5 bg-surface-container rounded-full mt-1 overflow-hidden">
+<div class="h-full bg-error" style="width: 15%"></div>
+</div>
+</div>
+</td>
+<td class="px-8 py-5 text-right">
+<div class="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-2 text-on-surface-variant hover:text-primary transition-colors"><span class="material-symbols-outlined" data-icon="edit">edit</span></button>
+<button class="p-2 text-on-surface-variant hover:text-error transition-colors"><span class="material-symbols-outlined" data-icon="delete">delete</span></button>
+</div>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-lowest transition-colors group">
+<td class="px-8 py-5">
+<div class="flex items-center gap-3">
+<div class="h-10 w-10 rounded-lg bg-surface-container flex items-center justify-center">
+<span class="material-symbols-outlined text-tertiary" data-icon="soap">soap</span>
+</div>
+<div>
+<p class="font-body-lg text-body-lg font-medium text-on-surface">Medicated Pet Shampoo</p>
+<span class="text-xs text-on-surface-variant">SKU: GROOM-04-MED</span>
+</div>
+</div>
+</td>
+<td class="px-8 py-5">
+<span class="bg-tertiary-fixed text-on-tertiary-fixed-variant text-xs font-bold px-3 py-1 rounded-full">Grooming</span>
+</td>
+<td class="px-8 py-5 text-right font-body-lg text-body-lg text-on-surface">$18.50</td>
+<td class="px-8 py-5 text-center">
+<div class="flex flex-col items-center">
+<span class="font-medium text-on-surface">125</span>
+<div class="w-16 h-1.5 bg-surface-container rounded-full mt-1 overflow-hidden">
+<div class="h-full bg-tertiary" style="width: 80%"></div>
+</div>
+</div>
+</td>
+<td class="px-8 py-5 text-right">
+<div class="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-2 text-on-surface-variant hover:text-primary transition-colors"><span class="material-symbols-outlined" data-icon="edit">edit</span></button>
+<button class="p-2 text-on-surface-variant hover:text-error transition-colors"><span class="material-symbols-outlined" data-icon="delete">delete</span></button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<!-- Adoption Gallery Management -->
+<section class="space-y-6">
+<div class="flex justify-between items-end">
+<div>
+<h3 class="font-title-lg text-title-lg text-on-surface">Adoption Gallery</h3>
+<p class="text-body-md text-on-surface-variant">Showcase and manage pets looking for their forever homes.</p>
+</div>
+<button class="flex items-center gap-2 text-primary font-label-md text-label-md hover:underline">
+<span class="material-symbols-outlined" data-icon="upload_file">upload_file</span>
+                        Batch Upload Photos
+                    </button>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-card-gap">
+<!-- Pet Card 1 -->
+<div class="group relative bg-surface-container-lowest rounded-2xl elevation-1 border border-outline-variant overflow-hidden hover:elevation-2 transition-all">
+<div class="aspect-square relative overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="A high-resolution close-up portrait of a joyful Beagle dog in a bright, modern veterinary clinic setting. The lighting is soft and professional, highlighting the dog's warm brown eyes and soft fur. The background is a clean, minimalist off-white with clinical blue accents, reflecting a caring and professional medical environment. The overall mood is cheerful, welcoming, and high-energy." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBlqF3HrSApkmn52g4wD3dLHSizS9Unm1Hi4DGpaI0g395aMFrK1TrSs_JU8fEayMi_qZ5eSnbeqxGW1LurbgGljyqTQscnRQ_nHTXxkaL2VQ2bpmg0f7Xy8rVHCoFHQjASEu8Ybv2eNdPAck4t7Yat5lGuGJdNa9xu9WWpcfLAcuVN2Wug4ltvUhY7IXq8t_tKDc8Lka20lHEb9Tf_g7nT6fLVn-dN2zEliyXv9Zgy44iEetRYk3JB-S7qUr9tcoM2zaDNVOop"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4 justify-between">
+<button class="bg-white/20 backdrop-blur-md p-2 rounded-full text-white hover:bg-white/40 transition-colors">
+<span class="material-symbols-outlined" data-icon="edit">edit</span>
+</button>
+<button class="bg-white/20 backdrop-blur-md p-2 rounded-full text-white hover:bg-error transition-colors">
+<span class="material-symbols-outlined" data-icon="visibility">visibility</span>
+</button>
+</div>
+</div>
+<div class="p-4">
+<div class="flex justify-between items-start">
+<div>
+<h4 class="font-title-lg text-title-lg text-on-surface">Cooper</h4>
+<p class="font-label-md text-label-md text-on-surface-variant">Beagle • 2 Years</p>
+</div>
+<span class="bg-tertiary-container text-on-tertiary-container px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-widest">Active</span>
+</div>
+</div>
+</div>
+<!-- Pet Card 2 -->
+<div class="group relative bg-surface-container-lowest rounded-2xl elevation-1 border border-outline-variant overflow-hidden hover:elevation-2 transition-all">
+<div class="aspect-square relative overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="A sleek black cat with vibrant green eyes sitting elegantly on a white tiled floor of a modern pet adoption center. The lighting is bright and airy, creating a professional and clean atmosphere. Touches of energetic orange accents are visible in the background decor. The cat appears calm and expert-like, looking directly into the lens with a sense of dignity and readiness for a new home." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD6ItSvoL-RsFKqwzs7LmvVCs8kp65L5a6CgP267-W05_k90PF47wF7db6VNjIDIICVMZE1lGDJxu1r9deToSlMvu6EqoH_wI3PqEdMfRkXeEDEUtPD5zVkDZMCxxgH2oEmNrmyhnsIeoMvS_zWGfC3rc7JGN0z2Tk8ptW-CJ9czdU6FntcH_8w2WzrI3iSsYFS1sonqWEmKHdmhl825TCeONj8U4hBey0p35d8oK-zPzllteMvuoSlDoc27rPqUdVbPPUbAF0L"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4 justify-between">
+<button class="bg-white/20 backdrop-blur-md p-2 rounded-full text-white hover:bg-white/40 transition-colors">
+<span class="material-symbols-outlined" data-icon="edit">edit</span>
+</button>
+<button class="bg-white/20 backdrop-blur-md p-2 rounded-full text-white hover:bg-white/40 transition-colors">
+<span class="material-symbols-outlined" data-icon="visibility">visibility</span>
+</button>
+</div>
+</div>
+<div class="p-4">
+<div class="flex justify-between items-start">
+<div>
+<h4 class="font-title-lg text-title-lg text-on-surface">Luna</h4>
+<p class="font-label-md text-label-md text-on-surface-variant">Persian • 1 Year</p>
+</div>
+<span class="bg-secondary-container text-on-secondary-container px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-widest">Pending</span>
+</div>
+</div>
+</div>
+<!-- Pet Card 3 -->
+<div class="group relative bg-surface-container-lowest rounded-2xl elevation-1 border border-outline-variant overflow-hidden hover:elevation-2 transition-all">
+<div class="aspect-square relative overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="A fluffy white Pomeranian puppy sitting on a soft light blue blanket within a high-end pet boutique setting. The lighting is warm and joyful, highlighting the soft texture of the puppy's fur. The surrounding environment features professional clinical precision with modern tactile surfaces. The overall aesthetic is one of calm expertise and luxurious pet care." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDIkC9PtNPC0-qx3yDu-WIovPhueaU7ti-AbYBuKhMfBUozD6TgfH5fYoVD1OoUdjokRm7-qrDVX38rEehsn2lNU3g-qgKYs3AUQO7hQf9hqISJ3Ykr7CcegyDWy8r2F1tl0yC1mfwWpJF1VhO2xnWMt2jCbRaI3j5JysxnQRXO6CHMK4Fvh6fUFJ6NzMmA5QW8dTJCvOmQjQoO4eh-3ZRTdQaxA5xXrkR3og7yBjR1MT3tWZ5EhDe8u3qawsDpGqEoR169b-WB"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4 justify-between">
+<button class="bg-white/20 backdrop-blur-md p-2 rounded-full text-white hover:bg-white/40 transition-colors">
+<span class="material-symbols-outlined" data-icon="edit">edit</span>
+</button>
+<button class="bg-white/20 backdrop-blur-md p-2 rounded-full text-white hover:bg-white/40 transition-colors">
+<span class="material-symbols-outlined" data-icon="visibility">visibility</span>
+</button>
+</div>
+</div>
+<div class="p-4">
+<div class="flex justify-between items-start">
+<div>
+<h4 class="font-title-lg text-title-lg text-on-surface">Snowy</h4>
+<p class="font-label-md text-label-md text-on-surface-variant">Pomeranian • 6 Months</p>
+</div>
+<span class="bg-tertiary-container text-on-tertiary-container px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-widest">Active</span>
+</div>
+</div>
+</div>
+<!-- Add New Pet Card (Dotted) -->
+<div class="group relative bg-surface-container-low rounded-2xl border-2 border-dashed border-outline hover:border-primary transition-all flex flex-col items-center justify-center p-8 cursor-pointer min-h-[240px]">
+<div class="h-16 w-16 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-[32px]" data-icon="add_a_photo">add_a_photo</span>
+</div>
+<p class="font-title-lg text-title-lg text-primary">New Admission</p>
+<p class="text-body-md text-on-surface-variant text-center mt-2 px-4">Upload a profile for a new adoptable pet.</p>
+</div>
+</div>
+</section>
+</div>
+</main>
+<!-- Bottom Navigation (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 left-0 right-0 bg-surface h-16 flex items-center justify-around z-50 shadow-[0_-4px_10px_rgba(0,0,0,0.05)]">
+<button class="flex flex-col items-center text-primary">
+<span class="material-symbols-outlined" data-icon="inventory_2" style="font-variation-settings: 'FILL' 1;">inventory_2</span>
+<span class="text-[10px] font-bold">Inventory</span>
+</button>
+<button class="flex flex-col items-center text-on-surface-variant">
+<span class="material-symbols-outlined" data-icon="medical_services">medical_services</span>
+<span class="text-[10px]">Medical</span>
+</button>
+<button class="flex flex-col items-center text-on-surface-variant">
+<span class="material-symbols-outlined" data-icon="calendar_month">calendar_month</span>
+<span class="text-[10px]">Schedule</span>
+</button>
+<button class="flex flex-col items-center text-on-surface-variant">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+<span class="text-[10px]">CRM</span>
+</button>
+</nav>
+<script>
+        // Micro-interactions for table rows
+        document.querySelectorAll('tbody tr').forEach(row => {
+            row.addEventListener('click', () => {
+                // Future implementation: Open detail view
+                console.log('Row clicked');
+            });
+        });
+
+        // Hover animation for pet cards
+        const petCards = document.querySelectorAll('.group');
+        petCards.forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.style.transform = 'translateY(-4px)';
+            });
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'translateY(0)';
+            });
+        });
+    </script>
+</body></html>

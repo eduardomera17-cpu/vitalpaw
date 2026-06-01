@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>VitalPaw Medical Records | Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind Configuration -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "inverse-surface": "#2d3133",
+                    "inverse-on-surface": "#eff1f3",
+                    "secondary-fixed": "#ffdcbc",
+                    "error": "#ba1a1a",
+                    "inverse-primary": "#83cfff",
+                    "surface-dim": "#d8dadc",
+                    "surface-container": "#eceef0",
+                    "tertiary-fixed-dim": "#4fdbcc",
+                    "surface": "#f7f9fb",
+                    "secondary": "#895100",
+                    "primary-fixed": "#c6e7ff",
+                    "on-surface": "#191c1e",
+                    "on-secondary-fixed": "#2c1700",
+                    "on-primary-container": "#003952",
+                    "tertiary-fixed": "#70f8e8",
+                    "on-secondary-fixed-variant": "#683d00",
+                    "surface-container-low": "#f2f4f6",
+                    "on-secondary-container": "#663b00",
+                    "primary": "#00658d",
+                    "outline": "#6e7881",
+                    "background": "#f7f9fb",
+                    "on-tertiary-fixed-variant": "#005049",
+                    "outline-variant": "#bdc8d1",
+                    "on-primary": "#ffffff",
+                    "secondary-container": "#fd9d1a",
+                    "on-secondary": "#ffffff",
+                    "primary-container": "#00a8e8",
+                    "on-error-container": "#93000a",
+                    "on-tertiary-fixed": "#00201d",
+                    "tertiary-container": "#00b0a3",
+                    "on-background": "#191c1e",
+                    "tertiary": "#006a62",
+                    "secondary-fixed-dim": "#ffb86b",
+                    "surface-tint": "#00658d",
+                    "on-error": "#ffffff",
+                    "on-primary-fixed": "#001e2d",
+                    "surface-variant": "#e0e3e5",
+                    "surface-bright": "#f7f9fb",
+                    "error-container": "#ffdad6",
+                    "surface-container-high": "#e6e8ea",
+                    "on-tertiary": "#ffffff",
+                    "on-surface-variant": "#3e4850",
+                    "on-primary-fixed-variant": "#004c6b",
+                    "surface-container-highest": "#e0e3e5",
+                    "on-tertiary-container": "#003c37",
+                    "surface-container-lowest": "#ffffff",
+                    "primary-fixed-dim": "#83cfff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "unit": "8px",
+                    "container-padding-mobile": "16px",
+                    "section-margin": "40px",
+                    "gutter": "16px",
+                    "card-gap": "20px",
+                    "container-padding-desktop": "32px"
+            },
+            "fontFamily": {
+                    "label-md": ["Plus Jakarta Sans"],
+                    "headline-lg": ["Quicksand"],
+                    "title-lg": ["Quicksand"],
+                    "display-lg": ["Quicksand"],
+                    "body-md": ["Plus Jakarta Sans"],
+                    "body-lg": ["Plus Jakarta Sans"],
+                    "label-sm": ["Plus Jakarta Sans"]
+            },
+            "fontSize": {
+                    "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.5px", "fontWeight": "600"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
+                    "title-lg": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "label-sm": ["10px", {"lineHeight": "12px", "letterSpacing": "1px", "fontWeight": "700"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .timeline-line {
+            background-image: linear-gradient(to bottom, transparent 50%, #00658d 50%);
+            background-size: 2px 12px;
+            background-repeat: repeat-y;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-md overflow-hidden">
+<!-- Side Navigation Bar -->
+<nav class="h-full w-64 fixed left-0 top-0 flex flex-col bg-surface border-r border-outline-variant shadow-sm z-50 p-4 gap-2">
+<div class="flex items-center gap-3 px-2 mb-8">
+<div class="w-10 h-10 rounded-xl bg-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-on-primary" data-icon="pets">pets</span>
+</div>
+<div>
+<h1 class="font-headline-lg text-headline-lg font-bold text-primary">VitalPaw</h1>
+<p class="font-label-md text-label-md text-on-surface-variant">Management Pro</p>
+</div>
+</div>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high transition-colors rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="font-label-md text-label-md">Home</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high transition-colors rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="calendar_today">calendar_today</span>
+<span class="font-label-md text-label-md">Agenda</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 bg-primary-container text-on-primary-container rounded-lg font-bold shadow-sm" href="#">
+<span class="material-symbols-outlined" data-icon="medical_services" style="font-variation-settings: 'FILL' 1;">medical_services</span>
+<span class="font-label-md text-label-md">Medical Records</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high transition-colors rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="storefront">storefront</span>
+<span class="font-label-md text-label-md">Marketplace</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high transition-colors rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="font-label-md text-label-md">Profile</span>
+</a>
+<div class="mt-auto p-4 bg-surface-container-low rounded-xl flex items-center gap-3">
+<img alt="Veterinarian Profile" class="w-10 h-10 rounded-full object-cover" data-alt="A professional close-up of a friendly male veterinarian in a clean white medical coat. He has a warm, confident smile and is set against a soft, out-of-focus clinic background with gentle clinical blue and warm wood tones. The lighting is bright and professional, emphasizing expertise and compassionate care." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAwsCeyCvlxZxkbDS5oAakGJMsJTeEruVO-ntgXGpOT5LP0KbvuwWbBF6tCUDQQxA2hjxktEa4uyvbeTfIZpzyR2usfFJfK1M0oxTFb9IB1dfaAVptjbYpOuBrSAg9dR0VQmaOUeoEf5cVkYrZLHFpqWm_HnKJMRSHXEHsZNhULWZy94zu8xg_tksKMRd2bqKCT440iBv0vW9uyGMCcdupTPG8qdCzW1yn88gW4CY5qNfNKxGL-6Sd39nq8iiegH-gBlNaGWTre"/>
+<div class="overflow-hidden">
+<p class="font-label-md text-label-md font-bold truncate">Dr. Julian Vance</p>
+<p class="text-[10px] text-on-surface-variant uppercase tracking-wider font-bold">Senior Vet</p>
+</div>
+</div>
+</nav>
+<!-- Main Content Area -->
+<main class="ml-64 flex flex-col h-screen overflow-hidden">
+<!-- Top Navigation Bar -->
+<header class="sticky top-0 w-full z-40 bg-surface-container border-b border-outline-variant shadow-sm flex justify-between items-center h-16 px-6">
+<div class="flex items-center gap-4 flex-1">
+<div class="relative w-64">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant scale-75" data-icon="search">search</span>
+<input class="w-full bg-surface-container-lowest border-none rounded-full py-2 pl-10 pr-4 text-sm focus:ring-2 focus:ring-primary" placeholder="Search records..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 hover:bg-surface-variant rounded-full transition-colors active:scale-90 duration-150">
+<span class="material-symbols-outlined" data-icon="sync">sync</span>
+</button>
+<button class="p-2 hover:bg-surface-variant rounded-full transition-colors active:scale-90 relative">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-secondary rounded-full"></span>
+</button>
+<button class="p-2 hover:bg-surface-variant rounded-full transition-colors active:scale-90">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+</button>
+</div>
+</header>
+<!-- Scrollable Content Canvas -->
+<div class="flex-1 overflow-y-auto p-8 space-y-8">
+<!-- Pet Hero Header -->
+<section class="flex flex-col md:flex-row gap-8 items-start">
+<div class="flex items-center gap-6 flex-1">
+<div class="relative">
+<div class="w-32 h-32 rounded-3xl overflow-hidden border-4 border-white shadow-lg">
+<img alt="Max the Golden Retriever" class="w-full h-full object-cover" data-alt="A high-resolution, vibrant portrait of a beautiful Golden Retriever named Max. He is sitting outdoors in a sun-drenched park with lush green grass and soft, golden-hour light illuminating his coat. The mood is joyful and full of energy, with a clean, cinematic depth of field that highlights his friendly expression and bright eyes." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAt7X6QeOu4RmxU_dfW--9d1zjO7AykEss6qW2ULHwxuq0ZszinXCtMdAsYkMq7w-9IppxCT6SZ42wl_-4ees-ou6Q3-EiBgRXhMt9REOW2wpz__ANEkCCwGNNYP2CNpC-ExiYOjP6g-IMB-0CjDqtP0zlGv4rsPoQYmewzgyzl2ZNt2qQjrGQY_ARs-UhlBHc3Pe2Z8LwCNW3UBqmkYkaTsbAgPjPGlKfRaP7V115Pfnandi_zsC8g1-Pphc3ZN0irk36Z-bXf"/>
+</div>
+<div class="absolute -bottom-2 -right-2 bg-primary-container p-2 rounded-xl shadow-md">
+<span class="material-symbols-outlined text-on-primary-container" data-icon="dog">pets</span>
+</div>
+</div>
+<div>
+<div class="flex items-center gap-3 mb-1">
+<h2 class="font-headline-lg text-headline-lg text-on-surface">Max</h2>
+<span class="px-3 py-1 bg-secondary-fixed text-on-secondary-fixed rounded-full font-label-md text-label-md">Golden Retriever</span>
+</div>
+<p class="font-body-lg text-body-lg text-on-surface-variant flex items-center gap-2">
+<span class="material-symbols-outlined text-primary scale-75" data-icon="location_on">location_on</span>
+                            Bayview Highlands • ID: #VP-90210
+                        </p>
+<div class="flex gap-4 mt-4">
+<div class="bg-surface-container-low px-4 py-2 rounded-2xl">
+<p class="text-[10px] text-on-surface-variant uppercase font-bold tracking-widest">Weight</p>
+<p class="font-title-lg text-title-lg text-primary">32.4 <span class="text-sm font-normal">kg</span></p>
+</div>
+<div class="bg-surface-container-low px-4 py-2 rounded-2xl">
+<p class="text-[10px] text-on-surface-variant uppercase font-bold tracking-widest">Age</p>
+<p class="font-title-lg text-title-lg text-primary">4.2 <span class="text-sm font-normal">yrs</span></p>
+</div>
+<div class="bg-surface-container-low px-4 py-2 rounded-2xl">
+<p class="text-[10px] text-on-surface-variant uppercase font-bold tracking-widest">Vitals</p>
+<div class="flex items-center gap-2 text-primary font-bold">
+<span class="material-symbols-outlined text-tertiary" data-icon="favorite" style="font-variation-settings: 'FILL' 1;">favorite</span>
+<span>Stable</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="flex flex-col gap-2 w-full md:w-auto">
+<button class="bg-primary text-on-primary font-label-md text-label-md px-6 py-3 rounded-xl flex items-center justify-center gap-2 shadow-md hover:shadow-lg hover:bg-on-primary-fixed-variant transition-all transform active:scale-95">
+<span class="material-symbols-outlined" data-icon="add">add</span>
+                        New Record
+                    </button>
+<button class="border border-outline text-on-surface font-label-md text-label-md px-6 py-3 rounded-xl flex items-center justify-center gap-2 hover:bg-surface-variant transition-all">
+<span class="material-symbols-outlined" data-icon="share">share</span>
+                        Share Profile
+                    </button>
+</div>
+</section>
+<!-- Main Layout Grid -->
+<div class="grid grid-cols-12 gap-8 items-start">
+<!-- Left: Clinical Timeline -->
+<div class="col-span-12 lg:col-span-8 space-y-6 relative">
+<!-- Conflict Warning Banner -->
+<div class="bg-error-container text-on-error-container p-4 rounded-2xl flex items-center gap-4 shadow-sm border border-error/20">
+<div class="bg-error p-2 rounded-xl text-on-error">
+<span class="material-symbols-outlined" data-icon="warning">warning</span>
+</div>
+<div class="flex-1">
+<h4 class="font-label-md text-label-md font-bold uppercase tracking-tight">Sync Conflict Detected</h4>
+<p class="font-body-md text-body-md opacity-90">Duplicate records found for 'Weight Tracking'. Merge required to maintain data integrity.</p>
+</div>
+<button class="bg-on-error-container text-error-container px-4 py-2 rounded-lg font-label-md text-label-md hover:opacity-90 transition-opacity">Resolve</button>
+</div>
+<div class="relative pl-12 pt-4">
+<!-- Vertical Timeline Line -->
+<div class="absolute left-[23px] top-0 bottom-0 w-0.5 timeline-line opacity-20"></div>
+<!-- Timeline Item 1: Synced -->
+<div class="relative mb-12">
+<div class="absolute -left-12 top-0 w-12 h-12 flex items-center justify-center">
+<div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center shadow-md z-10">
+<span class="material-symbols-outlined text-on-primary scale-75" data-icon="vaccines" style="font-variation-settings: 'FILL' 1;">vaccines</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-2xl shadow-sm border border-outline-variant hover:shadow-md transition-shadow group">
+<div class="flex justify-between items-start mb-4">
+<div>
+<div class="flex items-center gap-3 mb-1">
+<h3 class="font-title-lg text-title-lg text-on-surface">Rabies Annual Booster</h3>
+<span class="px-2 py-0.5 bg-tertiary-container text-on-tertiary-container rounded text-[10px] font-bold uppercase tracking-widest">Vaccine</span>
+</div>
+<p class="font-label-md text-label-md text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined scale-50" data-icon="calendar_month">calendar_month</span>
+                                            October 12, 2023 • Dr. Vance
+                                        </p>
+</div>
+<!-- Synced Status -->
+<div class="flex items-center gap-2 bg-[#e8f5e9] text-[#2e7d32] px-3 py-1 rounded-full text-[11px] font-bold">
+<span class="material-symbols-outlined text-[14px]" data-icon="check_circle" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                                        Synced
+                                    </div>
+</div>
+<div class="bg-surface-container-low p-4 rounded-xl">
+<p class="font-body-md text-body-md italic text-on-surface-variant">"Standard annual rabies vaccination administered. Patient was calm. No adverse reactions observed during the 15-minute wait period."</p>
+</div>
+<div class="flex gap-2 mt-4 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="text-primary font-label-md text-label-md hover:underline">View Certificate</button>
+<span class="text-outline-variant">•</span>
+<button class="text-primary font-label-md text-label-md hover:underline">Edit Entry</button>
+</div>
+</div>
+</div>
+<!-- Timeline Item 2: Pending -->
+<div class="relative mb-12">
+<div class="absolute -left-12 top-0 w-12 h-12 flex items-center justify-center">
+<div class="w-8 h-8 rounded-full bg-secondary flex items-center justify-center shadow-md z-10">
+<span class="material-symbols-outlined text-on-secondary scale-75" data-icon="stethoscope">stethoscope</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-2xl shadow-sm border border-outline-variant hover:shadow-md transition-shadow group border-l-4 border-l-secondary-container">
+<div class="flex justify-between items-start mb-4">
+<div>
+<div class="flex items-center gap-3 mb-1">
+<h3 class="font-title-lg text-title-lg text-on-surface">Mild Otitis Externa</h3>
+<span class="px-2 py-0.5 bg-secondary-fixed text-on-secondary-fixed rounded text-[10px] font-bold uppercase tracking-widest">Diagnosis</span>
+</div>
+<p class="font-label-md text-label-md text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined scale-50" data-icon="calendar_month">calendar_month</span>
+                                            October 28, 2023 • Emergency Clinic
+                                        </p>
+</div>
+<!-- Pending Status -->
+<div class="flex items-center gap-2 bg-[#fff8e1] text-[#f57f17] px-3 py-1 rounded-full text-[11px] font-bold border border-secondary-container/30">
+<span class="material-symbols-outlined text-[14px] animate-spin" data-icon="sync">sync</span>
+                                        Syncing...
+                                    </div>
+</div>
+<div class="flex items-center gap-3 p-3 bg-surface border border-outline-variant/30 rounded-xl mb-3">
+<div class="w-10 h-10 rounded-lg bg-surface-variant flex items-center justify-center">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="medical_information">medical_information</span>
+</div>
+<div>
+<p class="font-label-md text-label-md font-bold">Treatment Plan Attached</p>
+<p class="text-[10px] text-on-surface-variant">Otisoothe Drops • 2x Daily • 7 Days</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Timeline Item 3: Conflict -->
+<div class="relative">
+<div class="absolute -left-12 top-0 w-12 h-12 flex items-center justify-center">
+<div class="w-8 h-8 rounded-full bg-error flex items-center justify-center shadow-md z-10">
+<span class="material-symbols-outlined text-on-error scale-75" data-icon="monitor_weight" style="font-variation-settings: 'FILL' 1;">monitor_weight</span>
+</div>
+</div>
+<div class="bg-error-container/20 p-6 rounded-2xl shadow-sm border-2 border-dashed border-error/40 group">
+<div class="flex justify-between items-start mb-4">
+<div>
+<div class="flex items-center gap-3 mb-1">
+<h3 class="font-title-lg text-title-lg text-error">Weight Tracking</h3>
+<span class="px-2 py-0.5 bg-error text-on-error rounded text-[10px] font-bold uppercase tracking-widest">Conflict</span>
+</div>
+<p class="font-label-md text-label-md text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined scale-50" data-icon="calendar_month">calendar_month</span>
+                                            November 02, 2023 • Multiple Devices
+                                        </p>
+</div>
+<button class="bg-error text-on-error px-4 py-1.5 rounded-lg text-[11px] font-bold shadow-sm">Solve Conflict</button>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div class="p-3 bg-surface-container-lowest rounded-xl border border-error/10 opacity-60">
+<p class="text-[9px] uppercase font-bold text-on-surface-variant">Local Entry</p>
+<p class="font-title-lg text-title-lg text-on-surface">32.4 kg</p>
+</div>
+<div class="p-3 bg-white rounded-xl border border-error shadow-sm relative overflow-hidden">
+<div class="absolute top-0 right-0 p-1 bg-error text-on-error text-[8px] font-bold">LATEST</div>
+<p class="text-[9px] uppercase font-bold text-error">Cloud Entry</p>
+<p class="font-title-lg text-title-lg text-on-surface">32.6 kg</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Right: Pet Stats & Activity -->
+<div class="col-span-12 lg:col-span-4 space-y-8">
+<!-- Health Score Bento Card -->
+<div class="glass-card p-6 rounded-[2rem] shadow-lg relative overflow-hidden">
+<div class="absolute -top-10 -right-10 w-40 h-40 bg-primary/5 rounded-full blur-3xl"></div>
+<div class="relative z-10">
+<h4 class="font-title-lg text-title-lg mb-6 flex items-center justify-between">
+                                Health Vitality
+                                <span class="material-symbols-outlined text-tertiary" data-icon="insights">insights</span>
+</h4>
+<div class="flex justify-center mb-6">
+<div class="relative w-32 h-32">
+<svg class="w-full h-full" viewbox="0 0 36 36">
+<path d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="#e0e3e5" stroke-dasharray="100, 100" stroke-width="3"></path>
+<path class="transition-all duration-1000 ease-out" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="#00b0a3" stroke-dasharray="88, 100" stroke-linecap="round" stroke-width="3"></path>
+</svg>
+<div class="absolute inset-0 flex flex-col items-center justify-center">
+<span class="font-display-lg text-[28px] text-tertiary">88</span>
+<span class="text-[10px] font-bold text-on-surface-variant -mt-2">OPTIMAL</span>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-2">
+<div class="p-3 bg-surface-container rounded-2xl">
+<p class="text-[10px] font-bold text-on-surface-variant uppercase">Exercise</p>
+<p class="font-bold text-primary">High</p>
+</div>
+<div class="p-3 bg-surface-container rounded-2xl">
+<p class="text-[10px] font-bold text-on-surface-variant uppercase">Diet</p>
+<p class="font-bold text-primary">Regular</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Reminders Card -->
+<div class="bg-surface-container-highest p-6 rounded-[2rem] shadow-sm">
+<h4 class="font-title-lg text-title-lg mb-4">Upcoming Care</h4>
+<div class="space-y-4">
+<div class="flex items-center gap-4 bg-surface-container-lowest p-3 rounded-2xl border border-outline-variant/30">
+<div class="bg-primary-container p-2 rounded-xl">
+<span class="material-symbols-outlined text-on-primary-container" data-icon="bug_report">bug_report</span>
+</div>
+<div>
+<p class="font-label-md text-label-md font-bold">NexGard Flea/Tick</p>
+<p class="text-[10px] text-on-surface-variant">Due in 3 days • Nov 15</p>
+</div>
+</div>
+<div class="flex items-center gap-4 bg-surface-container-lowest p-3 rounded-2xl border border-outline-variant/30">
+<div class="bg-secondary-fixed p-2 rounded-xl">
+<span class="material-symbols-outlined text-on-secondary-fixed" data-icon="cut">cut</span>
+</div>
+<div>
+<p class="font-label-md text-label-md font-bold">Grooming Session</p>
+<p class="text-[10px] text-on-surface-variant">Scheduled • Nov 22</p>
+</div>
+</div>
+</div>
+<button class="w-full mt-6 py-3 border border-dashed border-outline text-on-surface-variant rounded-2xl font-label-md text-label-md hover:bg-surface-variant transition-colors">
+                            Add Custom Reminder
+                        </button>
+</div>
+<!-- Marketplace Promo -->
+<div class="bg-primary-container rounded-[2rem] p-6 text-on-primary-container relative overflow-hidden group">
+<div class="absolute -right-4 -bottom-4 w-24 h-24 rotate-12 opacity-20 transition-transform group-hover:scale-110">
+<span class="material-symbols-outlined text-[96px]" data-icon="shopping_bag">shopping_bag</span>
+</div>
+<h4 class="font-title-lg text-title-lg mb-2">Refill Prescription</h4>
+<p class="text-[11px] mb-4 opacity-90">Your Otisoothe drops are running low. Order today for free 24h delivery.</p>
+<button class="bg-on-primary-container text-primary-container px-4 py-2 rounded-xl font-bold text-xs shadow-md">
+                            Shop Now
+                        </button>
+</div>
+</div>
+</div>
+</div>
+<!-- Offline/Sync Bar -->
+<div class="bg-surface-dim/80 backdrop-blur-sm px-6 py-2 flex items-center justify-between border-t border-outline-variant/20">
+<div class="flex items-center gap-2 text-on-surface-variant">
+<span class="w-2 h-2 bg-tertiary rounded-full"></span>
+<span class="text-[10px] font-bold uppercase tracking-widest">Local Mode - Changes will sync later</span>
+</div>
+<div class="flex items-center gap-4 text-[10px] font-bold text-on-surface-variant">
+<span>Last Sync: 2m ago</span>
+<span class="px-2 py-0.5 bg-outline-variant rounded">v2.4.1</span>
+</div>
+</div>
+</main>
+<!-- Floating Action Button for Tasks -->
+<div class="fixed bottom-8 right-8 flex flex-col items-end gap-3">
+<button class="bg-secondary-container text-on-secondary-container w-14 h-14 rounded-2xl shadow-xl flex items-center justify-center hover:scale-110 active:scale-95 transition-all group">
+<span class="material-symbols-outlined text-[28px]" data-icon="add">add</span>
+<span class="absolute right-full mr-4 bg-inverse-surface text-inverse-on-surface px-3 py-1 rounded-lg text-xs font-bold opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap shadow-md">New Event</span>
+</button>
+</div>
+<script>
+        // Micro-interactions and subtle effects
+        document.querySelectorAll('.active\\:scale-90').forEach(btn => {
+            btn.addEventListener('mousedown', () => {
+                btn.classList.add('scale-90');
+            });
+            btn.addEventListener('mouseup', () => {
+                btn.classList.remove('scale-90');
+            });
+            btn.addEventListener('mouseleave', () => {
+                btn.classList.remove('scale-90');
+            });
+        });
+
+        // Simple sync simulation
+        const syncBadge = document.querySelector('.animate-spin');
+        if (syncBadge) {
+            setTimeout(() => {
+                syncBadge.classList.remove('animate-spin');
+                syncBadge.textContent = 'check_circle';
+                syncBadge.parentElement.classList.remove('bg-[#fff8e1]', 'text-[#f57f17]');
+                syncBadge.parentElement.classList.add('bg-[#e8f5e9]', 'text-[#2e7d32]');
+                syncBadge.parentElement.innerHTML = '<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: \'FILL\' 1;">check_circle</span> Synced';
+            }, 5000);
+        }
+    </script>
+</body></html>

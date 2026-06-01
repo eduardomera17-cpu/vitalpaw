@@ -1,2 +1,3 @@
-# vitalpaw
-App para Gestion de citas, chat y marketplace de un petshop
+# pet_shop
+
+A new Flutter project.

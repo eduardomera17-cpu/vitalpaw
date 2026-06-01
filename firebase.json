@@ -1,0 +1,44 @@
+{
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "petshop-eduardo",
+          "appId": "1:1094142334808:android:90f8fe8030c2fa390d372d",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "petshop-eduardo",
+          "configurations": {
+            "android": "1:1094142334808:android:90f8fe8030c2fa390d372d",
+            "ios": "1:1094142334808:ios:5a4e66f52f3c5ed80d372d",
+            "macos": "1:1094142334808:ios:5a4e66f52f3c5ed80d372d",
+            "web": "1:1094142334808:web:d3f8ab25c49a5f4a0d372d",
+            "windows": "1:1094142334808:web:2c34aa126a4ed3200d372d"
+          }
+        }
+      }
+    }
+  },
+  "storage": {
+    "rules": "storage.rules"
+  },
+  "firestore": {
+    "rules": "firestore.rules"
+  },
+  "functions": [
+    {
+      "source": "functions",
+      "codebase": "default",
+      "ignore": [
+        "node_modules",
+        ".git",
+        "firebase-debug.log",
+        "firebase-debug.*.log",
+        "*.local"
+      ]
+    }
+  ]
+}

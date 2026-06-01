@@ -1,0 +1,164 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ═══════════════════════════════════════════
+    // FUNCIONES HELPER
+    // ═══════════════════════════════════════════
+
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function hasRole(role) {
+      return isAuthenticated() && (
+        request.auth.token.role == role ||
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == role
+      );
+    }
+
+    function isStaffOrAdmin() {
+      return hasRole('admin') || hasRole('staff');
+    }
+
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    // ═══════════════════════════════════════════
+    // USUARIOS
+    // ═══════════════════════════════════════════
+
+    match /users/{userId} {
+      allow read: if isAuthenticated() && (isOwner(userId) || isStaffOrAdmin());
+      allow create: if isAuthenticated() && isOwner(userId);
+      allow update: if isAuthenticated() && (isOwner(userId) || isStaffOrAdmin());
+      allow delete: if false; // Nunca borrar — usar soft delete
+    }
+
+    // ═══════════════════════════════════════════
+    // MASCOTAS
+    // ═══════════════════════════════════════════
+
+    match /pets/{petId} {
+      allow read: if isAuthenticated();
+      allow create: if isAuthenticated();
+      allow update: if isAuthenticated() && (
+        // El dueño solo puede cambiar nombre y foto
+        isOwner(resource.data.ownerId) || isStaffOrAdmin()
+      );
+      allow delete: if isStaffOrAdmin();
+    }
+
+    // ═══════════════════════════════════════════
+    // HISTORIAL CLÍNICO — Solo staff/admin escribe
+    // ═══════════════════════════════════════════
+
+    match /medical_records/{recordId} {
+      allow read: if isAuthenticated() && (
+        isStaffOrAdmin() ||
+        isOwner(resource.data.petOwnerId)
+      );
+      allow create, update: if isStaffOrAdmin();
+      allow delete: if false;
+    }
+
+    // ═══════════════════════════════════════════
+    // CITAS / APPOINTMENTS
+    // ═══════════════════════════════════════════
+
+    match /appointments/{appId} {
+      allow read: if isAuthenticated();
+      allow create: if isAuthenticated();
+      allow update: if isAuthenticated() && (
+        isOwner(resource.data.clientId) || isStaffOrAdmin()
+      );
+      allow delete: if isStaffOrAdmin();
+    }
+
+    // ═══════════════════════════════════════════
+    // PEDIDOS / ORDERS
+    // ═══════════════════════════════════════════
+
+    match /orders/{orderId} {
+      allow read: if isAuthenticated() && (
+        isOwner(resource.data.userId) || isStaffOrAdmin()
+      );
+      allow create: if isAuthenticated();
+      allow update: if isStaffOrAdmin();
+      allow delete: if false;
+    }
+
+    // ═══════════════════════════════════════════
+    // PRODUCTOS / INVENTARIO
+    // ═══════════════════════════════════════════
+
+    match /products/{productId} {
+      allow read: if true; // Catálogo público
+      allow create, update, delete: if isStaffOrAdmin();
+    }
+
+    // ═══════════════════════════════════════════
+    // SERVICIOS
+    // ═══════════════════════════════════════════
+
+    match /services/{serviceId} {
+      allow read: if true; // Catálogo público
+      allow create, update, delete: if isStaffOrAdmin();
+    }
+
+    // ═══════════════════════════════════════════
+    // ANIMAL LISTINGS (Adopción/Venta)
+    // ═══════════════════════════════════════════
+
+    match /animal_listings/{listingId} {
+      allow read: if true; // Listado público
+      allow create, update, delete: if isStaffOrAdmin();
+    }
+
+    // ═══════════════════════════════════════════
+    // SOLICITUDES DE ADOPCIÓN
+    // ═══════════════════════════════════════════
+
+    match /adoption_requests/{reqId} {
+      allow read: if isAuthenticated() && (
+        isOwner(resource.data.userId) || isStaffOrAdmin()
+      );
+      allow create: if isAuthenticated();
+      allow update: if isStaffOrAdmin();
+      allow delete: if false;
+    }
+
+    // ═══════════════════════════════════════════
+    // CHAT
+    // ═══════════════════════════════════════════
+
+    match /chats/{roomId} {
+      allow read: if isAuthenticated() && (
+        isStaffOrAdmin() || isOwner(roomId) // Ojo: roomId debe ser el userId del cliente
+      );
+      allow write: if isAuthenticated() && (
+        isStaffOrAdmin() || isOwner(roomId)
+      );
+
+      match /messages/{messageId} {
+        allow read: if isAuthenticated() && (
+          isStaffOrAdmin() || isOwner(roomId)
+        );
+        allow create: if isAuthenticated() && (
+          isStaffOrAdmin() || isOwner(roomId)
+        ) && request.resource.data.senderId == request.auth.uid;
+        allow update, delete: if false;
+      }
+    }
+
+    // ═══════════════════════════════════════════
+    // RATE LIMITING
+    // ═══════════════════════════════════════════
+
+    match /rate_limits/{docId} {
+      allow read, write: if false; // Solo Cloud Functions
+    }
+
+  }
+}

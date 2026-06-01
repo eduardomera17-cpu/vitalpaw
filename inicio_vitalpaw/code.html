@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>VitalPaw - Home</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-primary": "#ffffff",
+                        "surface-tint": "#00658d",
+                        "on-tertiary-fixed-variant": "#005049",
+                        "tertiary-fixed": "#70f8e8",
+                        "on-secondary-container": "#663b00",
+                        "error-container": "#ffdad6",
+                        "primary": "#00658d",
+                        "on-secondary-fixed-variant": "#683d00",
+                        "on-secondary": "#ffffff",
+                        "on-background": "#191c1e",
+                        "surface": "#f7f9fb",
+                        "on-primary-container": "#003952",
+                        "on-tertiary-fixed": "#00201d",
+                        "secondary-fixed": "#ffdcbc",
+                        "inverse-primary": "#83cfff",
+                        "tertiary-fixed-dim": "#4fdbcc",
+                        "primary-container": "#00a8e8",
+                        "on-surface-variant": "#3e4850",
+                        "surface-container": "#eceef0",
+                        "secondary-container": "#fd9d1a",
+                        "primary-fixed-dim": "#83cfff",
+                        "outline": "#6e7881",
+                        "surface-container-high": "#e6e8ea",
+                        "on-tertiary": "#ffffff",
+                        "tertiary-container": "#00b0a3",
+                        "error": "#ba1a1a",
+                        "on-error-container": "#93000a",
+                        "on-primary-fixed-variant": "#004c6b",
+                        "on-primary-fixed": "#001e2d",
+                        "outline-variant": "#bdc8d1",
+                        "surface-container-lowest": "#ffffff",
+                        "on-surface": "#191c1e",
+                        "on-secondary-fixed": "#2c1700",
+                        "inverse-on-surface": "#eff1f3",
+                        "surface-bright": "#f7f9fb",
+                        "surface-dim": "#d8dadc",
+                        "inverse-surface": "#2d3133",
+                        "surface-variant": "#e0e3e5",
+                        "secondary": "#895100",
+                        "primary-fixed": "#c6e7ff",
+                        "surface-container-low": "#f2f4f6",
+                        "on-error": "#ffffff",
+                        "tertiary": "#006a62",
+                        "surface-container-highest": "#e0e3e5",
+                        "on-tertiary-container": "#003c37",
+                        "background": "#f7f9fb",
+                        "secondary-fixed-dim": "#ffb86b"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "section-margin": "40px",
+                        "container-padding-mobile": "16px",
+                        "container-padding-desktop": "32px",
+                        "unit": "8px",
+                        "card-gap": "20px",
+                        "gutter": "16px"
+                    },
+                    "fontFamily": {
+                        "display-lg": ["Quicksand"],
+                        "headline-lg": ["Quicksand"],
+                        "title-lg": ["Quicksand"],
+                        "headline-lg-mobile": ["Quicksand"],
+                        "body-lg": ["Plus Jakarta Sans"],
+                        "label-md": ["Plus Jakarta Sans"],
+                        "body-md": ["Plus Jakarta Sans"],
+                        "label-sm": ["Plus Jakarta Sans"]
+                    },
+                    "fontSize": {
+                        "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
+                        "title-lg": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                        "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                        "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.5px", "fontWeight": "600"}],
+                        "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "label-sm": ["10px", {"lineHeight": "12px", "letterSpacing": "1px", "fontWeight": "700"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface font-body-md min-h-screen pb-24">
+<!-- TopAppBar -->
+<header class="w-full top-0 sticky bg-surface shadow-sm z-50 flex justify-between items-center px-container-padding-mobile md:px-container-padding-desktop h-16">
+<div class="flex items-center gap-2">
+<span class="font-display-lg text-headline-lg-mobile md:text-headline-lg text-primary tracking-tight">VitalPaw</span>
+</div>
+<div class="flex items-center gap-4">
+<!-- Sync Status Indicator -->
+<div class="flex items-center gap-1 bg-tertiary/10 px-3 py-1 rounded-full">
+<span class="material-symbols-outlined text-[16px] text-tertiary" style="font-variation-settings: 'FILL' 1;">sync</span>
+<span class="font-label-sm text-tertiary">Sincronizado</span>
+</div>
+<div class="w-10 h-10 rounded-full bg-surface-container-high border-2 border-primary overflow-hidden hover:bg-surface-container-highest transition-colors active:scale-95 cursor-pointer">
+<img alt="Profile" data-alt="A professional headshot of a friendly middle-aged man with a warm smile, set against a clean, softly lit interior background. The image has a bright and airy clinical aesthetic, with soft blue and white tones that align with a professional medical and wellness brand identity. The lighting is high-key and flattering, emphasizing a sense of trust and care." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAkF8PLnddM_UcVi7Nkeyu7Dh3BHPwLaL2zu4WvDsLQKlZp60Kak9cICuwu2iP_JkoXeffXsUSf_bkMXr7bCQXfSWoJIR48Ps9dg7xKQBnxHTtM0kFQNxpd64GzdgJiWw6z7P_uNoQ22IyDcrgN3vGLIP_UIhHRATuNSI1OrOozoDRmsXrYafSg3fBBDnePEO1LSnkOyl5vPmJ4FnsvoAUW4e24JB8OSDM4nk5tqDzGxJ6YMz8KYJZqfs4KMXcUhT8rmOvR7Vwm"/>
+</div>
+</div>
+</header>
+<main class="max-w-screen-xl mx-auto px-container-padding-mobile md:px-container-padding-desktop mt-6 space-y-8">
+<!-- Hero Section -->
+<section class="space-y-4">
+<div class="flex flex-col">
+<h1 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface">¡Hola, Carlos!</h1>
+<p class="font-body-lg text-on-surface-variant">Tus mascotas te están esperando.</p>
+</div>
+<!-- Quick Summary Card (Next Appointment) -->
+<div class="bg-primary-container text-on-primary-container p-6 rounded-xl shadow-md flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border border-primary/20">
+<div class="flex items-center gap-4">
+<div class="bg-white/20 p-3 rounded-full">
+<span class="material-symbols-outlined text-3xl">calendar_month</span>
+</div>
+<div>
+<h2 class="font-title-lg text-title-lg">Próxima Cita</h2>
+<p class="font-body-md opacity-90">Max - Vacunación Anual</p>
+<p class="font-label-md font-bold mt-1">Mañana, 10:30 AM</p>
+</div>
+</div>
+<button class="bg-white text-primary font-label-md px-6 py-3 rounded-full shadow-sm hover:bg-surface-container transition-colors active:scale-95">
+                    VER DETALLES
+                </button>
+</div>
+</section>
+<!-- Section 1: Mis Mascotas (Horizontal Scroll) -->
+<section class="space-y-4">
+<div class="flex justify-between items-end">
+<h3 class="font-title-lg text-title-lg">Mis Mascotas</h3>
+<button class="text-primary font-label-md">VER TODAS</button>
+</div>
+<div class="flex overflow-x-auto gap-6 no-scrollbar pb-2">
+<!-- Pet Avatar Item -->
+<div class="flex-shrink-0 flex flex-col items-center gap-2 group cursor-pointer">
+<div class="w-20 h-20 rounded-full p-1 border-2 border-primary group-hover:scale-105 transition-transform duration-300">
+<div class="w-full h-full rounded-full overflow-hidden">
+<img alt="Max" data-alt="Close up portrait of a happy Golden Retriever dog with its tongue out, set in a bright green park during sunset. The lighting is warm and golden, creating a joyful and energetic atmosphere. The visual style is crisp and professional, emphasizing the pet's healthy coat and bright eyes in a clinical yet friendly context." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBov_0Mr7kggY83dIfLUEW7iXySfZ505IWv_DoJVhpzL4mTJQJOeVIQIVsuzY7WVuXtKdfar4BmFRJqZU9OSKJ1zBgAUw9pyrflPTgNSm43UbXRos0mK62drzUjQXO503WV6WlhAWxdUVIgEz1W0-iGJrZ1J3J7kvf0GC0JWR3o9meXgD91b66IjuXAvyceXUjZnLCkUcYWB4NXuLx_97y_0He6AUMNN1NMHMfrFWM8XuV5w63eMSNOG24NKoZ0T4GapZiwJRl9"/>
+</div>
+</div>
+<span class="font-label-md text-on-surface">Max</span>
+</div>
+<!-- Pet Avatar Item -->
+<div class="flex-shrink-0 flex flex-col items-center gap-2 group cursor-pointer">
+<div class="w-20 h-20 rounded-full p-1 border-2 border-outline-variant group-hover:border-primary group-hover:scale-105 transition-transform duration-300">
+<div class="w-full h-full rounded-full overflow-hidden">
+<img alt="Luna" data-alt="A graceful black and white tuxedo cat sitting elegantly on a soft grey textile. The environment is minimalist and clean, reflecting a professional pet care aesthetic. The lighting is soft and diffused, highlighting the texture of the cat's fur and the calm, caring mood of the brand." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAXCIT6bY4uEdNtqY7sB0u-t6HYSnc09r8iMnwsfiBL3IIMFct9vtG4N5cV2Pb-jiBmTnathInxPnpi_Z_pcizpg6vu0CzCKWofaFp32I8NOaoKh6BF4_dt28m3JtmsmqzjaX6evll8ApxMQMzkpE9AcpeZTMoFDDGvjMiuO8QbxEsv9r8RuZoEA9MKe0KlfEPKesiTQMORqy7FKR4YvUo2n_lG-qaaW2yda7wAnpgUEJiLmUorvU77BEYPyd9Y-Lvn6ZSzFbfh"/>
+</div>
+</div>
+<span class="font-label-md text-on-surface">Luna</span>
+</div>
+<!-- Pet Avatar Item -->
+<div class="flex-shrink-0 flex flex-col items-center gap-2 group cursor-pointer">
+<div class="w-20 h-20 rounded-full p-1 border-2 border-outline-variant group-hover:border-primary group-hover:scale-105 transition-transform duration-300">
+<div class="w-full h-full rounded-full overflow-hidden">
+<img alt="Pico" data-alt="A vibrant green and yellow parakeet perched on a wooden branch, looking curiously at the camera. The background is a soft-focus interior with neutral clinical tones. The lighting is bright and clear, capturing the intricate details of the bird's feathers, maintaining an energetic yet professional visual style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuACpPFHBREAQXclj_bUBGPrO3HrLXizE74nauAjipHnJHtO9v323dg1z_E5O_U9La_MisO8xRrr2CBsOOZ-4X2sQTQJ1sN54rU-ggVHRC44P_XLw5wH8ytNJVobJ-0PPd6VmAHZyccc3xiRtIyzchSe03Kn7kJZIpfWg7LvAZewMWlAZ373Yh779I7wnhBcmi_wN39ocVm4mNh9McRK1ewlrtJDDLbSWk6hENlcqYgueRrSoAQL-wH_1ZiS5ZVvXGMzkxM8ASdH"/>
+</div>
+</div>
+<span class="font-label-md text-on-surface">Pico</span>
+</div>
+<!-- Add New Button -->
+<div class="flex-shrink-0 flex flex-col items-center gap-2 cursor-pointer group">
+<div class="w-20 h-20 rounded-full border-2 border-dashed border-outline flex items-center justify-center group-hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-outline">add</span>
+</div>
+<span class="font-label-md text-outline">Añadir</span>
+</div>
+</div>
+</section>
+<!-- Section 2: Pedidos Activos (Commercial Focus) -->
+<section class="space-y-4">
+<h3 class="font-title-lg text-title-lg">Pedidos Activos</h3>
+<div class="bg-surface-container-lowest p-5 rounded-xl border border-outline-variant shadow-sm flex items-center gap-4 relative overflow-hidden group hover:shadow-md transition-shadow">
+<!-- Commercial Accent Bar -->
+<div class="absolute left-0 top-0 bottom-0 w-1.5 bg-secondary"></div>
+<div class="w-16 h-16 bg-surface-container rounded-lg flex items-center justify-center overflow-hidden">
+<img alt="Alimento" data-alt="Premium high-quality dog food bag standing in a clean, brightly lit retail space. The packaging is modern and sophisticated, featuring professional typography. The lighting is sharp and commercial, using warm orange and clinical blue accents to highlight the product's quality and energy." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBXa-9ojUuAPu_aqUTSwPhoBO4HIhIf6COK7Jhh2cge4HeWcHSDWIPCQVGCjNX7VLJpAeKRqSghF8ZtKOt1O4XE-zlWXbP7pbQemZtaCcI77VMJ35phOmwcxQBq_ARtww094ormT3ymS34ZCDSsHsuw-jBC0Ctnr42TVqVg2CT28uCApMY91YhRK1LvPbKkILBZdvxJ1T5-UugUsjEB_tVSPLk2Y7jdPYuYQ7VmAMfytPc78-uPHNHpKydFhdNWcba1o_DIw8e_"/>
+</div>
+<div class="flex-grow">
+<div class="flex justify-between items-start">
+<div>
+<h4 class="font-body-lg font-bold text-on-surface">Alimento Premium Adulto</h4>
+<p class="font-label-md text-secondary uppercase font-bold tracking-wider mt-1">En camino</p>
+</div>
+<span class="material-symbols-outlined text-secondary" style="font-variation-settings: 'FILL' 1;">local_shipping</span>
+</div>
+<div class="mt-3 w-full bg-surface-container-high h-1.5 rounded-full overflow-hidden">
+<div class="bg-secondary h-full w-2/3 rounded-full"></div>
+</div>
+<p class="font-label-sm text-on-surface-variant mt-2">Entrega estimada: Hoy entre 14:00 - 18:00</p>
+</div>
+</div>
+</section>
+<!-- Section 3: Últimos Pedidos -->
+<section class="space-y-4">
+<div class="flex justify-between items-end">
+<h3 class="font-title-lg text-title-lg">Últimos Pedidos</h3>
+<button class="text-secondary font-label-md">VER HISTORIAL</button>
+</div>
+<div class="space-y-3">
+<!-- Order Item -->
+<div class="flex justify-between items-center p-4 bg-white rounded-xl border border-outline-variant hover:bg-surface-container-low transition-colors cursor-pointer">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-secondary-fixed flex items-center justify-center text-on-secondary-fixed">
+<span class="material-symbols-outlined">shopping_bag</span>
+</div>
+<div>
+<p class="font-body-md font-semibold text-on-surface">Cama Ortopédica Gato</p>
+<p class="font-label-sm text-outline">12 May 2024</p>
+</div>
+</div>
+<p class="font-body-md font-bold text-on-surface">$45.90</p>
+</div>
+<!-- Order Item -->
+<div class="flex justify-between items-center p-4 bg-white rounded-xl border border-outline-variant hover:bg-surface-container-low transition-colors cursor-pointer">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-secondary-fixed flex items-center justify-center text-on-secondary-fixed">
+<span class="material-symbols-outlined">shopping_bag</span>
+</div>
+<div>
+<p class="font-body-md font-semibold text-on-surface">Kit de Juguetes Pico</p>
+<p class="font-label-sm text-outline">05 May 2024</p>
+</div>
+</div>
+<p class="font-body-md font-bold text-on-surface">$12.50</p>
+</div>
+<!-- Order Item -->
+<div class="flex justify-between items-center p-4 bg-white rounded-xl border border-outline-variant hover:bg-surface-container-low transition-colors cursor-pointer">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-secondary-fixed flex items-center justify-center text-on-secondary-fixed">
+<span class="material-symbols-outlined">shopping_bag</span>
+</div>
+<div>
+<p class="font-body-md font-semibold text-on-surface">Shampoo Dermatológico</p>
+<p class="font-label-sm text-outline">28 Abr 2024</p>
+</div>
+</div>
+<p class="font-body-md font-bold text-on-surface">$22.00</p>
+</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center pt-2 pb-6 px-4 bg-surface-container-lowest border-t border-outline-variant shadow-lg">
+<a class="flex flex-col items-center justify-center bg-secondary-container text-on-secondary-container rounded-full px-4 py-1 active:scale-90 transition-all duration-200" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">home</span>
+<span class="font-label-sm">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary active:scale-90 transition-all duration-200" href="#">
+<span class="material-symbols-outlined">calendar_today</span>
+<span class="font-label-sm">Agenda</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary active:scale-90 transition-all duration-200" href="#">
+<span class="material-symbols-outlined">medical_services</span>
+<span class="font-label-sm">Medical</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary active:scale-90 transition-all duration-200" href="#">
+<span class="material-symbols-outlined">shopping_bag</span>
+<span class="font-label-sm">Market</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary active:scale-90 transition-all duration-200" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="font-label-sm">Profile</span>
+</a>
+</nav>
+<!-- Floating Action Button for Emergency Contact -->
+<div class="fixed bottom-24 right-6 flex flex-col items-end gap-3 z-40">
+<button class="bg-primary text-on-primary w-14 h-14 rounded-full shadow-lg flex items-center justify-center active:scale-95 transition-transform">
+<span class="material-symbols-outlined">medical_information</span>
+</button>
+</div>
+<script>
+        // Micro-interaction for cards
+        document.querySelectorAll('.order-card').forEach(card => {
+            card.addEventListener('mousedown', () => card.style.transform = 'scale(0.98)');
+            card.addEventListener('mouseup', () => card.style.transform = 'scale(1)');
+            card.addEventListener('mouseleave', () => card.style.transform = 'scale(1)');
+        });
+
+        // Simple sync pulse effect
+        const syncBadge = document.querySelector('.material-symbols-outlined.text-tertiary');
+        if (syncBadge) {
+            setInterval(() => {
+                syncBadge.style.opacity = '0.5';
+                setTimeout(() => {
+                    syncBadge.style.opacity = '1';
+                }, 500);
+            }, 3000);
+        }
+    </script>
+</body></html>

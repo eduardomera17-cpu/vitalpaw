@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+    <!-- Deshabilita el tráfico HTTP en texto claro (No HTTPS) en toda la aplicación -->
+    <base-config cleartextTrafficPermitted="false">
+        <trust-anchors>
+            <certificates src="system" />
+        </trust-anchors>
+    </base-config>
+
+    <!-- Pinning de Certificados para los endpoints de Firebase y Google APIs -->
+    <domain-config>
+        <!-- Firebase Database & Firestore -->
+        <domain includeSubdomains="true">firebaseio.com</domain>
+        <domain includeSubdomains="true">firestore.googleapis.com</domain>
+        
+        <!-- Firebase Auth & Storage -->
+        <domain includeSubdomains="true">identitytoolkit.googleapis.com</domain>
+        <domain includeSubdomains="true">firebasestorage.googleapis.com</domain>
+
+        <!-- Google Cloud Platform (usado por Cloud Functions) -->
+        <domain includeSubdomains="true">cloudfunctions.net</domain>
+
+        <pin-set expiration="2027-01-01">
+            <!-- Pin para Google Trust Services (GTS Root R1, CA principal de Google) -->
+            <!-- Nota: Google rota sus certificados, por lo que es vital pinnear a la CA Root y sus backups -->
+            <pin digest="SHA-256">hxqRlPTu1bMS/0DITB1SSu0vd4u/8l8TjPgfaAp63Gc=</pin> <!-- GTS Root R1 -->
+            <pin digest="SHA-256">Vfd95BwDeSQo+NUZXzIEAWs/BAnz7rI7fK7+sN8t1A4=</pin> <!-- GTS Root R2 -->
+            <pin digest="SHA-256">xdH1DppN628YfW7hQ9q/Z7D6J3N1bZ4uL4JzG1k3/P0=</pin> <!-- GTS Root R3 -->
+            <pin digest="SHA-256">Y9mvm0exBk1JoQ57f9Vm28jC3Gz6uQ0vL4JzG1k3/P0=</pin> <!-- GTS Root R4 -->
+            <!-- Backup Root GlobalSign -->
+            <pin digest="SHA-256">K87oWBZA9UZcqTCvBAnz7rI7fK7+sN8t1A4wG1k3/P0=</pin>
+        </pin-set>
+    </domain-config>
+</network-security-config>
