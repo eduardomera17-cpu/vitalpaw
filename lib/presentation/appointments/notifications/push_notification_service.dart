@@ -19,8 +19,13 @@ class PushNotificationService {
     }
     // Inicializa la base de datos de zonas horarias para programar alarmas exactas.
     tz.initializeTimeZones();
-    final timeZoneName = await FlutterTimezone.getLocalTimezone();
-    tz.setLocalLocation(tz.getLocation(timeZoneName.toString()));
+    try {
+      final timeZoneName = await FlutterTimezone.getLocalTimezone();
+      tz.setLocalLocation(tz.getLocation(timeZoneName.toString()));
+    } catch (e) {
+      debugPrint('Error configurando zona horaria: $e');
+      tz.setLocalLocation(tz.getLocation('UTC'));
+    }
 
     // Configuración para Android
     const AndroidInitializationSettings initializationSettingsAndroid =

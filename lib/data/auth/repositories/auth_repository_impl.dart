@@ -173,6 +173,25 @@ class AuthRepositoryImpl implements AuthRepository {
 
     // 3. Guardamos localmente en SQLite
     await localDatasource.upsertUser(appUser);
+
+    // 4. Sincronizamos con Firestore para que el usuario exista en la nube
+    // (Necesario para el CRM de Administradores y para Iniciar Sesión por Username)
+    try {
+      await FirebaseFirestore.instance.collection('users').doc(firebaseUser.uid).set({
+        'firebaseUid': firebaseUser.uid,
+        'email': appUser.email,
+        'displayName': appUser.displayName,
+        'username': appUser.displayName, // Guardamos el nombre como username
+        'role': 'client',
+        'isEmailVerified': appUser.isEmailVerified,
+        'isActive': true,
+        'createdAt': FieldValue.serverTimestamp(),
+      });
+    } catch (e) {
+      // Si falla por permisos o red, lo imprimimos pero no bloqueamos el registro
+      print('Advertencia: No se pudo crear el documento en Firestore: $e');
+    }
+
     return appUser;
   }
 

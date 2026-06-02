@@ -20,3 +20,10 @@
 
 # Ignore missing Play Core classes referenced by Flutter
 -dontwarn com.google.android.play.core.**
+
+# WorkManager and Room (Fixes runtime crash WorkDatabase_Impl.<init>)
+-keep class androidx.work.** { *; }
+-keep class androidx.room.** { *; }
+-keep class * extends androidx.room.RoomDatabase { *; }
+-dontwarn androidx.work.**
+-dontwarn androidx.room.**

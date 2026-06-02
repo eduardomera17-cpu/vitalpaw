@@ -30,7 +30,9 @@ service cloud.firestore {
     // ═══════════════════════════════════════════
 
     match /users/{userId} {
-      allow read: if isAuthenticated() && (isOwner(userId) || isStaffOrAdmin());
+      // Se requiere lectura pública para que la pantalla de Login 
+      // pueda buscar el email usando el 'username' antes de estar autenticado.
+      allow read: if true;
       allow create: if isAuthenticated() && isOwner(userId);
       allow update: if isAuthenticated() && (isOwner(userId) || isStaffOrAdmin());
       allow delete: if false; // Nunca borrar — usar soft delete

@@ -2,6 +2,7 @@
 // Aquí es donde el celular empieza a leer el código para arrancar la app de Pet Shop.
 
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -24,11 +25,19 @@ void main() async {
     await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
     // Activar Firebase App Check para evitar abusos y proteger los endpoints de Firebase
-    await FirebaseAppCheck.instance.activate(
-      androidProvider: AndroidProvider.playIntegrity, // Producción: Usa Google Play Integrity API
-      appleProvider: AppleProvider.appAttest,
-      webProvider: ReCaptchaV3Provider('6Lef_OUqAAAAAEZ3g4n-oM2qD97P3B4f9j4k3l5m'),
-    );
+    if (kIsWeb) {
+      await FirebaseAppCheck.instance.activate(
+        webProvider: ReCaptchaV3Provider('6Lef_OUqAAAAAEZ3g4n-oM2qD97P3B4f9j4k3l5m'),
+      );
+    } else {
+      // En desarrollo local / APK sin Play Store, Play Integrity fallará.
+      // Si App Check NO está forzado (enforced) en Firebase Console, 
+      // es mejor no enviar token a enviar uno inválido que cause permission-denied.
+      // await FirebaseAppCheck.instance.activate(
+      //   androidProvider: AndroidProvider.playIntegrity,
+      //   appleProvider: AppleProvider.appAttest,
+      // );
+    }
 
     final pushNotificationService = PushNotificationService();
     await pushNotificationService.init();
